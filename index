@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matt Hetzel | AI Practitioner &amp; Human-Centered Designer</title>
+  <meta name="description" content="Matt Hetzel is an AI practitioner and human-centered designer with 14 years helping people navigate technology transitions with clarity and empathy.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* === TOKENS === */
+    :root {
+      --navy:#0C2E6E;--blue:#1A4FBF;--sky:#4A90E2;--hero-sky:#74B3F9;--sky-light:#EBF3FC;
+      --white:#FFFFFF;--off:#F7F9FC;--ink:#111827;--mid:#374151;
+      --muted:#595F6B;--border:#E5E7EB;--card-bg:#FFFFFF;--bg:#F7F9FC;
+      --shadow-sm:0 1px 3px rgba(0,0,0,.07),0 2px 8px rgba(0,0,0,.05);
+      --shadow-md:0 4px 12px rgba(0,0,0,.10),0 8px 24px rgba(0,0,0,.07);
+      --radius:14px;--radius-sm:8px;
+      --ease:cubic-bezier(0.4,0,0.2,1);--dur:0.25s;
+    }
+    [data-theme="dark"] {
+      --white:#1A1F2E;--off:#111827;--ink:#F3F4F6;--mid:#D1D5DB;
+      --muted:#9CA3AF;--border:#2D3748;--card-bg:#1E2533;--bg:#111827;
+      --sky-light:#1A2E4A;
+      --shadow-sm:0 1px 3px rgba(0,0,0,.3),0 2px 8px rgba(0,0,0,.2);
+      --shadow-md:0 4px 12px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);
+    }
+
+    /* === RESET === */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;transition:background var(--dur) var(--ease),color var(--dur) var(--ease);}
+    img{max-width:100%;display:block;}
+    a{color:var(--blue);text-decoration:none;}
+    a:hover{text-decoration:underline;}
+    a:focus-visible{outline:2px solid var(--sky);outline-offset:3px;border-radius:3px;}
+    ul,ol{list-style:none;}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}
+
+    @media(prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto;}
+      *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
+      .fade-up{opacity:1!important;transform:none!important;}
+      .a11y-cell:hover{transform:none!important;}
+    }
+
+    /* === SKIP LINK === */
+    .skip-link{position:absolute;top:-120px;left:1rem;background:var(--blue);color:#fff;padding:.6rem 1.2rem;border-radius:var(--radius-sm);font-size:.875rem;font-weight:500;z-index:9999;transition:top .2s;}
+    .skip-link:focus{top:1rem;}
+
+    /* === NAV === */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(12,46,110,.97);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.07);}
+    .nav-inner{max-width:1120px;margin:0 auto;padding:0 2rem;height:62px;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;}
+    .nav-logo{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1rem;color:#fff;letter-spacing:-.01em;white-space:nowrap;}
+    .nav-links{display:flex;gap:1.75rem;align-items:center;}
+    .nav-links a{color:rgba(255,255,255,.75);font-size:.875rem;font-weight:500;transition:color var(--dur);}
+    .nav-links a:hover{color:#fff;text-decoration:none;}
+    .theme-btn{background:none;border:1.5px solid rgba(255,255,255,.25);cursor:pointer;color:rgba(255,255,255,.75);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all var(--dur);flex-shrink:0;}
+    .theme-btn:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.5);color:#fff;}
+    .theme-btn:focus-visible{outline:2px solid var(--hero-sky);outline-offset:3px;}
+    .theme-btn svg{width:16px;height:16px;}
+    .icon-sun{display:none;}
+    [data-theme="dark"] .icon-moon{display:none;}
+    [data-theme="dark"] .icon-sun{display:block;}
+
+    /* === HERO === */
+    .hero{background:var(--navy);padding:130px 2rem 90px;position:relative;overflow:hidden;}
+    .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 75% 40%,rgba(74,144,226,.14) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 20% 80%,rgba(26,79,191,.2) 0%,transparent 60%);pointer-events:none;}
+    .hero-inner{max-width:1120px;margin:0 auto;position:relative;}
+    .hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size: 1rem;color:var(--hero-sky);letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:1.25rem;}
+    .hero h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2.4rem,5.5vw,4.25rem);font-weight:700;color:#fff;line-height:1.1;letter-spacing:-.03em;max-width:820px;margin-bottom:1.375rem;}
+    .hero h1 em{font-style:normal;color:var(--hero-sky);}
+    .hero-sub{font-size:1.075rem;color:rgba(255,255,255,.80);max-width:540px;line-height:1.75;margin-bottom:2.25rem;}
+    .hero-ctas{display:flex;gap:.875rem;flex-wrap:wrap;}
+    .btn{display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1.5rem;border-radius:50px;font-family:'Inter',sans-serif;font-size:.875rem;font-weight:600;cursor:pointer;border:none;transition:all var(--dur) var(--ease);text-decoration:none;}
+    .btn-white{background:#fff;color:var(--navy);}
+    .btn-white:hover{background:var(--hero-sky);color:var(--navy);text-decoration:none;}
+    .btn-ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.5);}
+    .btn-ghost:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.9);text-decoration:none;}
+
+    /* === SECTIONS === */
+    section{padding:88px 2rem;}
+    .section-inner{max-width:1120px;margin:0 auto;}
+    .section-label{font-family:'JetBrains Mono',monospace;font-size:1rem;color:var(--blue);text-transform:uppercase;letter-spacing:.12em;display:block;margin-bottom:.5rem;}
+    [data-theme="dark"] .section-label{color:var(--sky);}
+    .section-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;color:var(--ink);letter-spacing:-.025em;line-height:1.2;margin-bottom:.875rem;}
+    .section-desc{font-size:1rem;color:var(--muted);max-width:580px;line-height:1.75;margin-bottom:2.75rem;}
+
+    /* === ABOUT === */
+    #about{background:var(--white);}
+    .about-grid{display:grid;grid-template-columns:1fr 320px;gap:4rem;align-items:start;}
+    .about-body p{font-size:1rem;color:var(--mid);line-height:1.85;margin-bottom:1.1rem;}
+    .about-body p:last-child{margin-bottom:0;}
+    .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    .stat-tile{background:var(--off);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1rem;text-align:center;transition:box-shadow var(--dur);}
+    .stat-tile:hover{box-shadow:var(--shadow-sm);}
+    .stat-n{font-family:'Plus Jakarta Sans',sans-serif;font-size:2.1rem;font-weight:700;color:var(--blue);display:block;line-height:1;margin-bottom:.35rem;}
+    .stat-l{font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
+    .stat-tile.wide{grid-column:1/-1;}
+
+    /* === CREDENTIALS === */
+    #credentials{background:var(--off);}
+    .cred-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+    .cred-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.375rem;box-shadow:var(--shadow-sm);transition:box-shadow var(--dur),transform var(--dur);position:relative;overflow:hidden;}
+    .cred-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px);}
+    .cred-bar{position:absolute;top:0;left:0;right:0;height:3px;}
+    .bar-linkedin{background:#0A66C2;}
+    .bar-trailhead{background:#00A1E0;}
+    .bar-google{background:linear-gradient(90deg,#4285F4 0%,#EA4335 33%,#FBBC04 66%,#34A853 100%);}
+    .bar-ibm{background:#1F70C1;}
+    .bar-anthropic{background:#C07755;}
+    .bar-deque{background:#7B2DBF;}
+    .cred-head{display:flex;align-items:center;gap:10px;margin-bottom:1rem;}
+    .cred-ico{width:38px;height:38px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .cred-platform{font-family:'Plus Jakarta Sans',sans-serif;font-size:.95rem;font-weight:600;color:var(--ink);display:block;}
+    .cred-role{font-size:.8rem;color:var(--muted);font-weight:500;}
+    .cred-nums{display:flex;gap:1.25rem;margin-bottom:.875rem;}
+    .cred-num-n{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.35rem;font-weight:700;color:var(--blue);display:block;line-height:1;}
+    .cred-num-l{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:500;}
+    .cred-pills{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:.875rem;}
+    .cred-pill{font-size:.8rem;padding:3px 9px;border-radius:20px;background:var(--off);color:var(--mid);border:1px solid var(--border);font-weight:500;}
+    .cred-link{font-size:.875rem;font-weight:600;color:var(--blue);display:inline-flex;align-items:center;gap:3px;transition:color var(--dur);}
+    .cred-link:hover{color:var(--navy);text-decoration:none;}
+
+    /* === BUILT WITH AI === */
+    #built{background:#060C1C;color:#fff;}
+    #built .section-label{color:var(--hero-sky);}
+    #built .section-title{color:#fff;}
+    #built .section-desc{color:rgba(255,255,255,.70);max-width:540px;}
+    .built-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
+    .built-copy p{font-size:.975rem;color:rgba(255,255,255,.75);line-height:1.85;margin-bottom:1rem;}
+    .built-copy strong{color:#fff;font-weight:600;}
+    .workflow-steps{margin-top:1.5rem;display:flex;flex-direction:column;gap:1rem;}
+    .w-step{display:flex;gap:.875rem;align-items:flex-start;}
+    .w-num{width:24px;height:24px;border-radius:50%;background:var(--hero-sky);color:#060C1C;font-size:.75rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;font-family:'JetBrains Mono',monospace;}
+    .w-text{font-size:.925rem;color:rgba(255,255,255,.72);line-height:1.7;}
+    .w-text strong{color:rgba(255,255,255,.95);}
+    .chat-window{background:#0A0F1E;border-radius:var(--radius);border:1px solid rgba(255,255,255,.09);overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.4);}
+    .chat-titlebar{background:rgba(255,255,255,.05);padding:.75rem 1rem;display:flex;align-items:center;gap:6px;border-bottom:1px solid rgba(255,255,255,.07);}
+    .dot{width:10px;height:10px;border-radius:50%;}
+    .dot-r{background:#FF5F57;}.dot-y{background:#FEBC2E;}.dot-g{background:#28C840;}
+    .chat-title-text{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:rgba(255,255,255,.45);margin-left:6px;}
+    .chat-body{padding:1.25rem;display:flex;flex-direction:column;gap:1.125rem;}
+    .msg{display:flex;gap:.7rem;align-items:flex-start;}
+    .msg-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0;margin-top:1px;font-family:'Plus Jakarta Sans',sans-serif;}
+    .av-h{background:var(--blue);color:#fff;}.av-a{background:#C07755;color:#fff;}
+    .msg-inner{display:flex;flex-direction:column;gap:3px;}
+    .msg-sender{font-size:.75rem;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,.45);}
+    .msg-bubble{font-family:'JetBrains Mono',monospace;font-size:.8rem;line-height:1.65;padding:.65rem .9rem;border-radius:0 10px 10px 10px;background:rgba(255,255,255,.07);color:rgba(255,255,255,.82);max-width:290px;}
+    .msg.ai .msg-bubble{background:rgba(116,179,249,.14);border-radius:10px 10px 10px 0;color:rgba(255,255,255,.88);}
+
+    /* === CONTRAST MATRIX === */
+    #matrix{background:var(--white);}
+    .matrix-container{overflow-x:auto;margin-top:2rem;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--card-bg);padding:1.5rem;box-shadow:var(--shadow-sm);}
+    .a11y-table{width:100%;border-collapse:collapse;text-align:left;min-width:800px;font-size:.875rem;}
+    .a11y-table th,.a11y-table td{padding:12px;border:1px solid var(--border);}
+    .a11y-table th{background:var(--off);font-weight:600;color:var(--navy);font-size:.875rem;}
+    .a11y-cell{position:relative;height:72px;min-width:90px;vertical-align:bottom;transition:transform var(--dur);cursor:default;}
+    .a11y-cell:hover{transform:scale(1.05);z-index:10;box-shadow:var(--shadow-md);border-radius:4px;}
+    .cell-text{font-weight:700;font-size:1rem;display:block;margin-bottom:4px;}
+    .badge{display:inline-block;padding:3px 7px;border-radius:4px;font-size:.75rem;font-family:'JetBrains Mono',monospace;font-weight:700;}
+    .badge.aaa{background:#D1FAE5;color:#065F46;}
+    .badge.aa{background:#DBEAFE;color:#1E40AF;}
+    .badge.lg{background:#FEF3C7;color:#92400E;}
+    .badge.fail{background:#FEE2E2;color:#991B1B;}
+    .null-cell{background:repeating-linear-gradient(45deg,var(--off),var(--off) 10px,var(--border) 10px,var(--border) 11px);}
+    .matrix-note{font-size:.875rem;color:var(--muted);margin-top:1rem;line-height:1.6;}
+
+    /* === A11Y TOOL === */
+    #tool{background:var(--off);}
+    .tool-card{background:var(--card-bg);border:2px dashed var(--border);border-radius:var(--radius);padding:3rem 2rem;text-align:center;max-width:600px;margin:0 auto;}
+    .tool-badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.8rem;padding:4px 12px;border-radius:20px;background:var(--sky-light);color:#1A4FBF;font-weight:700;letter-spacing:.06em;margin-bottom:1.25rem;}
+    .tool-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ink);margin-bottom:.75rem;}
+    .tool-desc{font-size:.95rem;color:var(--muted);line-height:1.75;margin-bottom:1.5rem;}
+    .tool-stack{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;}
+    .tool-tag{font-size:.8rem;padding:4px 11px;border-radius:20px;background:var(--off);border:1px solid var(--border);color:var(--mid);font-weight:500;}
+
+    /* === CONTACT === */
+    #contact{background:var(--white);}
+    .contact-row{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.5rem;}
+    .c-link{display:inline-flex;align-items:center;gap:8px;padding:.65rem 1.25rem;border-radius:50px;border:1.5px solid var(--border);background:var(--off);color:var(--ink);font-size:.9rem;font-weight:500;transition:all var(--dur);}
+    .c-link:hover{background:var(--blue);color:#fff;border-color:var(--blue);text-decoration:none;}
+    .c-link svg{flex-shrink:0;}
+
+    /* === FOOTER === */
+    footer{background:var(--navy);color:rgba(255,255,255,.60);text-align:center;padding:2rem;font-size:.875rem;line-height:1.6;}
+    footer a{color:rgba(255,255,255,.80);}
+    footer a:hover{color:#fff;}
+
+    /* === ANIMATIONS === */
+    .fade-up{opacity:0;transform:translateY(22px);transition:opacity .55s var(--ease),transform .55s var(--ease);}
+    .fade-up.in{opacity:1;transform:translateY(0);}
+    .fade-up.delay-1{transition-delay:.1s;}
+    .fade-up.delay-2{transition-delay:.2s;}
+    .fade-up.delay-3{transition-delay:.3s;}
+    .fade-up.delay-4{transition-delay:.4s;}
+    .fade-up.delay-5{transition-delay:.5s;}
+
+    /* === RESPONSIVE === */
+    @media(max-width:900px){
+      .cred-grid{grid-template-columns:repeat(2,1fr);}
+      .about-grid{grid-template-columns:1fr;gap:2.5rem;}
+      .built-grid{grid-template-columns:1fr;}
+    }
+    @media(max-width:640px){
+      .nav-links{display:none;}
+      section{padding:64px 1.25rem;}
+      .hero{padding:110px 1.25rem 64px;}
+      .cred-grid{grid-template-columns:1fr;}
+      .hero-ctas{flex-direction:column;align-items:flex-start;}
+    }
+  </style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<nav class="nav" aria-label="Main navigation">
+  <div class="nav-inner">
+    <span class="nav-logo">Matt Hetzel</span>
+    <ul class="nav-links" role="list">
+      <li><a href="#about">About</a></li>
+      <li><a href="#credentials">AI Learning</a></li>
+      <li><a href="#built">Built with AI</a></li>
+      <li><a href="#tool">A11y Tool</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="theme-btn" id="themeToggle" aria-pressed="false" aria-label="Toggle dark mode">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+  </div>
+</nav>
+
+<section class="hero" aria-labelledby="hero-h1">
+  <div class="hero-inner">
+    <span class="hero-eyebrow">AI Practitioner &amp; Human-Centered Designer</span>
+    <h1 id="hero-h1">Helping people navigate the <em>AI transition</em> with clarity.</h1>
+    <p class="hero-sub">14 years at the intersection of psychology, design, and technology. The question I keep asking is not just what can be automated, but how we bring people through it well.</p>
+    <div class="hero-ctas">
+      <a href="#credentials" class="btn btn-white">See my AI learning</a>
+      <a href="#contact" class="btn btn-ghost">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<main id="main">
+
+  <section id="about" aria-labelledby="about-h2">
+    <div class="section-inner">
+      <span class="section-label">Background</span>
+      <h2 class="section-title" id="about-h2">Psychology meets technology.</h2>
+      <div class="about-grid">
+        <div class="about-body fade-up">
+          <p>My career started in counseling and education, and that foundation shapes everything I do now. I understand how people resist change, how adults learn, and how cognitive load affects adoption. In AI implementation work, those are not soft skills. They are the difference between a tool people use and one they ignore.</p>
+          <p>Over 14 years I have worked as a career counselor, business analyst, webmaster, UX researcher, and multimedia design manager across government, education, and private sector. I led a pandemic-era UX study with 38 participants, managed a cross-agency website migration under significant political deadline pressure, and built Python automation with ChatGPT.</p>
+          <p>I am a naturally curious person and have quite a few interests, but now I am focused on AI adoption work, because the tools are here but the human side of the transition is still being figured out. That is where I want to help.</p>
+          <p>My goal is to bridge the gap between technology and its users, ensuring that AI tools are not only effective but also accessible and user-friendly.</p>
+        </div>
+        <div class="fade-up delay-2" aria-label="Key statistics">
+          <div class="stats-grid">
+            <div class="stat-tile">
+              <span class="stat-n" data-target="14">0</span>
+              <span class="stat-l">Years experience</span>
+            </div>
+            <div class="stat-tile">
+              <span class="stat-n" data-target="310" data-suffix="+">0</span>
+              <span class="stat-l">Learning hours</span>
+            </div>
+            <div class="stat-tile">
+              <span class="stat-n" data-target="38">0</span>
+              <span class="stat-l">UX participants</span>
+            </div>
+            <div class="stat-tile">
+              <span class="stat-n" data-target="6">0</span>
+              <span class="stat-l">Deque exams</span>
+            </div>
+            <div class="stat-tile wide">
+              <span class="stat-n" data-target="54">0</span>
+              <span class="stat-l">Salesforce Trailhead badges</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="credentials" aria-labelledby="cred-h2">
+    <div class="section-inner">
+      <span class="section-label">Continuous learning</span>
+      <h2 class="section-title" id="cred-h2">AI credentials &amp; platforms.</h2>
+      <p class="section-desc">I study AI systematically, across platforms, with a focus on practical application and ethical implementation. Not theoretical. Operational.</p>
+      <div class="cred-grid">
+
+        <div class="cred-card fade-up" aria-labelledby="cred-linkedin">
+          <div class="cred-bar bar-linkedin" aria-hidden="true"></div>
+          <div class="cred-head">
+            <div class="cred-ico" style="background:#EBF3FC;" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#0A66C2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </div>
+            <div>
+              <span class="cred-platform" id="cred-linkedin">LinkedIn Learning</span>
+              <span class="cred-role">Verified learning paths</span>
+            </div>
+          </div>
+          <div class="cred-nums">
+            <div><span class="cred-num-n">310+</span><span class="cred-num-l">Hours</span></div>
+            <div><span class="cred-num-n">245+</span><span class="cred-num-l">Courses</span></div>
+          </div>
+          <div class="cred-pills">
+            <span class="cred-pill">AI Essentials for UX</span>
+            <span class="cred-pill">Generative AI for Business</span>
+            <span class="cred-pill">Career Essentials in Gen AI</span>
+            <span class="cred-pill">AI Productivity with Microsoft</span>
+            <span class="cred-pill">Accessibility Best Practices</span>
+          </div>
+          <a href="https://www.linkedin.com/in/hetzelmatthew/" class="cred-link" target="_blank" rel="noopener noreferrer">View profile &#8599;<span class="sr-only">(opens in new tab)</span></a>
+        </div>
+
+        <div class="cred-card fade-up delay-1" aria-labelledby="cred-trailhead">
+          <div class="cred-bar bar-trailhead" aria-hidden="true"></div>
+          <div class="cred-head">
+            <div class="cred-ico" style="background:#E3F5FD;" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00A1E0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+            <div>
+              <span class="cred-platform" id="cred-trailhead">Salesforce Trailhead</span>
+              <span class="cred-role">Mountaineer rank</span>
+            </div>
+          </div>
+          <div class="cred-nums">
+            <div><span class="cred-num-n">54</span><span class="cred-num-l">Badges</span></div>
+            <div><span class="cred-num-n">22,825</span><span class="cred-num-l">Points</span></div>
+            <div><span class="cred-num-n">11</span><span class="cred-num-l">Trails</span></div>
+          </div>
+          <div class="cred-pills">
+            <span class="cred-pill">Einstein Generative AI</span>
+            <span class="cred-pill">AI Associate Cert Prep</span>
+            <span class="cred-pill">NLP Basics</span>
+            <span class="cred-pill">Data Analytics for AI</span>
+            <span class="cred-pill">AI Fundamentals</span>
+          </div>
+          <a href="https://trailblazer.me/id/mhetzel" class="cred-link" target="_blank" rel="noopener noreferrer">View profile &#8599;<span class="sr-only">(opens in new tab)</span></a>
+        </div>
+
+        <div class="cred-card fade-up delay-2" aria-labelledby="cred-google">
+          <div class="cred-bar bar-google" aria-hidden="true"></div>
+          <div class="cred-head">
+            <div class="cred-ico" style="background:#F0F3FE;" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+            </div>
+            <div>
+              <span class="cred-platform" id="cred-google">Google AI / Gemini</span>
+              <span class="cred-role">Daily practitioner</span>
+            </div>
+          </div>
+          <div class="cred-pills" style="margin-top:.25rem;">
+            <span class="cred-pill">Gemini</span>
+            <span class="cred-pill">NotebookLM</span>
+            <span class="cred-pill">Gemini Stitch</span>
+            <span class="cred-pill">Google AI Studio</span>
+            <span class="cred-pill">Multi-agent workflows</span>
+          </div>
+        </div>
+
+        <div class="cred-card fade-up delay-3" aria-labelledby="cred-ibm">
+          <div class="cred-bar bar-ibm" aria-hidden="true"></div>
+          <div class="cred-head">
+            <div class="cred-ico" style="background:#E5EDF5;" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 32 32" fill="#1F70C1" aria-hidden="true"><path d="M0 7h32v2H0zm4 4h24v2H4zm0 4h24v2H4zm-4 4h32v2H0zm4 4h24v2H4zm-4 4h32v2H0z"/></svg>
+            </div>
+            <div>
+              <span class="cred-platform" id="cred-ibm">IBM SkillsBuild</span>
+              <span class="cred-role">AI fundamentals</span>
+            </div>
+          </div>
+          <div class="cred-pills" style="margin-top:.25rem;">
+            <span class="cred-pill">AI Fundamentals</span>
+            <span class="cred-pill">Machine Learning basics</span>
+            <span class="cred-pill">Responsible AI</span>
+            <span class="cred-pill">Enterprise AI applications</span>
+          </div>
+        </div>
+
+        <div class="cred-card fade-up delay-4" aria-labelledby="cred-anthropic">
+          <div class="cred-bar bar-anthropic" aria-hidden="true"></div>
+          <div class="cred-head">
+            <div class="cred-ico" style="background:#F7EDE6;" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#C07755" aria-hidden="true"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 3a7 7 0 110 14A7 7 0 0112 5zm-.5 3v6h1V8h-1zm0 7v1.5h1V15h-1z"/></svg>
+            </div>
+            <div>
+              <span class="cred-platform" id="cred-anthropic">Anthropic / Claude</span>
+              <span class="cred-role">Daily practitioner &amp; builder</span>
+            </div>
+          </div>
+          <div class="cred-pills" style="margin-top:.25rem;">
+            <span class="cred-pill">Prompt engineering</span>
+            <span class="cred-pill">Multi-agent workflows</span>
+            <span class="cred-pill">Code generation</span>
+            <span class="cred-pill">Content strategy</span>
+            <span class="cred-pill">Built this site</span>
+          </div>
+        </div>
+
+        <div class="cred-card fade-up delay-5" aria-labelledby="cred-deque">
+          <div class="cred-bar bar-deque" aria-hidden="true"></div>
+          <div class="cred-head">
+            <div class="cred-ico" style="background:#F3EDF9;" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#7B2DBF" aria-hidden="true"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </div>
+            <div>
+              <span class="cred-platform" id="cred-deque">Deque University</span>
+              <span class="cred-role">IAAP CPACC in progress</span>
+            </div>
+          </div>
+          <div class="cred-nums">
+            <div><span class="cred-num-n">6</span><span class="cred-num-l">Exams passed</span></div>
+          </div>
+          <div class="cred-pills">
+            <span class="cred-pill">Non-Technical Roles</span>
+            <span class="cred-pill">Designers</span>
+            <span class="cred-pill">PDF Creators</span>
+            <span class="cred-pill">Web Dev Core</span>
+            <span class="cred-pill">Web Dev Advanced</span>
+            <span class="cred-pill">Microsoft Office</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="built" aria-labelledby="built-h2">
+    <div class="section-inner">
+      <span class="section-label">Meta case study</span>
+      <h2 class="section-title" id="built-h2">I built this site with AI.</h2>
+      <p class="section-desc">Not as a gimmick. As a demonstration of what a real human-AI workflow actually looks like.</p>
+      <div class="built-grid">
+        <div class="built-copy fade-up">
+          <p>This site was built using a collaborative workflow with <strong>Claude</strong> for content strategy, structure, and code generation, and <strong>Gemini</strong> for accessibility validation and color contrast analysis. Every section was iterated through conversation, not produced in a single prompt.</p>
+          <p>That distinction matters. AI fluency is not knowing how to prompt. It is knowing when the output is right and when it needs a human to push back.</p>
+          <ol class="workflow-steps" aria-label="How this site was built">
+            <li class="w-step">
+              <span class="w-num" aria-hidden="true">1</span>
+              <span class="w-text"><strong>Planning with Claude:</strong> Defined site goals, audience, content structure, and what each section needed to accomplish. The information architecture came from genuine back-and-forth, not a template.</span>
+            </li>
+            <li class="w-step">
+              <span class="w-num" aria-hidden="true">2</span>
+              <span class="w-text"><strong>Accessibility validation with Gemini:</strong> Used Gemini to build the WCAG contrast matrix below, verifying every color combination before committing to the palette. See the results in the Design System section.</span>
+            </li>
+            <li class="w-step">
+              <span class="w-num" aria-hidden="true">3</span>
+              <span class="w-text"><strong>Code generation with Claude:</strong> Full HTML, CSS, and JavaScript generated iteratively, with accessibility, dark mode, and responsive design built in from the start, not added later.</span>
+            </li>
+            <li class="w-step">
+              <span class="w-num" aria-hidden="true">4</span>
+              <span class="w-text"><strong>Human judgment throughout:</strong> What to cut, what to keep, what felt true to the story. The AI generates options. The human makes decisions. That is the workflow worth understanding.</span>
+            </li>
+          </ol>
+        </div>
+        <div class="fade-up delay-2">
+          <div class="chat-window" role="img" aria-label="Example planning conversation between Matt and Claude showing how the site structure was developed">
+            <div class="chat-titlebar" aria-hidden="true">
+              <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+              <span class="chat-title-text">claude.ai &mdash; site planning session</span>
+            </div>
+            <div class="chat-body" aria-hidden="true">
+              <div class="msg">
+                <div class="msg-avatar av-h">MH</div>
+                <div class="msg-inner">
+                  <span class="msg-sender">Matt</span>
+                  <div class="msg-bubble">I want to build a GitHub Pages site centered around AI. Show my credentials, call out that I built it with AI. Free account, want bells and whistles but keep it accessible.</div>
+                </div>
+              </div>
+              <div class="msg ai">
+                <div class="msg-avatar av-a">AI</div>
+                <div class="msg-inner">
+                  <span class="msg-sender">Claude</span>
+                  <div class="msg-bubble">Good timing. A few questions first: Is this publicly discoverable? And what is the relationship between this site and your existing case studies?</div>
+                </div>
+              </div>
+              <div class="msg">
+                <div class="msg-avatar av-h">MH</div>
+                <div class="msg-inner">
+                  <span class="msg-sender">Matt</span>
+                  <div class="msg-bubble">Both exist separately for different audiences. Feature all the platforms: LinkedIn, Trailhead, Google, IBM, Anthropic, Deque. All of it.</div>
+                </div>
+              </div>
+              <div class="msg ai">
+                <div class="msg-avatar av-a">AI</div>
+                <div class="msg-inner">
+                  <span class="msg-sender">Claude</span>
+                  <div class="msg-bubble">Perfect. The signature section will be a chat window showing exactly this conversation. Let me build it.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="matrix" aria-labelledby="matrix-h2">
+    <div class="section-inner">
+      <span class="section-label">Design System</span>
+      <h2 class="section-title" id="matrix-h2">WCAG 2.2 Contrast Matrix.</h2>
+      <p class="section-desc">Accessibility is not guesswork. I used Gemini to build this matrix and verify every color combination against WCAG 2.2 standards before finalizing the palette.</p>
+      <div class="matrix-container fade-up">
+        <table class="a11y-table" id="contrastTable">
+          <caption class="sr-only">WCAG 2.2 color contrast ratios for all palette combinations. AAA means 7:1 or higher. AA means 4.5:1 or higher for normal text. Large means 3:1 minimum for large text only (18pt or 14pt bold). Fail means below 3:1.</caption>
+          <thead>
+            <tr id="matrix-headers">
+              <th scope="col">Background \ Text</th>
+            </tr>
+          </thead>
+          <tbody id="matrix-body"></tbody>
+        </table>
+        <p class="matrix-note"><strong>Key:</strong> AAA = 7:1+ (enhanced) &bull; AA = 4.5:1+ (normal text) &bull; Large = 3:1+ (large text or bold 14pt+, not normal text) &bull; Fail = below 3:1</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="tool" aria-labelledby="tool-h2">
+    <div class="section-inner">
+      <span class="section-label">In development</span>
+      <h2 class="section-title" id="tool-h2">Accessibility linter tool.</h2>
+      <p class="section-desc">A practical AI project at the intersection of my two deepest areas of focus.</p>
+      <div class="tool-card fade-up">
+        <span class="tool-badge">COMING SOON</span>
+        <div class="tool-title">AI-Powered Accessibility Auditor</div>
+        <p class="tool-desc">An in-browser accessibility linting tool that analyzes page content and surfaces WCAG violations with plain-language explanations and remediation guidance. Built at the intersection of AI fluency and six Deque University certifications.</p>
+        <div class="tool-stack">
+          <span class="tool-tag">JavaScript</span>
+          <span class="tool-tag">WCAG 2.2</span>
+          <span class="tool-tag">AI-assisted remediation</span>
+          <span class="tool-tag">Anthropic API</span>
+          <span class="tool-tag">Accessibility first</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" aria-labelledby="contact-h2">
+    <div class="section-inner">
+      <span class="section-label">Get in touch</span>
+      <h2 class="section-title" id="contact-h2">Let's talk.</h2>
+      <p class="section-desc">Open to roles in AI enablement, implementation, UX, and accessibility. Based in Terre Haute, IN, remote preferred, open to the Indianapolis corridor.</p>
+      <ul class="contact-row">
+        <li>
+          <a href="mailto:matthewhetz@gmail.com" class="c-link">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Email
+          </a>
+        </li>
+        <li>
+          <a href="https://www.linkedin.com/in/hetzelmatthew/" class="c-link" target="_blank" rel="noopener noreferrer">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn <span class="sr-only">(opens in new tab)</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://trailblazer.me/id/mhetzel" class="c-link" target="_blank" rel="noopener noreferrer">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            Trailhead <span class="sr-only">(opens in new tab)</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Built by Matt Hetzel with Claude and Gemini &mdash; <a href="#built">here's exactly how</a>.</p>
+  <p style="margin-top:.375rem;">Terre Haute, IN &bull; Open to remote roles nationally</p>
+</footer>
+
+<script>
+  // === DARK MODE ===
+  const btn = document.getElementById('themeToggle');
+  const saved = localStorage.getItem('mh-theme');
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (saved === 'dark' || (!saved && prefersDark)) {
+    document.documentElement.setAttribute('data-theme','dark');
+    btn.setAttribute('aria-pressed','true');
+  }
+  btn.addEventListener('click', () => {
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark');
+    localStorage.setItem('mh-theme', dark ? 'light' : 'dark');
+    btn.setAttribute('aria-pressed', dark ? 'false' : 'true');
+    btn.setAttribute('aria-label', dark ? 'Switch to dark mode' : 'Switch to light mode');
+  });
+
+  // === FADE IN ON SCROLL ===
+  const fadeObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); fadeObs.unobserve(e.target); }});
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => fadeObs.observe(el));
+
+  // === STAT COUNTERS (fires once, then disconnects) ===
+  function runCounter(el) {
+    const target = parseInt(el.dataset.target, 10);
+    const suffix = el.dataset.suffix || '';
+    el.textContent = '0' + suffix;
+    let step = 0;
+    const timer = setInterval(() => {
+      step++;
+      const val = Math.round((1 - Math.pow(1 - step / 40, 3)) * target);
+      el.textContent = val.toLocaleString() + suffix;
+      if (step >= 40) { el.textContent = target.toLocaleString() + suffix; clearInterval(timer); }
+    }, 900 / 40);
+  }
+  const statsGrid = document.querySelector('.stats-grid');
+  if (statsGrid) {
+    const statObs = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        statsGrid.querySelectorAll('[data-target]').forEach(runCounter);
+        statObs.disconnect();
+      }
+    }, { threshold: 0.3 });
+    statObs.observe(statsGrid);
+  }
+
+  // === CONTRAST MATRIX ===
+  const palette = [
+    { name: 'Navy',       hex: '#0C2E6E' },
+    { name: 'Blue',       hex: '#1A4FBF' },
+    { name: 'Ink',        hex: '#111827' },
+    { name: 'Mid',        hex: '#374151' },
+    { name: 'Muted',      hex: '#595F6B' },
+    { name: 'Sky',        hex: '#4A90E2' },
+    { name: 'Hero Sky',   hex: '#74B3F9' },
+    { name: 'Off-White',  hex: '#F7F9FC' },
+    { name: 'White',      hex: '#FFFFFF' },
+    { name: 'Deep Dark',  hex: '#060C1C' }
+  ];
+
+  function getLuminance(hex) {
+    const rgb = hex.replace('#','').match(/.{2}/g).map(x => parseInt(x,16)/255);
+    const lin = rgb.map(v => v <= 0.03928 ? v/12.92 : Math.pow((v+0.055)/1.055, 2.4));
+    return lin[0]*0.2126 + lin[1]*0.7152 + lin[2]*0.0722;
+  }
+  function getContrast(h1, h2) {
+    const l1 = getLuminance(h1), l2 = getLuminance(h2);
+    return ((Math.max(l1,l2)+0.05)/(Math.min(l1,l2)+0.05)).toFixed(1);
+  }
+  function getBadge(r) {
+    if (r >= 7.0) return '<span class="badge aaa">AAA</span>';
+    if (r >= 4.5) return '<span class="badge aa">AA</span>';
+    if (r >= 3.0) return '<span class="badge lg">Large</span>';
+    return '<span class="badge fail">Fail</span>';
+  }
+
+  const thead = document.getElementById('matrix-headers');
+  const tbody = document.getElementById('matrix-body');
+  if (thead && tbody) {
+    palette.forEach(fg => {
+      thead.innerHTML += `<th scope="col">${fg.name}<br><span style="font-weight:400;font-size:.75rem">${fg.hex}</span></th>`;
+    });
+    palette.forEach(bg => {
+      let row = `<tr><th scope="row">${bg.name}<br><span style="font-weight:400;font-size:.75rem">${bg.hex}</span></th>`;
+      palette.forEach(fg => {
+        if (bg.hex === fg.hex) {
+          row += `<td class="null-cell" aria-label="Same color, not applicable"></td>`;
+        } else {
+          const ratio = getContrast(fg.hex, bg.hex);
+          const badge = getBadge(parseFloat(ratio));
+          const showText = parseFloat(ratio) >= 4.5;
+          const preview = showText ? `<span class="cell-text" aria-hidden="true">Text</span>` : '';
+          row += `<td class="a11y-cell" style="background-color:${bg.hex};color:${fg.hex};" aria-label="${bg.name} background with ${fg.name} text: ${ratio}:1 contrast ratio">
+            ${preview}
+            <div style="display:flex;justify-content:space-between;align-items:center;">${badge}<span style="font-size:.8rem;font-weight:600">${ratio}</span></div>
+          </td>`;
+        }
+      });
+      row += '</tr>';
+      tbody.innerHTML += row;
+    });
+  }
+</script>
+
+</body>
+</html>
