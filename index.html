@@ -211,6 +211,15 @@
       .hero-ctas{flex-direction:column;align-items:flex-start;}
     }
   </style>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V65QYS3RYX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V65QYS3RYX');
+</script>
 </head>
 <body>
 
@@ -580,8 +589,7 @@
   // === DARK MODE ===
   const btn = document.getElementById('themeToggle');
   const saved = localStorage.getItem('mh-theme');
-  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  if (saved === 'dark' || (!saved && prefersDark)) {
+  if (saved === 'dark') {
     document.documentElement.setAttribute('data-theme','dark');
     btn.setAttribute('aria-pressed','true');
   }
