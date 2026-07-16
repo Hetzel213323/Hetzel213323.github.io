@@ -203,14 +203,37 @@
     
     .matrix-legend { margin-top: 1rem; font-size: 0.8rem; color: var(--muted); padding-top: 1rem; border-top: 1px solid var(--border); }
 
-    /* === A11Y TOOL === */
+    /* === A11Y TOOL CASE STUDY === */
     #tool{background:var(--off);}
-    .tool-card{background:var(--card-bg);border:2px dashed var(--border);border-radius:var(--radius);padding:3rem 2rem;text-align:center;max-width:600px;margin:0 auto;}
-    .tool-badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.8rem;padding:4px 12px;border-radius:20px;background:var(--sky-light);color:#1A4FBF;font-weight:700;letter-spacing:.06em;margin-bottom:1.25rem;}
-    .tool-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.3rem;font-weight:700;color:var(--ink);margin-bottom:.75rem;}
-    .tool-desc{font-size:.95rem;color:var(--muted);line-height:1.75;margin-bottom:1.5rem;}
-    .tool-stack{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;}
-    .tool-tag{font-size:.8rem;padding:4px 11px;border-radius:20px;background:var(--off);border:1px solid var(--border);color:var(--mid);font-weight:500;}
+    .tool-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:2.5rem;}
+    .tool-col{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow-sm);}
+    .tool-col-head{font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.75rem;}
+    .tool-col-body{font-size:.925rem;color:var(--mid);line-height:1.75;}
+    .tool-dl{display:grid;grid-template-columns:auto 1fr;gap:.3rem .75rem;font-size:.875rem;}
+    .tool-dl dt{font-weight:600;color:var(--ink);}
+    .tool-dl dd{color:var(--mid);}
+    .tool-video{margin-bottom:2.5rem;}
+    .tool-video-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:var(--radius);background:#000;box-shadow:var(--shadow-md);}
+    .tool-video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;}
+    .tool-build{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:2.5rem;align-items:start;}
+    .tool-stack-list{list-style:none;margin-top:.5rem;display:flex;flex-direction:column;gap:.5rem;}
+    .tool-stack-list li{font-size:.9rem;color:var(--mid);padding-left:1.25rem;position:relative;line-height:1.6;}
+    .tool-stack-list li::before{content:'';position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--sky);}
+    .tool-results{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;}
+    .tool-metrics{list-style:none;margin-top:.75rem;display:flex;flex-direction:column;gap:.5rem;}
+    .tool-metrics li{font-size:.9rem;color:var(--mid);padding-left:1.25rem;position:relative;line-height:1.6;}
+    .tool-metrics li::before{content:'';position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--blue);}
+    .tool-demonstrates{background:var(--navy);border-radius:var(--radius);padding:1.5rem;}
+    .tool-demonstrates .tool-col-head{color:#fff;}
+    .tool-demonstrates .tool-col-body{color:rgba(255,255,255,.78);}
+    .tool-demonstrates .tool-col-body+.tool-col-body{margin-top:.625rem;}
+    .tool-demonstrates a{color:var(--hero-sky);}
+    .tool-demonstrates a:hover{color:#fff;}
+    @media(max-width:900px){
+      .tool-cols{grid-template-columns:1fr;}
+      .tool-build{grid-template-columns:1fr;}
+      .tool-results{grid-template-columns:1fr;}
+    }
 
     /* === CONTACT === */
     #contact{background:var(--white);}
@@ -588,21 +611,88 @@
 
   <section id="tool" aria-labelledby="tool-h2">
     <div class="section-inner">
-      <span class="section-label">In development</span>
-      <h2 class="section-title" id="tool-h2">Accessibility linter tool.</h2>
-      <p class="section-desc">A practical AI project at the intersection of my two deepest areas of focus.</p>
-      <div class="tool-card fade-up">
-        <span class="tool-badge">COMING SOON</span>
-        <div class="tool-title">AI-Powered Accessibility Auditor</div>
-        <p class="tool-desc">An in-browser accessibility linting tool that analyzes page content and surfaces WCAG violations with plain-language explanations and remediation guidance. Built at the intersection of AI fluency and six Deque University certifications.</p>
-        <div class="tool-stack">
-          <span class="tool-tag">JavaScript</span>
-          <span class="tool-tag">WCAG 2.2</span>
-          <span class="tool-tag">AI-assisted remediation</span>
-          <span class="tool-tag">Anthropic API</span>
-          <span class="tool-tag">Accessibility first</span>
+      <span class="section-label">Case Study</span>
+      <h2 class="section-title" id="tool-h2">Ally-Audit Agent.</h2>
+      <p class="section-desc">An AI-powered accessibility auditor built through human-AI collaboration — proof that the workflow I describe actually works in practice.</p>
+
+      <!-- Three-column overview -->
+      <div class="tool-cols">
+        <div class="tool-col fade-up">
+          <h3 class="tool-col-head">Project Overview</h3>
+          <dl class="tool-dl">
+            <dt>Started</dt><dd>2026</dd>
+            <dt>Role</dt><dd>Concept Creator &amp; AI Collaborator</dd>
+            <dt>Team</dt><dd>Myself, Gemini and Claude</dd>
+            <dt>Tools</dt><dd>Gemini Canvas, NotebookLM, Claude AI, React, Tailwind CSS</dd>
+            <dt>Type</dt><dd>Agentic AI Web Application</dd>
+          </dl>
+        </div>
+        <div class="tool-col fade-up delay-1">
+          <h3 class="tool-col-head">AI Collaboration Stack</h3>
+          <ul class="tool-col-body">
+            <li><span style="font-weight: bold;">Gemini Canvas</span> — primary development environment</li>
+            <li><span style="font-weight: bold;">Claude</span> — testing, logic validation, and iteration partner</li>
+            <li><span style="font-weight: bold;">React + Tailwind CSS</span> — front-end framework</li>
+            <li><span style="font-weight: bold;">WCAG 2.2 + ADA guidelines</span></WCAG> — evaluation framework</li>
+          </ul>
+        </div>
+        <div class="tool-col fade-up delay-2">
+          <h3 class="tool-col-head">What I Built</h3>
+          <p class="tool-col-body">A web application where developers drop in code and receive instant accessibility evaluations against WCAG 2.2 standards, with remediated code suggestions generated automatically. Just paste, audit, fix.</p>
         </div>
       </div>
+
+      <!-- YouTube video embed — replace YOUR_VIDEO_ID with your actual YouTube video ID -->
+      <div class="tool-video fade-up">
+        <div class="tool-video-wrap">
+          <iframe 
+          src="https://www.youtube.com/embed/b2UzRAaJYXE" 
+          title="Ally-Audit Agent demo — AI-powered accessibility auditor in action"  
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          referrerpolicy="strict-origin-when-cross-origin" 
+          allowfullscreen>
+        </iframe>
+        </div>
+      </div>
+
+      <!-- Build process + AI stack -->
+      <!--<div class="tool-build fade-up">
+        <div>
+          <h3 class="tool-col-head">How It Actually Came Together</h3>
+          <p class="tool-col-body">Building this wasn't just prompting and copying. It required judgment at every step; deciding which WCAG criteria mattered most, designing filters that made evaluation specific rather than generic, and creating a UI that was itself fully accessible. The tool had to meet the very standards it was evaluating.</p>
+          <p class="tool-col-body" style="margin-top:.75rem;">One of the most valuable moments in the build: I used Claude to generate intentionally broken components with deliberate accessibility violations to stress-test whether the auditor would catch them. It did. The quality of what you get out depends entirely on how creatively you test it.</p>
+        </div>
+        <div>
+          <h3 class="tool-col-head">AI Collaboration Stack</h3>
+          <ul class="tool-stack-list" aria-label="Tools used to build this project">
+            <li>Gemini Canvas — primary development environment</li>
+            <li>Claude — testing, logic validation, and iteration partner</li>
+            <li>React + Tailwind CSS — front-end framework</li>
+            <li>WCAG 2.2 + ADA guidelines — evaluation framework</li>
+          </ul>
+        </div>
+      </div>-->
+
+      <!-- Results + What this demonstrates -->
+      <div class="tool-results fade-up">
+        <div>
+          <h3 class="tool-col-head">Results &amp; Impact</h3>
+          <p class="tool-col-body">This project wasn't just a build exercise; it reached a real audience and sparked real conversation on LinkedIn.</p>
+          <ul class="tool-metrics" aria-label="LinkedIn post performance metrics">
+            <li><strong>1,095</strong> impressions / 724 members reached</li>
+            <li><strong>406</strong> video views / 1h 29m total watch time</li>
+            <li><strong>27</strong> reactions / 16 comments / 4 saves / 2 reposts</li>
+          </ul>
+         
+        </div>
+        <div class="tool-demonstrates">
+          <h3 class="tool-col-head">What This Demonstrates</h3>
+          <p class="tool-col-body"><strong>First,</strong> I can identify real problems worth solving — accessibility gaps in developer workflows represent genuine business risk for any company shipping digital products.</p>
+          <p class="tool-col-body"><strong>Second,</strong> I can move from idea to working prototype rapidly using AI as a force multiplier, not a shortcut, but as a collaboration tool that accelerates judgment-driven development.</p>
+          <p class="tool-col-body"><strong>Third,</strong> I understand the landscape I'm building in. Tools like <a href="https://webaim.org/AIMee/" target="_blank" rel="noopener noreferrer">WebAIM's AIMee<span class="sr-only"> (opens in new tab)</span></a> validate that this problem space is worth serious investment — I was building in the right direction independently, which is exactly the kind of instinct a business needs when exploring AI-driven solutions.</p>
+        </div>
+      </div>
+
     </div>
   </section>
 
