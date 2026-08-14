@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    /* === TOKENS === */
+    /* === STREAMING_CHUNK:Defining design system tokens... === */
     :root {
       --navy:#0C2E6E;--blue:#1A4FBF;--sky:#4A90E2;--hero-sky:#74B3F9;--sky-light:#EBF3FC;
       --white:#FFFFFF;--off:#F7F9FC;--ink:#111827;--mid:#374151;
@@ -27,7 +27,7 @@
       --shadow-md:0 4px 12px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);
     }
 
-    /* === RESET === */
+    /* === STREAMING_CHUNK:Applying base styles and accessibility resets... === */
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     html{scroll-behavior:smooth;}
     body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;transition:background var(--dur) var(--ease),color var(--dur) var(--ease);}
@@ -45,11 +45,10 @@
       .a11y-cell:hover{transform:none!important;}
     }
 
-    /* === SKIP LINK === */
+    /* === STREAMING_CHUNK:Styling navigation and skip links... === */
     .skip-link{position:absolute;top:-120px;left:1rem;background:var(--blue);color:#fff;padding:.6rem 1.2rem;border-radius:var(--radius-sm);font-size:.875rem;font-weight:500;z-index:9999;transition:top .2s;}
     .skip-link:focus{top:1rem;}
 
-    /* === NAV === */
     .nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(12,46,110,.97);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.07);}
     .nav-inner{max-width:1120px;margin:0 auto;padding:0 2rem;height:62px;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;}
     .nav-logo{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1rem;color:#fff;letter-spacing:-.01em;white-space:nowrap;}
@@ -64,7 +63,7 @@
     [data-theme="dark"] .icon-moon{display:none;}
     [data-theme="dark"] .icon-sun{display:block;}
 
-    /* === HERO === */
+    /* === STREAMING_CHUNK:Styling hero header section... === */
     .hero{background:var(--navy);padding:130px 2rem 90px;position:relative;overflow:hidden;}
     .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 75% 40%,rgba(74,144,226,.14) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 20% 80%,rgba(26,79,191,.2) 0%,transparent 60%);pointer-events:none;}
     .hero-inner{max-width:1120px;margin:0 auto;position:relative;}
@@ -79,7 +78,7 @@
     .btn-ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.5);}
     .btn-ghost:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.9);text-decoration:none;}
 
-    /* === SECTIONS === */
+    /* === STREAMING_CHUNK:Styling main sections and layout components... === */
     section{padding:88px 2rem;}
     .section-inner{max-width:1120px;margin:0 auto;}
     .section-label{font-family:'JetBrains Mono',monospace;font-size:1rem;color:var(--blue);text-transform:uppercase;letter-spacing:.12em;display:block;margin-bottom:.5rem;}
@@ -87,7 +86,7 @@
     .section-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;color:var(--ink);letter-spacing:-.025em;line-height:1.2;margin-bottom:.875rem;}
     .section-desc{font-size:1rem;color:var(--muted);max-width:580px;line-height:1.75;margin-bottom:2.75rem;}
 
-    /* === ABOUT === */
+    /* === STREAMING_CHUNK:Styling about section and metric tiles... === */
     #about{background:var(--white);}
     .about-grid{display:grid;grid-template-columns:1fr 320px;gap:4rem;align-items:start;}
     .about-body p{font-size:1rem;color:var(--mid);line-height:1.85;margin-bottom:1.1rem;}
@@ -99,7 +98,7 @@
     .stat-l{font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
     .stat-tile.wide{grid-column:1/-1;}
 
-    /* === CREDENTIALS === */
+    /* === STREAMING_CHUNK:Styling credentials summary cards... === */
     #credentials{background:var(--off);}
     .cred-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
     .cred-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.375rem;box-shadow:var(--shadow-sm);transition:box-shadow var(--dur),transform var(--dur);position:relative;overflow:hidden;}
@@ -122,8 +121,9 @@
     .cred-pill{font-size:.8rem;padding:3px 9px;border-radius:20px;background:var(--off);color:var(--mid);border:1px solid var(--border);font-weight:500;}
     .cred-link{font-size:.875rem;font-weight:600;color:var(--blue);display:inline-flex;align-items:center;gap:3px;transition:color var(--dur);}
     .cred-link:hover{color:var(--navy);text-decoration:none;}
+    .cred-cta-row{margin-top:2.5rem;text-align:center;}
 
-    /* === BUILT WITH AI === */
+    /* === STREAMING_CHUNK:Styling built with AI case study section... === */
     #built{background:#060C1C;color:#fff;}
     #built .section-label{color:var(--hero-sky);}
     #built .section-title{color:#fff;}
@@ -150,7 +150,7 @@
     .msg-bubble{font-family:'JetBrains Mono',monospace;font-size:.8rem;line-height:1.65;padding:.65rem .9rem;border-radius:0 10px 10px 10px;background:rgba(255,255,255,.07);color:rgba(255,255,255,.82);max-width:290px;}
     .msg.ai .msg-bubble{background:rgba(116,179,249,.14);border-radius:10px 10px 10px 0;color:rgba(255,255,255,.88);}
 
-    /* === CONTRAST MATRIX (A11Y OPTIMIZED) === */
+    /* === STREAMING_CHUNK:Styling WCAG contrast matrix table... === */
     #matrix { background: var(--white); }
     
     .matrix-container { 
@@ -163,7 +163,6 @@
       box-shadow: var(--shadow-sm); 
     }
     
-    /* WebAIM Fix: Clear focus indicator for the scrollable container */
     .matrix-container:focus-visible {
       outline: 3px solid var(--blue);
       outline-offset: 2px;
@@ -182,7 +181,6 @@
       cursor: pointer;
     }
     
-    /* WebAIM Fix: Keyboard focus now mirrors hover behavior perfectly */
     .a11y-cell:hover,
     .a11y-cell:focus-visible { 
       transform: scale(1.05); 
@@ -203,7 +201,7 @@
     
     .matrix-legend { margin-top: 1rem; font-size: 0.8rem; color: var(--muted); padding-top: 1rem; border-top: 1px solid var(--border); }
 
-    /* === A11Y TOOL CASE STUDY === */
+    /* === STREAMING_CHUNK:Styling Ally-Audit Agent case study layout... === */
     #tool{background:var(--off);}
     .tool-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:2.5rem;}
     .tool-col{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow-sm);}
@@ -235,19 +233,17 @@
       .tool-results{grid-template-columns:1fr;}
     }
 
-    /* === CONTACT === */
+    /* === STREAMING_CHUNK:Styling contact section and footer... === */
     #contact{background:var(--white);}
     .contact-row{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.5rem;}
     .c-link{display:inline-flex;align-items:center;gap:8px;padding:.65rem 1.25rem;border-radius:50px;border:1.5px solid var(--border);background:var(--off);color:var(--ink);font-size:.9rem;font-weight:500;transition:all var(--dur);}
     .c-link:hover{background:var(--blue);color:#fff;border-color:var(--blue);text-decoration:none;}
     .c-link svg{flex-shrink:0;}
 
-    /* === FOOTER === */
     footer{background:var(--navy);color:rgba(255,255,255,.60);text-align:center;padding:2rem;font-size:.875rem;line-height:1.6;}
     footer a{color:rgba(255,255,255,.80);text-decoration:underline;}
     footer a:hover{color:#fff;}
 
-    /* === ANIMATIONS === */
     .fade-up{opacity:0;transform:translateY(22px);transition:opacity .55s var(--ease),transform .55s var(--ease);}
     .fade-up.in{opacity:1;transform:translateY(0);}
     .fade-up.delay-1{transition-delay:.1s;}
@@ -256,7 +252,6 @@
     .fade-up.delay-4{transition-delay:.4s;}
     .fade-up.delay-5{transition-delay:.5s;}
 
-    /* === RESPONSIVE === */
     @media(max-width:900px){
       .cred-grid{grid-template-columns:repeat(2,1fr);}
       .about-grid{grid-template-columns:1fr;gap:2.5rem;}
@@ -359,6 +354,7 @@
       <span class="section-label">Continuous learning</span>
       <h2 class="section-title" id="cred-h2">AI credentials &amp; platforms.</h2>
       <p class="section-desc">I study AI systematically, across platforms, with a focus on practical application and ethical implementation. Not theoretical. Operational.</p>
+      
       <div class="cred-grid">
 
         <div class="cred-card fade-up" aria-labelledby="cred-linkedin">
@@ -380,10 +376,7 @@
             <span class="cred-pill">AI Essentials for UX</span>
             <span class="cred-pill">Generative AI for Business</span>
             <span class="cred-pill">Career Essentials in Gen AI</span>
-            <span class="cred-pill">AI Productivity with Microsoft</span>
-            <span class="cred-pill">Accessibility Best Practices</span>
           </div>
-          <a href="https://www.linkedin.com/in/hetzelmatthew/" class="cred-link" target="_blank" rel="noopener noreferrer">View profile &#8599;<span class="sr-only">(opens in new tab)</span></a>
         </div>
 
         <div class="cred-card fade-up delay-1" aria-labelledby="cred-trailhead">
@@ -398,80 +391,17 @@
             </div>
           </div>
           <div class="cred-nums">
-            <div><span class="cred-num-n">54</span><span class="cred-num-l">Badges</span></div>
-            <div><span class="cred-num-n">22,825</span><span class="cred-num-l">Points</span></div>
-            <div><span class="cred-num-n">11</span><span class="cred-num-l">Trails</span></div>
+            <div><span class="cred-num-n">55</span><span class="cred-num-l">Badges</span></div>
+            <div><span class="cred-num-n">22,950</span><span class="cred-num-l">Points</span></div>
           </div>
           <div class="cred-pills">
             <span class="cred-pill">Einstein Generative AI</span>
-            <span class="cred-pill">AI Associate Cert Prep</span>
+            <span class="cred-pill">AI Associate Prep</span>
             <span class="cred-pill">NLP Basics</span>
-            <span class="cred-pill">Data Analytics for AI</span>
-            <span class="cred-pill">AI Fundamentals</span>
-          </div>
-          <a href="https://trailblazer.me/id/mhetzel" class="cred-link" target="_blank" rel="noopener noreferrer">View profile &#8599;<span class="sr-only">(opens in new tab)</span></a>
-        </div>
-
-        <div class="cred-card fade-up delay-2" aria-labelledby="cred-google">
-          <div class="cred-bar bar-google" aria-hidden="true"></div>
-          <div class="cred-head">
-            <div class="cred-ico" style="background:#F0F3FE;" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-            </div>
-            <div>
-              <span class="cred-platform" id="cred-google">Google AI / Gemini</span>
-              <span class="cred-role">Daily practitioner</span>
-            </div>
-          </div>
-          <div class="cred-pills" style="margin-top:.25rem;">
-            <span class="cred-pill">Gemini</span>
-            <span class="cred-pill">NotebookLM</span>
-            <span class="cred-pill">Gemini Stitch</span>
-            <span class="cred-pill">Google AI Studio</span>
-            <span class="cred-pill">Multi-agent workflows</span>
           </div>
         </div>
 
-        <div class="cred-card fade-up delay-3" aria-labelledby="cred-ibm">
-          <div class="cred-bar bar-ibm" aria-hidden="true"></div>
-          <div class="cred-head">
-            <div class="cred-ico" style="background:#E5EDF5;" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 32 32" fill="#1F70C1" aria-hidden="true"><path d="M0 7h32v2H0zm4 4h24v2H4zm0 4h24v2H4zm-4 4h32v2H0zm4 4h24v2H4zm-4 4h32v2H0z"/></svg>
-            </div>
-            <div>
-              <span class="cred-platform" id="cred-ibm">IBM SkillsBuild</span>
-              <span class="cred-role">AI fundamentals</span>
-            </div>
-          </div>
-          <div class="cred-pills" style="margin-top:.25rem;">
-            <span class="cred-pill">AI Fundamentals</span>
-            <span class="cred-pill">Machine Learning basics</span>
-            <span class="cred-pill">Responsible AI</span>
-            <span class="cred-pill">Enterprise AI applications</span>
-          </div>
-        </div>
-
-        <div class="cred-card fade-up delay-4" aria-labelledby="cred-anthropic">
-          <div class="cred-bar bar-anthropic" aria-hidden="true"></div>
-          <div class="cred-head">
-            <div class="cred-ico" style="background:#F7EDE6;" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="#C07755" aria-hidden="true"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 3a7 7 0 110 14A7 7 0 0112 5zm-.5 3v6h1V8h-1zm0 7v1.5h1V15h-1z"/></svg>
-            </div>
-            <div>
-              <span class="cred-platform" id="cred-anthropic">Anthropic / Claude</span>
-              <span class="cred-role">Daily practitioner &amp; builder</span>
-            </div>
-          </div>
-          <div class="cred-pills" style="margin-top:.25rem;">
-            <span class="cred-pill">Prompt engineering</span>
-            <span class="cred-pill">Multi-agent workflows</span>
-            <span class="cred-pill">Code generation</span>
-            <span class="cred-pill">Content strategy</span>
-            <span class="cred-pill">Built this site</span>
-          </div>
-        </div>
-
-        <div class="cred-card fade-up delay-5" aria-labelledby="cred-deque">
+        <div class="cred-card fade-up delay-2" aria-labelledby="cred-deque">
           <div class="cred-bar bar-deque" aria-hidden="true"></div>
           <div class="cred-head">
             <div class="cred-ico" style="background:#F3EDF9;" aria-hidden="true">
@@ -479,23 +409,25 @@
             </div>
             <div>
               <span class="cred-platform" id="cred-deque">Deque University</span>
-              <span class="cred-role">IAAP CPACC in progress</span>
+              <span class="cred-role">IAAP CPACC Candidate</span>
             </div>
           </div>
           <div class="cred-nums">
-            <div><span class="cred-num-n">6</span><span class="cred-num-l">Exams passed</span></div>
+            <div><span class="cred-num-n">7</span><span class="cred-num-l">Exams passed</span></div>
           </div>
           <div class="cred-pills">
-            <span class="cred-pill">Non-Technical Roles</span>
+            <span class="cred-pill">Web Dev Advanced</span>
             <span class="cred-pill">Designers</span>
             <span class="cred-pill">PDF Creators</span>
-            <span class="cred-pill">Web Dev Core</span>
-            <span class="cred-pill">Web Dev Advanced</span>
-            <span class="cred-pill">Microsoft Office</span>
           </div>
         </div>
 
       </div>
+
+      <div class="cred-cta-row fade-up delay-3">
+        <a href="./credentials.html" class="btn btn-white" style="background:var(--navy); color:#fff; border:1.5px solid var(--navy);">View Full Credential Gallery &amp; Certificates &rarr;</a>
+      </div>
+
     </div>
   </section>
 
@@ -633,7 +565,7 @@
             <li><span style="font-weight: bold;">Gemini Canvas</span> — primary development environment</li>
             <li><span style="font-weight: bold;">Claude</span> — testing, logic validation, and iteration partner</li>
             <li><span style="font-weight: bold;">React + Tailwind CSS</span> — front-end framework</li>
-            <li><span style="font-weight: bold;">WCAG 2.2 + ADA guidelines</span></WCAG> — evaluation framework</li>
+            <li><span style="font-weight: bold;">WCAG 2.2 + ADA guidelines</span> — evaluation framework</li>
           </ul>
         </div>
         <div class="tool-col fade-up delay-2">
@@ -642,36 +574,18 @@
         </div>
       </div>
 
-      <!-- YouTube video embed — replace YOUR_VIDEO_ID with your actual YouTube video ID -->
+      <!-- YouTube video embed -->
       <div class="tool-video fade-up">
         <div class="tool-video-wrap">
           <iframe 
-          src="https://www.youtube.com/embed/b2UzRAaJYXE" 
-          title="Ally-Audit Agent demo — AI-powered accessibility auditor in action"  
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-          referrerpolicy="strict-origin-when-cross-origin" 
-          allowfullscreen>
-        </iframe>
+            src="https://www.youtube.com/embed/b2UzRAaJYXE" 
+            title="Ally-Audit Agent demo — AI-powered accessibility auditor in action"  
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen>
+          </iframe>
         </div>
       </div>
-
-      <!-- Build process + AI stack -->
-      <!--<div class="tool-build fade-up">
-        <div>
-          <h3 class="tool-col-head">How It Actually Came Together</h3>
-          <p class="tool-col-body">Building this wasn't just prompting and copying. It required judgment at every step; deciding which WCAG criteria mattered most, designing filters that made evaluation specific rather than generic, and creating a UI that was itself fully accessible. The tool had to meet the very standards it was evaluating.</p>
-          <p class="tool-col-body" style="margin-top:.75rem;">One of the most valuable moments in the build: I used Claude to generate intentionally broken components with deliberate accessibility violations to stress-test whether the auditor would catch them. It did. The quality of what you get out depends entirely on how creatively you test it.</p>
-        </div>
-        <div>
-          <h3 class="tool-col-head">AI Collaboration Stack</h3>
-          <ul class="tool-stack-list" aria-label="Tools used to build this project">
-            <li>Gemini Canvas — primary development environment</li>
-            <li>Claude — testing, logic validation, and iteration partner</li>
-            <li>React + Tailwind CSS — front-end framework</li>
-            <li>WCAG 2.2 + ADA guidelines — evaluation framework</li>
-          </ul>
-        </div>
-      </div>-->
 
       <!-- Results + What this demonstrates -->
       <div class="tool-results fade-up">
@@ -683,7 +597,6 @@
             <li><strong>406</strong> video views / 1h 29m total watch time</li>
             <li><strong>27</strong> reactions / 16 comments / 4 saves / 2 reposts</li>
           </ul>
-         
         </div>
         <div class="tool-demonstrates">
           <h3 class="tool-col-head">What This Demonstrates</h3>
@@ -777,7 +690,7 @@
     statObs.observe(statsGrid);
   }
 
-  // === CONTRAST MATRIX (A11Y OPTIMIZED) ===
+  // === CONTRAST MATRIX (A11Y OPTIMIZED & ACCURATE VISUAL PREVIEW) ===
   const palette = [
     { name: 'Navy',       hex: '#0C2E6E' },
     { name: 'Blue',       hex: '#1A4FBF' },
@@ -801,7 +714,7 @@
     const l1 = getLuminance(h1);
     const l2 = getLuminance(h2);
     const ratio = (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
-    return ratio; // returning as raw number for numeric logic
+    return ratio;
   }
 
   function getBadge(ratio) {
@@ -825,18 +738,16 @@
       let row = `<tr><th scope="row" aria-label="Background Color: ${bg.name}">${bg.name}<br><span aria-hidden="true" style="font-weight:400; font-size:.7rem">${bg.hex}</span></th>`;
       
       const bgLuminance = getLuminance(bg.hex);
-      // Determine safe UI text color based on background luminance
+      // Legible data text color based on background luminance
       const safeUITextColor = bgLuminance > 0.179 ? '#111827' : '#FFFFFF'; 
 
       palette.forEach(fg => {
         if (bg.hex === fg.hex) {
-          // Null cell for identical colors
           row += `<td class="null-cell" aria-label="Identical background and text colors. Invalid."></td>`;
         } else {
           const ratio = getContrast(fg.hex, bg.hex);
           const badge = getBadge(ratio);
           
-          // Determine spoken status for ARIA label
           let statusSpoken = "Fails WCAG AA minimum contrast standards.";
           if (ratio >= 7.0) statusSpoken = "Passes WCAG AAA enhanced contrast.";
           else if (ratio >= 4.5) statusSpoken = "Passes WCAG AA minimum contrast.";
@@ -844,8 +755,7 @@
 
           const cellAriaLabel = `Background color ${bg.name} with foreground text color ${fg.name}. Calculated contrast ratio is ${ratio.toFixed(1)} to 1. ${statusSpoken}`;
           
-          // The visual preview text (always shows foreground color)
-          // Hide it from screen readers to prevent cluttering the data read out
+          // Visual preview text (shows foreground color)
           const previewText = `<span class="cell-text" style="color: ${fg.hex};" aria-hidden="true">Text</span>`;
           
           row += `<td class="a11y-cell" style="background-color: ${bg.hex};" aria-label="${cellAriaLabel}" tabindex="0">
