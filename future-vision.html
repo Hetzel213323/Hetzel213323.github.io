@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Growth Mindset | Future Vision XPRIZE Submission · Matt Hetzel</title>
+  <meta name="description" content="Growth Mindset is an optimistic sci-fi short film and treatment created by Matt Hetzel, submitted to the 2026 Future Vision XPRIZE competition.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V65QYS3RYX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-V65QYS3RYX');
+  </script>
+  <style>
+    /* ============================================
+       STREAMING_CHUNK:Configuring design tokens and CSS variables...
+    ============================================ */
+    :root {
+      --navy: #0C2E6E;
+      --blue: #1A4FBF;
+      --sky: #4A90E2;
+      --hero-sky: #74B3F9;
+      --ink: #111827;
+      --mid: #374151;
+      --muted: #595F6B;
+      --border: #E5E7EB;
+      --off: #F7F9FC;
+      --white: #FFFFFF;
+      --act1-bg: #111827;
+      --act1-surface: #1A1F2E;
+      --act2-bg: #1A2E1A;
+      --act2-surface: #223322;
+      --act3-bg: #2D1F0A;
+      --act3-surface: #3D2A0D;
+      --radius: 14px;
+      --radius-sm: 8px;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+      --dur: 0.25s;
+    }
+
+    [data-theme="dark"] {
+      --white: #1A1F2E;
+      --off: #111827;
+      --ink: #F3F4F6;
+      --mid: #D1D5DB;
+      --muted: #9CA3AF;
+      --border: #2D3748;
+    }
+
+    /* ============================================
+       STREAMING_CHUNK:Setting base resets and accessibility styles...
+    ============================================ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--off);
+      color: var(--ink);
+      line-height: 1.6;
+      transition: background-color 0.4s var(--ease), color 0.4s var(--ease);
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: underline;
+    }
+
+    a:hover {
+      color: var(--navy);
+    }
+
+    a:focus-visible, button:focus-visible, summary:focus-visible {
+      outline: 2px solid var(--sky);
+      outline-offset: 3px;
+      border-radius: 3px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      .fade-up {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+
+    /* ============================================
+       STREAMING_CHUNK:Styling navigation and skip links...
+    ============================================ */
+    .skip-link {
+      position: absolute;
+      top: -120px;
+      left: 1rem;
+      background: var(--blue);
+      color: #fff;
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      font-weight: 500;
+      z-index: 9999;
+      transition: top 0.2s;
+      text-decoration: none;
+    }
+    .skip-link:focus {
+      top: 1rem;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(12, 46, 110, 0.97);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .nav-logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #fff;
+      text-decoration: none;
+      white-space: nowrap;
+      letter-spacing: -0.01em;
+    }
+    .nav-logo:hover {
+      color: var(--hero-sky);
+    }
+
+    .nav-back {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.75);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      transition: color var(--dur);
+    }
+    .nav-back:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .theme-btn {
+      background: none;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.75);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--dur);
+      flex-shrink: 0;
+    }
+    .theme-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.5);
+      color: #fff;
+    }
+    .theme-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+    .icon-sun { display: none; }
+    [data-theme="dark"] .icon-moon { display: none; }
+    [data-theme="dark"] .icon-sun { display: block; }
+
+    /* ============================================
+       STREAMING_CHUNK:Styling Section 1 Hero banner...
+    ============================================ */
+    .hero-vision {
+      background-color: #060C1C;
+      min-height: calc(100vh - 62px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 90px 2rem 80px;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .hero-vision::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 45%, rgba(74, 144, 226, 0.16) 0%, transparent 75%),
+                  radial-gradient(circle at 80% 20%, rgba(116, 179, 249, 0.08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-vision-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .eyebrow-hero {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.825rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--hero-sky);
+      margin-bottom: 1.25rem;
+      display: block;
+    }
+
+    .hero-film-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: clamp(3rem, 7.5vw, 5.8rem);
+      color: #FFFFFF;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+
+    .hero-tagline {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      color: rgba(255, 255, 255, 0.82);
+      max-width: 660px;
+      line-height: 1.75;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-attribution {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.825rem;
+      font-style: italic;
+      color: rgba(255, 255, 255, 0.55);
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.85rem;
+      border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all var(--dur) var(--ease);
+      border: 1.5px solid transparent;
+    }
+
+    .btn-pill-white {
+      background: #FFFFFF;
+      color: var(--navy);
+      border-color: #FFFFFF;
+    }
+    .btn-pill-white:hover {
+      background: var(--hero-sky);
+      color: var(--navy);
+      border-color: var(--hero-sky);
+      text-decoration: none;
+    }
+
+    .btn-pill-ghost {
+      background: transparent;
+      color: #FFFFFF;
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+    .btn-pill-ghost:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.85);
+      text-decoration: none;
+    }
+
+    /* ============================================
+       STREAMING_CHUNK:Styling Section 2 Premise statement...
+    ============================================ */
+    .section-premise {
+      background: var(--off);
+      padding: 90px 2rem;
+    }
+
+    .premise-card {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--blue);
+      display: block;
+      margin-bottom: 0.75rem;
+    }
+    [data-theme="dark"] .section-label {
+      color: var(--hero-sky);
+    }
+
+    .section-heading {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      letter-spacing: -0.025em;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+
+    .premise-body p {
+      font-size: 1.05rem;
+      color: var(--mid);
+      line-height: 1.85;
+      margin-bottom: 1.25rem;
+    }
+
+    .premise-signoff {
+      font-size: 0.925rem;
+      font-style: italic;
+      color: var(--muted);
+      margin-top: 1.5rem;
+      display: block;
+    }
+
+    /* ============================================
+       STREAMING_CHUNK:Styling Section 3 Scrollytelling acts...
+    ============================================ */
+    #story {
+      position: relative;
+    }
+
+    .act-section {
+      padding: 100px 2rem 110px;
+      transition: background-color 0.5s ease-in-out;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .act-1 {
+      background-color: var(--act1-bg);
+      color: #FFFFFF;
+    }
+
+    .act-2 {
+      background-color: var(--act2-bg);
+      color: #E2F0E2;
+    }
+
+    .act-3 {
+      background-color: var(--act3-bg);
+      color: #FFF2DF;
+    }
+
+    .act-header {
+      max-width: 1200px;
+      margin: 0 auto 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .act-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem;
+      align-items: start;
+    }
+
+    .act-sticky-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      display: inline-block;
+    }
+
+    .act-1 .act-sticky-label {
+      background: rgba(116, 179, 249, 0.15);
+      color: var(--hero-sky);
+      border: 1px solid rgba(116, 179, 249, 0.3);
+    }
+
+    .act-2 .act-sticky-label {
+      background: rgba(109, 213, 140, 0.15);
+      color: #8CE59E;
+      border: 1px solid rgba(109, 213, 140, 0.3);
+    }
+
+    .act-3 .act-sticky-label {
+      background: rgba(251, 188, 4, 0.15);
+      color: #FDD26E;
+      border: 1px solid rgba(251, 188, 4, 0.3);
+    }
+
+    .act-copy h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(1.5rem, 2.5vw, 2.1rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+      margin-bottom: 1.25rem;
+    }
+
+    .act-1 .act-copy h3 { color: #FFFFFF; }
+    .act-2 .act-copy h3 { color: #A8E8B6; }
+    .act-3 .act-copy h3 { color: #FFE2AA; }
+
+    .act-copy p {
+      font-size: 1rem;
+      line-height: 1.85;
+      margin-bottom: 1.25rem;
+    }
+
+    .act-1 .act-copy p { color: rgba(255, 255, 255, 0.78); }
+    .act-2 .act-copy p { color: rgba(226, 240, 226, 0.85); }
+    .act-3 .act-copy p { color: rgba(255, 242, 223, 0.85); }
+
+    .act-images {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+
+    .figure-card {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .figure-card img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    .figure-card figcaption {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      padding: 0.75rem 1rem;
+      color: rgba(255, 255, 255, 0.7);
+      background: rgba(0, 0, 0, 0.4);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Layout orientation flips */
+    .act-2 .act-grid {
+      grid-template-columns: 260px 1.1fr 1fr;
+    }
+
+    /* ============================================
+       STREAMING_CHUNK:Styling Section 4 Protagonist & Audio...
+    ============================================ */
+    .section-protagonist {
+      background: var(--white);
+      padding: 90px 2rem;
+    }
+
+    .protagonist-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-subheading {
+      font-size: 1.05rem;
+      color: var(--muted);
+      margin-top: -0.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .audio-panel {
+      background: var(--navy);
+      border-radius: var(--radius);
+      padding: 2.25rem 2.5rem;
+      color: #FFFFFF;
+      margin-bottom: 3rem;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .audio-panel::after {
+      content: '';
+      position: absolute;
+      right: -40px;
+      bottom: -40px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(116, 179, 249, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .audio-quote {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      font-style: italic;
+      line-height: 1.6;
+      color: #FFFFFF;
+      max-width: 680px;
+      margin-bottom: 1.5rem;
+    }
+
+    .audio-controls-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .audio-play-btn {
+      background: var(--hero-sky);
+      color: var(--navy);
+      border: none;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      transition: all var(--dur) var(--ease);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    .audio-play-btn:hover {
+      background: #FFFFFF;
+      transform: scale(1.06);
+    }
+
+    .audio-attribution {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .audio-error {
+      font-size: 0.8rem;
+      color: #FFA4A0;
+      margin-left: 0.5rem;
+      display: none;
+    }
+
+    .character-sheet-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2.25rem;
+    }
+
+    .char-card {
+      background: var(--off);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .char-card figcaption {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--mid);
+      padding: 0.875rem 1rem;
+      background: var(--card-bg);
+      border-top: 1px solid var(--border);
+    }
+
+    .maya-pipeline-text {
+      font-size: 0.975rem;
+      color: var(--mid);
+      line-height: 1.85;
+      max-width: 900px;
+      margin-bottom: 2.5rem;
+    }
+
+    .supporting-cast-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    /* ============================================
+       STREAMING_CHUNK:Styling Section 5 Production cards...
+    ============================================ */
+    .section-production {
+      background: var(--off);
+      padding: 90px 2rem;
+    }
+
+    .production-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .tool-card {
+      background: var(--card-bg, #FFFFFF);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      transition: transform var(--dur), box-shadow var(--dur);
+    }
+    .tool-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .tool-top-bar {
+      height: 4px;
+      width: 100%;
+    }
+
+    .tool-card-body {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .tool-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+
+    .tool-card-img-wrap {
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-bottom: 1rem;
+      border: 1px solid var(--border);
+      aspect-ratio: 16/10;
+      background: var(--off);
+    }
+    .tool-card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .tool-card-desc {
+      font-size: 0.9rem;
+      color: var(--mid);
+      line-height: 1.75;
+    }
+
+    /* ============================================
+       STREAMING_CHUNK:Styling Section 6 Collaboration...
+    ============================================ */
+    .section-collaboration {
+      background: var(--navy);
+      color: #FFFFFF;
+      padding: 90px 2rem;
+    }
+
+    .collab-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .collab-copy p {
+      font-size: 1.05rem;
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.85;
+      margin-bottom: 1.25rem;
+      max-width: 760px;
+    }
+
+    .collab-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .collab-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+    }
+
+    .collab-card-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--hero-sky);
+      margin-bottom: 0.75rem;
+    }
+
+    .collab-card-desc {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.7;
+    }
+
+    /* ============================================
+       STREAMING_CHUNK:Styling Section 7 Video embeds...
+    ============================================ */
+    .section-film {
+      background: #060C1C;
+      color: #FFFFFF;
+      padding: 90px 2rem;
+    }
+
+    .film-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .video-block {
+      margin-bottom: 3.5rem;
+    }
+
+    .video-embed-wrap {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: #000;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .video-embed-wrap iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .video-caption {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.6);
+      margin-top: 0.875rem;
+      text-align: center;
+    }
+
+    /* ============================================
+       STREAMING_CHUNK:Styling Section 8 Treatment document...
+    ============================================ */
+    .section-treatment {
+      background: var(--off);
+      padding: 90px 2rem;
+    }
+
+    .treatment-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .treatment-details {
+      background: var(--card-bg, #FFFFFF);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-top: 1.75rem;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .treatment-summary {
+      padding: 1.25rem 1.5rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--blue);
+      cursor: pointer;
+      background: var(--off);
+      transition: background var(--dur);
+    }
+    .treatment-summary:hover {
+      background: rgba(74, 144, 226, 0.1);
+    }
+
+    .treatment-content {
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .treatment-subhead {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .treatment-subhead:first-child {
+      margin-top: 0;
+    }
+
+    .treatment-content p {
+      font-size: 0.975rem;
+      color: var(--mid);
+      line-height: 1.85;
+      margin-bottom: 1rem;
+    }
+
+    .treatment-download-row {
+      margin-top: 2rem;
+    }
+
+    /* ============================================
+       STREAMING_CHUNK:Styling Section 9 XPRIZE Competition Link...
+    ============================================ */
+    .section-xprize {
+      background: linear-gradient(135deg, var(--navy) 0%, #152E1D 60%, #30240E 100%);
+      color: #FFFFFF;
+      padding: 90px 2rem;
+    }
+
+    .xprize-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .xprize-body {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 2rem;
+    }
+
+    .xprize-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* ============================================
+       STREAMING_CHUNK:Styling footer and animations...
+    ============================================ */
+    footer {
+      background: var(--navy);
+      color: rgba(255, 255, 255, 0.6);
+      text-align: center;
+      padding: 2.25rem 2rem;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+    footer a {
+      color: rgba(255, 255, 255, 0.85);
+      text-decoration: underline;
+    }
+    footer a:hover {
+      color: #FFFFFF;
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+    }
+    .fade-up.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+
+    /* ============================================
+       STREAMING_CHUNK:Handling responsive breakpoints...
+    ============================================ */
+    @media (max-width: 960px) {
+      .act-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .act-sticky-label {
+        position: static;
+        margin-bottom: 1.5rem;
+      }
+      .character-sheet-grid {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 1rem;
+        gap: 1rem;
+      }
+      .char-card {
+        min-width: 280px;
+        flex-shrink: 0;
+      }
+      .production-grid {
+        grid-template-columns: 1fr;
+      }
+      .collab-cards {
+        grid-template-columns: 1fr;
+      }
+      .supporting-cast-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero-film-title {
+        font-size: 2.75rem;
+      }
+      .hero-vision {
+        padding: 70px 1.25rem 60px;
+      }
+      section {
+        padding: 65px 1.25rem;
+      }
+      .audio-panel {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<!-- ============================================
+     STREAMING_CHUNK:Rendering navigation header...
+============================================ -->
+<nav class="nav" aria-label="Site navigation">
+  <div class="nav-inner">
+    <a href="./index.html" class="nav-logo">Matt Hetzel</a>
+    <a href="./index.html" class="nav-back" aria-label="Back to portfolio home">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to portfolio
+    </a>
+    <div class="nav-right">
+      <button class="theme-btn" id="themeToggle" aria-pressed="false" aria-label="Toggle dark mode">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+  <!-- ============================================
+       STREAMING_CHUNK:Rendering Section 1 Hero banner...
+  ============================================ -->
+  <header class="hero-vision" aria-labelledby="hero-title">
+    <div class="hero-vision-inner">
+      <span class="eyebrow-hero">Future Vision XPRIZE Submission &middot; 2026</span>
+      <h1 id="hero-title" class="hero-film-title">Growth Mindset</h1>
+      <p class="hero-tagline">After automation ends her career, Maya follows an unlikely spark: a stubborn sign of life growing through the ruins of a broken wall, into five years of trial, failure, and reinvention.</p>
+      <p class="hero-attribution">A film by Matt Hetzel &middot; Submitted to the Future Vision XPRIZE</p>
+      <div class="hero-cta-row">
+        <a href="#film" class="btn-pill btn-pill-white">Watch the film</a>
+        <a href="#treatment" class="btn-pill btn-pill-ghost">Read the treatment</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================
+       STREAMING_CHUNK:Rendering Section 2 Premise statement...
+  ============================================ -->
+  <section class="section-premise" aria-labelledby="premise-heading">
+    <div class="premise-card">
+      <span class="section-label">The Story</span>
+      <h2 id="premise-heading" class="section-heading">Not a story about technology replacing humans.</h2>
+      <div class="premise-body fade-up">
+        <p>Growth Mindset is a story about what happens after the ground shifts, and what we choose to grow in the rubble. The disruption in this film is real. The fear is valid. The technology is neither villain nor savior. It is simply present, as ordinary and disruptive as electricity once was. What is extraordinary is what Maya does with the space it opens up.</p>
+        <p>I began making this film before Peter Diamandis announced the Future Vision XPRIZE. When I encountered his vision of an abundant future, something clarified. I was already building exactly this, because I believe the stories we tell about the future shape the future we build.</p>
+        <span class="premise-signoff">- Matt Hetzel, filmmaker</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       STREAMING_CHUNK:Rendering Section 3 Scrollytelling acts...
+  ============================================ -->
+  <div id="story">
+    <!-- ACT ONE -->
+    <section class="act-section act-1" id="act-one" aria-labelledby="act1-title">
+      <div class="act-header">
+        <span class="act-sticky-label">Act One / The Ground Shifts</span>
+      </div>
+      <div class="act-grid">
+        <div class="act-copy fade-up">
+          <h3 id="act1-title">She packed her desk carefully.</h3>
+          <p>Maya does not fall apart in public. She loads her plant into a cardboard box with the precision of someone who has always shown up and delivered, and walks the length of an empty corridor for the last time. The months that follow are not a portrait of individual failure. They are a portrait of collective displacement. Conference halls fill with government retraining seminars. Podcast voices bleed from passing cars. The world is simply faster than anyone prepared for.</p>
+          <p>The grinding pressure fractures her relationship with her first partner, a fundamentally good person caught in the same tide. Their story does not end in betrayal. It ends in attrition. Then, on a construction site, something stops her: a wild tomato plant pushing through a crack in a crumbling wall. Where others see a weed, Maya sees a system. The building crumbled. The plant didn't ask permission to keep growing.</p>
+        </div>
+        <div class="act-images fade-up delay-1">
+          <figure class="figure-card">
+            <img src="./assets/images/xprize/Maya-Younger.jpeg"
+                 alt="Maya character reference sheet — Act One. Nine portraits showing Maya in a grey t-shirt, direct gaze, hair up. The exhaustion of the first act visible in her expression."
+                 loading="lazy">
+            <figcaption>Maya: Act One character reference</figcaption>
+          </figure>
+          <figure class="figure-card">
+            <img src="./assets/images/xprize/Maya_Construction.jpeg"
+                 alt="Maya character reference sheet in construction gear — hard hat and high-visibility vest. Multiple angles showing front, side, and back views. Her expression is steady but tired."
+                 loading="lazy">
+            <figcaption>Maya: Construction period</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACT TWO -->
+    <section class="act-section act-2" id="act-two" aria-labelledby="act2-title">
+      <div class="act-header">
+        <span class="act-sticky-label">Act Two / The Synthesis</span>
+      </div>
+      <div class="act-grid">
+        <div class="act-images fade-up">
+          <figure class="figure-card">
+            <img src="./assets/images/xprize/Google_Flow-Veo_Interface.png"
+                 alt="Screenshot of Google Flow video generation interface showing Maya in three generated scenes: harvesting tomatoes in a sun-drenched vertical farm, using a holographic interface in a Circular Hub, and sharing a rooftop dinner with her father."
+                 loading="lazy">
+            <figcaption>Generated in Google Veo via Google Flow</figcaption>
+          </figure>
+        </div>
+        <div class="act-copy fade-up delay-1">
+          <h3 id="act2-title">She didn't have an epiphany. She had a pause.</h3>
+          <p>That pause is the whole film. Using AI as a collaborative learning partner (not a magic answer), Maya teaches herself the science of vertical farming and living architecture. She wants to bring organic life into the concrete infrastructure of cities. The work is iterative, messy, and joyful in a way her previous roles never were. She fails constantly. She keeps going.</p>
+          <p>During this phase she meets her new partner, a man with beautifully integrated cybernetic enhancements that he initially tries to conceal. They find each other in a shared worldview: he is augmenting his body to adapt to the future, while she is augmenting the physical world to sustain it. Biology and technology integrated, producing something better than either alone.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACT THREE -->
+    <section class="act-section act-3" id="act-three" aria-labelledby="act3-title">
+      <div class="act-header">
+        <span class="act-sticky-label">Act Three / What We Grow</span>
+      </div>
+      <div class="act-grid">
+        <div class="act-copy fade-up">
+          <h3 id="act3-title">Five years later, the city has changed.</h3>
+          <p>Maya has not won an award or given a speech. She has built something real alongside other people who were also freed by disruption and necessity to finally do what they were meant for. The vertical farm greenhouse she helped design is now a place visitors walk through. Children learn in a living outdoor classroom. On a rooftop, people eat food that was grown two floors below them, and nobody is in a hurry.</p>
+          <p>On a recent Tuesday, Maya slept the entire afternoon and called it a victory. In the world of Act One, that would have been a confession of failure. Here, it is something close to a brag. The disruption is real. The fear was valid. This film refuses to pretend otherwise. It simply insists that what waits on the other side was worth the crossing.</p>
+        </div>
+        <div class="act-images fade-up delay-1">
+          <figure class="figure-card">
+            <img src="./assets/images/xprize/Maya_Older.jpeg"
+                 alt="Maya character reference sheet — Act Three. Multiple angles showing Maya in a white linen blouse and sage green trousers. Her posture is relaxed, her expression settled. A visible transformation from the grey t-shirt of Act One."
+                 loading="lazy">
+            <figcaption>Maya: Act Three character reference</figcaption>
+          </figure>
+          <figure class="figure-card">
+            <img src="./assets/images/xprize/Adobe_FireFly.png"
+                 alt="Adobe Firefly board showing the visual development of Act Three's golden hour garden sequences — two women walking garden paths, seated on mossy benches surrounded by abundant flowers and warm light."
+                 loading="lazy">
+            <figcaption>Act Three visual development (Adobe Firefly board)</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============================================
+       STREAMING_CHUNK:Rendering Section 4 Protagonist & Audio...
+  ============================================ -->
+  <section class="section-protagonist" id="protagonist" aria-labelledby="protagonist-heading">
+    <div class="protagonist-inner">
+      <span class="section-label">The Protagonist</span>
+      <h2 id="protagonist-heading" class="section-heading">Meet Maya.</h2>
+      <p class="section-subheading">A character built entirely with AI tools, and the emotional core of everything.</p>
+
+      <div class="audio-panel fade-up">
+        <p class="audio-quote">&ldquo;We transformed the world so much, where I found my inspiration had been completely rebuilt. Now I wonder what comes next.&rdquo;</p>
+        <div class="audio-controls-row">
+          <button class="audio-play-btn" id="mayaPlayBtn" aria-label="Play Maya's voice" type="button">
+            <span id="playIcon" aria-hidden="true">&#9654;</span>
+          </button>
+          <span class="audio-attribution">Maya (voiced by ElevenLabs)</span>
+          <span class="audio-error" id="audioError" aria-live="polite">Audio file unavailable</span>
+        </div>
+      </div>
+
+      <div class="character-sheet-grid fade-up">
+        <figure class="char-card">
+          <img src="./assets/images/xprize/Maya-Younger.jpeg" alt="Maya — Act One" loading="lazy">
+          <figcaption>Maya: Act One</figcaption>
+        </figure>
+        <figure class="char-card">
+          <img src="./assets/images/xprize/Maya_Construction.jpeg" alt="Maya — Survival period" loading="lazy">
+          <figcaption>Maya: Survival period</figcaption>
+        </figure>
+        <figure class="char-card">
+          <img src="./assets/images/xprize/Maya_Older.jpeg" alt="Maya — Act Three" loading="lazy">
+          <figcaption>Maya: Act Three</figcaption>
+        </figure>
+      </div>
+
+      <p class="maya-pipeline-text fade-up">Maya was developed as a persistent character ingredient in Google Veo, maintaining visual continuity across generated scenes. Her father, mother, and supporting cast were built using the same character reference sheet methodology, each submitted as a visual anchor for Gemini's generation pipeline.</p>
+
+      <div class="supporting-cast-grid fade-up">
+        <figure class="char-card">
+          <img src="./assets/images/xprize/Maya_Father.jpeg" alt="Maya's Father — warm presence, a rooftop dinner, the food grown two floors below" loading="lazy">
+          <figcaption>Maya's Father: warm presence, a rooftop dinner, the food grown two floors below</figcaption>
+        </figure>
+        <figure class="char-card">
+          <img src="./assets/images/xprize/Maya_Mother.jpeg" alt="Maya's Mother — a golden-hour garden, two women with nowhere else to be" loading="lazy">
+          <figcaption>Maya's Mother: a golden-hour garden, two women with nowhere else to be</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       STREAMING_CHUNK:Rendering Section 5 Production cards...
+  ============================================ -->
+  <section class="section-production" id="production" aria-labelledby="production-heading">
+    <div class="premise-card" style="max-width:1200px; margin-bottom:2.5rem;">
+      <span class="section-label">Production</span>
+      <h2 id="production-heading" class="section-heading">This film is a demonstration of its own thesis.</h2>
+      <p class="section-subheading">Every tool named below was used exactly as Maya uses AI in the story: as a collaborative partner, not a replacement.</p>
+    </div>
+
+    <div class="production-grid">
+      <!-- Card 1 -->
+      <article class="tool-card fade-up">
+        <div class="tool-top-bar" style="background:#4285F4;" aria-hidden="true"></div>
+        <div class="tool-card-body">
+          <h3 class="tool-name">Google Veo via Google Flow</h3>
+          <div class="tool-card-img-wrap">
+            <img src="./assets/images/xprize/Google_Flow-Veo_Interface.png"
+                 alt="Google Flow interface showing Maya character sheets and generated video scenes including vertical farm harvesting, holographic work environments, and rooftop dining."
+                 loading="lazy">
+          </div>
+          <p class="tool-card-desc">Primary video generation across Maya's full five-year arc: vertical farms, holographic design prototypes, rooftop dinners, and the film's closing sequences. Veo 3.1 via Google Flow with Gemini Omni Flash for character consistency. The Veo watermark is deliberately retained throughout the film as a transparent indicator of tool provenance. The technology made this possible. Naming it is part of the film's argument.</p>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="tool-card fade-up delay-1">
+        <div class="tool-top-bar" style="background:#FF0000;" aria-hidden="true"></div>
+        <div class="tool-card-body">
+          <h3 class="tool-name">Adobe Firefly</h3>
+          <div class="tool-card-img-wrap">
+            <img src="./assets/images/xprize/Adobe_FireFly.png"
+                 alt="Adobe Firefly generative board showing golden hour garden scenes — lush paths, flower gardens, two women walking and seated, used for Act Three visual development."
+                 loading="lazy">
+          </div>
+          <p class="tool-card-desc">Visual concept development and select imagery for Act Three's warmer register: the golden-hour garden sequences and the biophilic city aesthetic that defines the film's closing vision.</p>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="tool-card fade-up delay-2">
+        <div class="tool-top-bar" style="background:#6C47FF;" aria-hidden="true"></div>
+        <div class="tool-card-body">
+          <h3 class="tool-name">ElevenLabs</h3>
+          <div class="tool-card-img-wrap">
+            <img src="./assets/images/xprize/Eleven_Labs_Interface.png"
+                 alt="ElevenLabs text-to-speech interface showing Maya's voice profile with the text: We transformed the world so much, where I found my inspiration had been completely rebuilt. Now I wonder what comes next."
+                 loading="lazy">
+          </div>
+          <p class="tool-card-desc">Maya's voice, cloned and developed inside ElevenLabs using a source voice that matched her character profile. The voice heard on this page and in the film was generated using Eleven v3. Post-production used Adobe Premiere Pro for initial assembly and DaVinci Resolve for color grading and final output.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============================================
+       STREAMING_CHUNK:Rendering Section 6 Collaboration...
+  ============================================ -->
+  <section class="section-collaboration" id="collaboration" aria-labelledby="collab-heading">
+    <div class="collab-inner">
+      <span class="section-label" style="color:var(--hero-sky);">AI Collaboration</span>
+      <h2 id="collab-heading" class="section-heading" style="color:#FFFFFF;">Two AI systems helped write the story.</h2>
+      
+      <div class="collab-copy fade-up">
+        <p>Neither Claude nor Gemini generated this film's core ideas. Both helped sharpen and challenge them. Claude served as story consultant and critical reader across multiple drafts of the treatment, pushing on narrative coherence, character consistency, and thematic clarity. Gemini served as creative collaborator for image generation, voice development, and visual production decisions.</p>
+        <p>The distinction matters: AI as accelerant, not author. This film argues that the most beneficial human-AI collaboration is one where the machine makes room for us to think better, not one where it thinks for us. The making of this film was an attempt to live that argument out loud.</p>
+      </div>
+
+      <div class="collab-cards fade-up delay-1">
+        <div class="collab-card">
+          <h3 class="collab-card-title">Claude (Anthropic)</h3>
+          <p class="collab-card-desc">Story development, treatment drafts, narrative consultation, and critical feedback on visual coherence.</p>
+        </div>
+        <div class="collab-card">
+          <h3 class="collab-card-title">Gemini (Google)</h3>
+          <p class="collab-card-desc">Image generation, character sheet development, voice cloning research, and creative production decisions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       STREAMING_CHUNK:Rendering Section 7 Film Watch section...
+  ============================================ -->
+  <section class="section-film" id="film" aria-labelledby="film-heading">
+    <div class="film-inner">
+      <span class="section-label" style="color:var(--hero-sky);">Watch</span>
+      <h2 id="film-heading" class="section-heading" style="color:#FFFFFF; margin-bottom:2rem;">Growth Mindset</h2>
+
+      <!-- Main Video Embed -->
+      <div class="video-block fade-up">
+        <div class="video-embed-wrap">
+          <iframe src="https://www.youtube.com/embed/MAIN_VIDEO_ID"
+                  title="Growth Mindset — Official Future Vision XPRIZE Submission"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen>
+          </iframe>
+        </div>
+        <p class="video-caption">Official submission trailer &middot; Future Vision XPRIZE 2026</p>
+      </div>
+
+      <!-- Style Variations Video Embed -->
+      <div class="video-block fade-up delay-1">
+        <div class="video-embed-wrap">
+          <iframe src="https://www.youtube.com/embed/STYLE_VIDEO_ID"
+                  title="Maya Across Styles — Character Showcase"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen>
+          </iframe>
+        </div>
+        <p class="video-caption">Maya across visual styles (photorealistic, 2D, 3D), showcasing character consistency through prompt engineering</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       STREAMING_CHUNK:Rendering Section 8 Treatment document...
+  ============================================ -->
+  <section class="section-treatment" id="treatment" aria-labelledby="treatment-heading">
+    <div class="treatment-inner">
+      <span class="section-label">Document</span>
+      <h2 id="treatment-heading" class="section-heading">The Treatment</h2>
+      <p class="premise-body" style="color:var(--mid); line-height:1.85;">Growth Mindset was developed with a full written treatment before a single frame was generated. The treatment outlines Maya's three-act arc, supporting characters, thematic intentions, and the visual language of each act. Claude and Gemini both worked from this document as a shared reference.</p>
+
+      <details class="treatment-details fade-up">
+        <summary class="treatment-summary">Read the synopsis and personal statement</summary>
+        <div class="treatment-content">
+          <h3 class="treatment-subhead">Logline</h3>
+          <p>After automation ends her corporate career, Maya follows a wild plant growing through broken concrete into a five-year journey of retraining, living architecture, and human reinvention.</p>
+
+          <h3 class="treatment-subhead">Synopsis</h3>
+          <p>Growth Mindset follows Maya over a transformative five-year period beginning in the immediate aftermath of sudden career disruption caused by automation. Rather than framing technology as an existential adversary, the film explores the disorientation of displacement alongside the possibility of human renewal.</p>
+          <p>In Act One, Maya navigates the emotional and practical toll of career loss. Retraining seminars and public exhaustion reflect a society in transition. A chance encounter with a wild plant thriving inside a demolished wall reorients her perspective on resilience.</p>
+          <p>In Act Two, Maya uses generative and predictive AI tools as accessible learning collaborators to teach herself vertical farming and living architecture. She encounters her partner, who models human cybernetic augmentation. Together, they synthesize biology and technology into restorative urban design.</p>
+          <p>Act Three reveals a mature, flourishing community vertical greenhouse. Maya and her family live in an abundant, biophilic city where human time is reclaimed for rest, shared meals, and connection.</p>
+
+          <h3 class="treatment-subhead">Personal Statement</h3>
+          <p>As a UX designer and accessibility specialist with a background in counseling psychology, I have spent fourteen years helping people navigate technology transitions. Too often, sci-fi defaults to dystopian fear or frictionless fantasy. Growth Mindset was created to honor the authentic friction of change while showing that human judgment, empathy, and nature-integrated technology can produce a deeply desirable future worth building.</p>
+        </div>
+      </details>
+
+      <div class="treatment-download-row fade-up delay-1">
+        <a href="./assets/docs/Growth_Mindset_Treatment.pdf" class="btn-pill btn-pill-white" style="background:var(--navy); color:#FFFFFF; border-color:var(--navy);" download>
+          Download full treatment (PDF)
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       STREAMING_CHUNK:Rendering Section 9 XPRIZE Competition Link...
+  ============================================ -->
+  <section class="section-xprize" id="xprize" aria-labelledby="xprize-heading">
+    <div class="xprize-inner">
+      <span class="section-label" style="color:var(--hero-sky);">The Competition</span>
+      <h2 id="xprize-heading" class="section-heading" style="color:#FFFFFF;">Future Vision XPRIZE</h2>
+      <p class="xprize-body">The Future Vision XPRIZE invited filmmakers to create short films envisioning a positive future shaped by artificial intelligence: submissions that could influence how AI systems are trained by contributing hopeful, human-centered visions to the world's data. Growth Mindset was submitted in 2026.</p>
+      
+      <div class="xprize-buttons">
+        <a href="https://futurevisionxprize.com/" class="btn-pill btn-pill-ghost" target="_blank" rel="noopener noreferrer">
+          Visit futurevisionxprize.com <span class="sr-only">(opens in new tab)</span>
+        </a>
+        <a href="https://futurevisionxprize.com/rules" class="btn-pill btn-pill-ghost" target="_blank" rel="noopener noreferrer">
+          View competition rules <span class="sr-only">(opens in new tab)</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================
+     STREAMING_CHUNK:Rendering footer...
+============================================ -->
+<footer>
+  <p>Built by Matt Hetzel with Claude and Gemini &mdash; <a href="./index.html">Back to portfolio</a></p>
+  <p style="margin-top:0.375rem;">Terre Haute, IN &bull; Open to remote roles nationally</p>
+</footer>
+
+<!-- ============================================
+     STREAMING_CHUNK:Initializing scripts and audio handler...
+============================================ -->
+<script>
+  // ── DARK MODE ──────────────────────────────────────────
+  const themeBtn = document.getElementById('themeToggle');
+  const saved = localStorage.getItem('mh-theme');
+  if (saved === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    themeBtn.setAttribute('aria-pressed', 'true');
+  }
+  themeBtn.addEventListener('click', () => {
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark');
+    localStorage.setItem('mh-theme', dark ? 'light' : 'dark');
+    themeBtn.setAttribute('aria-pressed', dark ? 'false' : 'true');
+    themeBtn.setAttribute('aria-label', dark ? 'Switch to dark mode' : 'Switch to light mode');
+  });
+
+  // ── SCROLL FADE-IN OBSERVER ────────────────────────────
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!prefersReducedMotion) {
+    const fadeObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          fadeObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-up').forEach(el => fadeObs.observe(el));
+  } else {
+    document.querySelectorAll('.fade-up').forEach(el => el.classList.add('in'));
+  }
+
+  // ── MAYA AUDIO PLAYER ──────────────────────────────────
+  const audio = new Audio('./assets/audio/maya-voice.mp3');
+  const playBtn = document.getElementById('mayaPlayBtn');
+  const playIcon = document.getElementById('playIcon');
+  const audioError = document.getElementById('audioError');
+
+  if (playBtn) {
+    playBtn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play().then(() => {
+          playIcon.innerHTML = '&#10074;&#10074;'; // Pause icon
+          playBtn.setAttribute('aria-label', "Pause Maya's voice");
+          audioError.style.display = 'none';
+        }).catch((err) => {
+          console.warn('Audio playback failed or file not yet available:', err);
+          playBtn.setAttribute('aria-label', 'Audio unavailable');
+          audioError.style.display = 'inline';
+        });
+      } else {
+        audio.pause();
+        playIcon.innerHTML = '&#9654;'; // Play icon
+        playBtn.setAttribute('aria-label', "Play Maya's voice");
+      }
+    });
+
+    audio.addEventListener('ended', () => {
+      playIcon.innerHTML = '&#9654;';
+      playBtn.setAttribute('aria-label', "Play Maya's voice");
+    });
+  }
+</script>
+
+</body>
+</html>
