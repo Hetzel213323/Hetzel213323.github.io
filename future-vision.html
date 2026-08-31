@@ -335,8 +335,9 @@
       border-color: rgba(255, 255, 255, 0.4);
     }
     .btn-pill-ghost:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.85);
+      background: #FFFFFF;
+      color: var(--navy);
+      border-color: #FFFFFF;
       text-decoration: none;
     }
 
@@ -517,9 +518,9 @@
       border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    /* Layout orientation flips */
+    /* Act 2 two-column balance */
     .act-2 .act-grid {
-      grid-template-columns: 260px 1.1fr 1fr;
+      grid-template-columns: 1fr 1fr;
     }
 
     /* ============================================
@@ -615,11 +616,17 @@
       display: none;
     }
 
-    .character-sheet-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+    .character-sheet-container {
+      display: flex;
+      flex-direction: column;
       gap: 1.5rem;
       margin-bottom: 2.25rem;
+    }
+
+    .char-sheet-duo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
     }
 
     .char-card {
@@ -628,6 +635,13 @@
       border-radius: var(--radius);
       overflow: hidden;
       box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+    }
+    .char-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     .char-card figcaption {
       font-family: 'JetBrains Mono', monospace;
@@ -637,6 +651,7 @@
       padding: 0.875rem 1rem;
       background: var(--card-bg);
       border-top: 1px solid var(--border);
+      margin-top: auto;
     }
 
     .maya-pipeline-text {
@@ -951,19 +966,15 @@
         grid-template-columns: 1fr;
         gap: 2rem;
       }
+      .act-2 .act-grid {
+        grid-template-columns: 1fr;
+      }
       .act-sticky-label {
         position: static;
         margin-bottom: 1.5rem;
       }
-      .character-sheet-grid {
-        display: flex;
-        overflow-x: auto;
-        padding-bottom: 1rem;
-        gap: 1rem;
-      }
-      .char-card {
-        min-width: 280px;
-        flex-shrink: 0;
+      .char-sheet-duo {
+        grid-template-columns: 1fr;
       }
       .production-grid {
         grid-template-columns: 1fr;
@@ -991,6 +1002,15 @@
       }
     }
   </style>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V65QYS3RYX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V65QYS3RYX');
+</script>
 </head>
 <body>
 
@@ -1151,18 +1171,21 @@
         </div>
       </div>
 
-      <div class="character-sheet-grid fade-up">
-        <figure class="char-card">
-          <img src="./assets/images/xprize/Maya-Younger.jpeg" alt="Maya — Act One" loading="lazy">
-          <figcaption>Maya: Act One</figcaption>
-        </figure>
-        <figure class="char-card">
-          <img src="./assets/images/xprize/Maya_Construction.jpeg" alt="Maya — Survival period" loading="lazy">
-          <figcaption>Maya: Survival period</figcaption>
-        </figure>
-        <figure class="char-card">
-          <img src="./assets/images/xprize/Maya_Older.jpeg" alt="Maya — Act Three" loading="lazy">
-          <figcaption>Maya: Act Three</figcaption>
+      <!-- Balanced Character Sheet Hierarchy: Transformation Duo on top, Wide Turnaround below -->
+      <div class="character-sheet-container fade-up">
+        <div class="char-sheet-duo">
+          <figure class="char-card">
+            <img src="./assets/images/xprize/Maya-Younger.jpeg" alt="Maya character reference sheet — Act One initial displacement" loading="lazy">
+            <figcaption>Maya: Act One &middot; The Disruption</figcaption>
+          </figure>
+          <figure class="char-card">
+            <img src="./assets/images/xprize/Maya_Older.jpeg" alt="Maya character reference sheet — Act Three reinvention and settled presence" loading="lazy">
+            <figcaption>Maya: Act Three &middot; Five Years Later</figcaption>
+          </figure>
+        </div>
+        <figure class="char-card char-card-wide">
+          <img src="./assets/images/xprize/Maya_Construction.jpeg" alt="Maya character reference sheet in construction gear — multiple turnaround angles" loading="lazy">
+          <figcaption>Maya: The Transition Period &middot; Construction &amp; Building</figcaption>
         </figure>
       </div>
 
@@ -1273,7 +1296,7 @@
       <!-- Main Video Embed -->
       <div class="video-block fade-up">
         <div class="video-embed-wrap">
-          <iframe src="https://www.youtube.com/embed/MAIN_VIDEO_ID"
+          <iframe src="https://youtu.be/UH_nVr-lkrI"
                   title="Growth Mindset — Official Future Vision XPRIZE Submission"
                   loading="lazy"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -1287,7 +1310,7 @@
       <!-- Style Variations Video Embed -->
       <div class="video-block fade-up delay-1">
         <div class="video-embed-wrap">
-          <iframe src="https://www.youtube.com/embed/STYLE_VIDEO_ID"
+          <iframe src="https://youtu.be/ZF6ca12BtBw"
                   title="Maya Across Styles — Character Showcase"
                   loading="lazy"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
