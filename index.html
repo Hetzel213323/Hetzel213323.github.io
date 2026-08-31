@@ -252,18 +252,71 @@
     .fade-up.delay-4{transition-delay:.4s;}
     .fade-up.delay-5{transition-delay:.5s;}
 
-    @media(max-width:900px){
-      .cred-grid{grid-template-columns:repeat(2,1fr);}
-      .about-grid{grid-template-columns:1fr;gap:2.5rem;}
-      .built-grid{grid-template-columns:1fr;}
+    .hamburger-btn {
+      display: none;
+      background: none;
+      border: 1.5px solid rgba(255,255,255,.25);
+      color: rgba(255,255,255,.75);
+      border-radius: var(--radius-sm);
+      padding: .375rem .875rem;
+      font-size: .875rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all var(--dur);
+      align-items: center;
+      gap: 6px;
     }
-    @media(max-width:640px){
-      .nav-links{display:none;}
-      section{padding:64px 1.25rem;}
-      .hero{padding:110px 1.25rem 64px;}
-      .cred-grid{grid-template-columns:1fr;}
-      .hero-ctas{flex-direction:column;align-items:flex-start;}
+    .hamburger-btn:hover {
+      background: rgba(255,255,255,.1);
+      border-color: rgba(255,255,255,.5);
+      color: #fff;
     }
+    .hamburger-btn:focus-visible {
+      outline: 2px solid var(--sky);
+      outline-offset: 3px;
+    }
+
+  @media(max-width:900px){
+    .cred-grid{grid-template-columns:repeat(2,1fr);}
+    .about-grid{grid-template-columns:1fr;gap:2.5rem;}
+    .built-grid{grid-template-columns:1fr;}
+  }
+
+  @media(max-width:768px){
+    .hamburger-btn{display:flex;}
+    .nav-inner{position:relative;}
+    .nav-links{
+      display:none;
+      position:absolute;
+      top:62px;
+      left:0;
+      right:0;
+      background:rgba(12,46,110,.98);
+      flex-direction:column;
+      padding:1rem 1.5rem 1.5rem;
+      gap:.125rem;
+      border-bottom:1px solid rgba(255,255,255,.1);
+      box-shadow:0 8px 24px rgba(0,0,0,.3);
+      z-index:99;
+    }
+    .nav-links.open{display:flex;}
+    .nav-links li{width:100%;}
+    .nav-links a{
+      display:block;
+      padding:.7rem 0;
+      font-size:1rem;
+      border-bottom:1px solid rgba(255,255,255,.07);
+    }
+    .nav-links li:last-child a{border-bottom:none;}
+  }
+
+  @media(max-width:640px){
+    section{padding:64px 1.25rem;}
+    .hero{padding:110px 1.25rem 64px;}
+    .cred-grid{grid-template-columns:1fr;}
+    .hero-ctas{flex-direction:column;align-items:flex-start;}
+  }
   </style>
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-V65QYS3RYX"></script>
@@ -282,7 +335,7 @@
 <nav class="nav" aria-label="Main navigation">
   <div class="nav-inner">
     <span class="nav-logo">Matt Hetzel</span>
-    <ul class="nav-links" role="list">
+    <ul class="nav-links" id="navLinks" role="list">
       <li><a href="#about">About</a></li>
       <li><a href="#credentials">AI Learning</a></li>
       <li><a href="#built">Built with AI</a></li>
@@ -294,6 +347,19 @@
       <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
       <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
     </button>
+    <button class="hamburger-btn" id="menuBtn" 
+        aria-expanded="false" 
+        aria-controls="navLinks"
+        aria-label="Open navigation menu">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" 
+       stroke="currentColor" stroke-width="2.5" stroke-linecap="round" 
+       aria-hidden="true">
+    <line x1="3" y1="6" x2="21" y2="6"/>
+    <line x1="3" y1="12" x2="21" y2="12"/>
+    <line x1="3" y1="18" x2="21" y2="18"/>
+  </svg>
+  Menu
+</button>
   </div>
 </nav>
 
@@ -660,6 +726,31 @@
     btn.setAttribute('aria-pressed', dark ? 'false' : 'true');
     btn.setAttribute('aria-label', dark ? 'Switch to dark mode' : 'Switch to light mode');
   });
+
+  // Hamburger menu
+  const menuBtn = document.getElementById('menuBtn');
+  const navLinks = document.getElementById('navLinks');
+  if (menuBtn && navLinks) {
+    menuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = navLinks.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      menuBtn.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        menuBtn.setAttribute('aria-label', 'Open navigation menu');
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.nav')) {
+        navLinks.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
 
   // === FADE IN ON SCROLL ===
   const fadeObs = new IntersectionObserver(entries => {
