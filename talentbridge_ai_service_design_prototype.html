@@ -1,0 +1,2264 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TalentBridge: Governed AI for Public Workforce Triage | Matt Hetzel</title>
+  <meta name="description" content="End-to-end AI service design case study for public workforce candidate triage, human-in-the-loop governance, and bias oversight by Matt Hetzel.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V65QYS3RYX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-V65QYS3RYX');
+  </script>
+  <style>
+    :root {
+      --navy: #0C2E6E;
+      --blue: #1A4FBF;
+      --sky: #4A90E2;
+      --hero-sky: #74B3F9;
+      --ink: #111827;
+      --mid: #374151;
+      --muted: #4B5563;
+      --border: #E5E7EB;
+      --off: #F7F9FC;
+      --white: #FFFFFF;
+      --card-bg: #FFFFFF;
+      --amber: #92400E;
+      --amber-bg: #FEF3C7;
+      --amber-border: #FCD34D;
+      --green-score: #065F46;
+      --green-bg: #D1FAE5;
+      --blue-score: #1E40AF;
+      --blue-bg: #DBEAFE;
+      --radius: 14px;
+      --radius-sm: 8px;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+      --dur: 0.25s;
+    }
+
+    [data-theme="dark"] {
+      --white: #1A1F2E;
+      --card-bg: #1A1F2E;
+      --off: #0B1120;
+      --ink: #F9FAFB;
+      --mid: #E5E7EB;
+      --muted: #9CA3AF;
+      --border: #374151;
+      --amber: #FDE68A;
+      --amber-bg: #3E2405;
+      --amber-border: #92400E;
+      --green-score: #6EE7B7;
+      --green-bg: #064E3B;
+      --blue-score: #93C5FD;
+      --blue-bg: #1E3A8A;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--off);
+      color: var(--ink);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background-color 0.35s var(--ease), color 0.35s var(--ease);
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: underline;
+    }
+
+    a:hover {
+      color: var(--navy);
+    }
+
+    a:focus-visible, button:focus-visible, select:focus-visible, textarea:focus-visible, input:focus-visible, [tabindex="0"]:focus-visible {
+      outline: 3px solid var(--sky);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      .ambient-canvas {
+        display: none !important;
+      }
+      .horizontal-track-container {
+        scroll-behavior: auto !important;
+      }
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -120px;
+      left: 1rem;
+      background: var(--blue);
+      color: #fff;
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      font-weight: 600;
+      z-index: 9999;
+      transition: top 0.2s;
+      text-decoration: none;
+    }
+    .skip-link:focus {
+      top: 1rem;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(12, 46, 110, 0.96);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .nav-logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #fff;
+      text-decoration: none;
+      white-space: nowrap;
+      letter-spacing: -0.01em;
+    }
+    .nav-logo:hover {
+      color: var(--hero-sky);
+    }
+
+    .nav-back {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.85);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color var(--dur);
+    }
+    .nav-back:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .theme-btn {
+      background: none;
+      border: 1.5px solid rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.85);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--dur);
+      flex-shrink: 0;
+    }
+    .theme-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.6);
+      color: #fff;
+    }
+    .theme-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+    .icon-sun { display: none; }
+    [data-theme="dark"] .icon-moon { display: none; }
+    [data-theme="dark"] .icon-sun { display: block; }
+
+    .ambient-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.35;
+    }
+    [data-theme="dark"] .ambient-canvas {
+      opacity: 0.2;
+    }
+
+    .hero-case {
+      position: relative;
+      z-index: 1;
+      padding: 65px 2rem 35px;
+      max-width: 1160px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--blue);
+      display: inline-block;
+      margin-bottom: 1rem;
+      background: rgba(26, 79, 191, 0.08);
+      padding: 0.35rem 0.9rem;
+      border-radius: 24px;
+      border: 1px solid rgba(74, 144, 226, 0.35);
+      font-weight: 600;
+    }
+    [data-theme="dark"] .hero-eyebrow {
+      color: var(--hero-sky);
+      background: rgba(116, 179, 249, 0.12);
+      border-color: rgba(116, 179, 249, 0.3);
+    }
+
+    .hero-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(2.3rem, 4.8vw, 3.6rem);
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.15;
+      letter-spacing: -0.035em;
+      margin-bottom: 1.25rem;
+    }
+    .hero-title em {
+      font-style: normal;
+      color: var(--blue);
+    }
+    [data-theme="dark"] .hero-title em {
+      color: var(--hero-sky);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.05rem, 1.8vw, 1.22rem);
+      color: var(--mid);
+      max-width: 820px;
+      margin: 0 auto 1.8rem;
+      line-height: 1.7;
+    }
+
+    .meta-pills-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .meta-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.35rem 0.85rem;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      color: var(--muted);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+
+    .section-evolution {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 15px auto 45px;
+      padding: 0 2rem;
+    }
+
+    .evolution-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.25rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+    }
+
+    .evolution-header {
+      margin-bottom: 1.75rem;
+      text-align: center;
+    }
+
+    .evolution-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .evolution-subtitle {
+      font-size: 1.02rem;
+      color: var(--mid);
+      max-width: 780px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    .evolution-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.75rem;
+      align-items: stretch;
+    }
+
+    .evolution-panel {
+      background: var(--off);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .evolution-img-wrap {
+      background: #FFFFFF;
+      padding: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 310px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sketch-img {
+      filter: brightness(1.14) contrast(1.1);
+      width: 100%;
+      max-height: 320px;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+
+    .diagram-img {
+      width: 100%;
+      max-height: 320px;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+
+    .evolution-content {
+      padding: 1.35rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .evolution-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.4rem;
+      display: inline-block;
+    }
+
+    .tag-ideation { color: #B45309; }
+    .tag-governed { color: var(--blue); }
+    [data-theme="dark"] .tag-governed { color: var(--hero-sky); }
+
+    .evolution-panel-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.4rem;
+    }
+
+    .evolution-panel-desc {
+      font-size: 0.915rem;
+      color: var(--mid);
+      line-height: 1.65;
+    }
+
+    .evolution-callout {
+      margin-top: 1.5rem;
+      padding: 1.1rem 1.35rem;
+      background: rgba(26, 79, 191, 0.05);
+      border-left: 4px solid var(--blue);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 0.935rem;
+      color: var(--mid);
+      line-height: 1.65;
+    }
+    [data-theme="dark"] .evolution-callout {
+      background: rgba(116, 179, 249, 0.08);
+      border-left-color: var(--hero-sky);
+    }
+
+    .horizontal-scroll-section {
+      position: relative;
+      z-index: 1;
+      padding-bottom: 75px;
+    }
+
+    .carousel-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 100vw;
+    }
+
+    .carousel-edge-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 30;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      color: var(--ink);
+      box-shadow: 0 6px 22px rgba(0, 0, 0, 0.14);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--dur) var(--ease);
+    }
+    .carousel-edge-btn:hover:not(:disabled) {
+      background: var(--blue);
+      color: #FFFFFF;
+      border-color: var(--blue);
+      transform: translateY(-50%) scale(1.08);
+      box-shadow: 0 8px 26px rgba(26, 79, 191, 0.35);
+    }
+    .carousel-edge-btn:disabled {
+      opacity: 0.2;
+      cursor: not-allowed;
+      transform: translateY(-50%);
+    }
+    .edge-prev {
+      left: 1.25rem;
+    }
+    .edge-next {
+      right: 1.25rem;
+    }
+
+    .track-status-bar {
+      max-width: 1200px;
+      margin: 1.25rem auto 0;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      text-align: center;
+    }
+
+    .track-status-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .track-step-counter {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--blue);
+      background: rgba(26, 79, 191, 0.08);
+      padding: 0.25rem 0.65rem;
+      border-radius: 20px;
+    }
+    [data-theme="dark"] .track-step-counter {
+      color: var(--hero-sky);
+      background: rgba(116, 179, 249, 0.12);
+    }
+
+    .horizontal-track-container {
+      width: 100%;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: thin;
+      scrollbar-color: var(--sky) transparent;
+      padding: 0.5rem 2rem 0.5rem;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+    }
+
+    .horizontal-track {
+      display: flex;
+      gap: 1.75rem;
+      width: max-content;
+      padding: 0 1rem;
+      align-items: stretch;
+    }
+
+    .phase-card {
+      scroll-snap-align: center;
+      width: min(84vw, 820px);
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem 2rem;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      flex-shrink: 0;
+      overflow: visible;
+      transition: transform var(--dur), box-shadow var(--dur), border-color var(--dur);
+    }
+
+    .phase-card:hover {
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.08);
+      border-color: rgba(74, 144, 226, 0.4);
+    }
+
+    .phase-badge-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.85rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .phase-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      background: rgba(26, 79, 191, 0.08);
+      padding: 0.3rem 0.7rem;
+      border-radius: var(--radius-sm);
+    }
+    [data-theme="dark"] .phase-num {
+      color: var(--hero-sky);
+      background: rgba(116, 179, 249, 0.15);
+    }
+
+    .badge-judgment {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--amber);
+      background: var(--amber-bg);
+      border: 1px solid var(--amber-border);
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
+      letter-spacing: 0.02em;
+    }
+
+    .phase-heading {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(1.25rem, 2vw, 1.55rem);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.3;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+      white-space: normal;
+    }
+
+    .phase-body p {
+      font-size: 0.95rem;
+      color: var(--mid);
+      line-height: 1.65;
+      margin-bottom: 0.65rem;
+    }
+
+    .phase-highlights {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem;
+      margin-top: 0.85rem;
+    }
+
+    .highlight-box {
+      background: var(--off);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem 1rem;
+    }
+
+    .highlight-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.2rem;
+    }
+
+    .highlight-desc {
+      font-size: 0.825rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .cockpit-preview-card {
+      background: var(--off);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.25rem;
+      margin-top: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .cockpit-preview-meta h4 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .cockpit-preview-meta span {
+      font-size: 0.78rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--muted);
+    }
+
+    .btn-launch-cockpit {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 700;
+      background: var(--blue);
+      color: #fff;
+      padding: 0.65rem 1.35rem;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(26, 79, 191, 0.25);
+      transition: all var(--dur) var(--ease);
+      white-space: nowrap;
+    }
+    .btn-launch-cockpit:hover {
+      background: var(--navy);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(26, 79, 191, 0.35);
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(6, 12, 28, 0.8);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s var(--ease);
+    }
+
+    .modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-dialog {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      width: min(92vw, 880px);
+      max-height: 88vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+      padding: 2rem;
+      position: relative;
+      transform: translateY(20px) scale(0.98);
+      transition: transform 0.25s var(--ease);
+    }
+
+    .modal-backdrop.active .modal-dialog {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.5rem;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.85rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-title-group h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.25;
+    }
+
+    .modal-title-group p {
+      font-size: 0.835rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+
+    .modal-close-btn {
+      background: var(--off);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--mid);
+      transition: all var(--dur);
+      flex-shrink: 0;
+    }
+    .modal-close-btn:hover {
+      background: var(--border);
+      color: var(--ink);
+    }
+
+    .candidate-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .candidate-row-label {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.25rem;
+      display: grid;
+      grid-template-columns: 22px 1fr auto;
+      align-items: center;
+      gap: 1.15rem;
+      cursor: pointer;
+      transition: border-color var(--dur), background var(--dur), box-shadow var(--dur);
+      user-select: none;
+    }
+
+    .candidate-row-label:hover {
+      border-color: var(--blue);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    }
+
+    .candidate-row-label.selected {
+      border-color: var(--blue);
+      background: rgba(26, 79, 191, 0.05);
+    }
+
+    .candidate-checkbox {
+      width: 19px;
+      height: 19px;
+      cursor: pointer;
+      accent-color: var(--blue);
+    }
+
+    .cand-info-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.1rem;
+    }
+
+    .cand-info-desc {
+      font-size: 0.865rem;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .cand-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .cand-tag {
+      font-size: 0.74rem;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 0.2rem 0.55rem;
+      background: var(--off);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--mid);
+      font-weight: 500;
+    }
+
+    .score-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      text-align: right;
+    }
+
+    .score-val {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .score-label {
+      font-size: 0.7rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--muted);
+      margin-top: 0.2rem;
+      font-weight: 600;
+    }
+
+    .score-high { color: var(--green-score); }
+    .score-med { color: var(--blue-score); }
+    .score-flagged { color: var(--amber); }
+
+    .cockpit-action-bar {
+      margin-top: 1.25rem;
+      padding-top: 1.15rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .selection-counter {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--mid);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .btn-action {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.885rem;
+      font-weight: 700;
+      padding: 0.65rem 1.4rem;
+      border-radius: 50px;
+      cursor: pointer;
+      border: none;
+      transition: all var(--dur) var(--ease);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-action-primary {
+      background: var(--blue);
+      color: #fff;
+    }
+    .btn-action-primary:disabled {
+      background: var(--border);
+      color: var(--muted);
+      cursor: not-allowed;
+    }
+    .btn-action-primary:not(:disabled):hover {
+      background: var(--navy);
+      transform: translateY(-1px);
+    }
+
+    .outreach-drawer {
+      margin-top: 1.25rem;
+      background: var(--off);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      display: none;
+    }
+
+    .outreach-drawer.active {
+      display: block;
+      animation: drawerSlide 0.3s var(--ease);
+    }
+
+    @keyframes drawerSlide {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.85rem;
+      padding-bottom: 0.65rem;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .drawer-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .draft-textarea {
+      width: 100%;
+      height: 130px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      line-height: 1.65;
+      padding: 0.85rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--white);
+      color: var(--ink);
+      resize: vertical;
+      margin-bottom: 0.85rem;
+    }
+
+    .drawer-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .send-success-alert {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--green-score);
+      display: none;
+    }
+
+    /* Phase 5 Semantic Chat Message List */
+    .chat-preview-box {
+      background: var(--off);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1.2rem;
+      margin-top: 0.75rem;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .chat-bubble-msg {
+      max-width: 90%;
+      padding: 0.8rem 1rem;
+      border-radius: 12px;
+      font-size: 0.875rem;
+      line-height: 1.55;
+    }
+
+    .chat-sender-tag {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.25rem;
+    }
+
+    .bubble-user {
+      background: var(--white);
+      border: 1px solid var(--border);
+      color: var(--ink);
+      margin-left: auto;
+      border-bottom-right-radius: 2px;
+    }
+    .bubble-user .chat-sender-tag {
+      color: var(--muted);
+      text-align: right;
+    }
+
+    .bubble-agent {
+      background: rgba(26, 79, 191, 0.08);
+      border: 1px solid rgba(26, 79, 191, 0.2);
+      color: var(--ink);
+      margin-right: auto;
+      border-bottom-left-radius: 2px;
+    }
+    .bubble-agent .chat-sender-tag {
+      color: var(--blue);
+    }
+    [data-theme="dark"] .bubble-agent {
+      background: rgba(116, 179, 249, 0.12);
+      border-color: rgba(116, 179, 249, 0.25);
+    }
+    [data-theme="dark"] .bubble-agent .chat-sender-tag {
+      color: var(--hero-sky);
+    }
+
+    .section-perspective {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 40px auto 60px;
+      padding: 0 2rem;
+    }
+
+    .perspective-card {
+      background: var(--navy);
+      color: #FFFFFF;
+      border-radius: var(--radius);
+      padding: 3.25rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .perspective-card::after {
+      content: '';
+      position: absolute;
+      right: -50px;
+      bottom: -50px;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(116, 179, 249, 0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .perspective-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--hero-sky);
+      display: block;
+      margin-bottom: 0.75rem;
+      font-weight: 700;
+    }
+
+    .perspective-heading {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1.2;
+      margin-bottom: 2.25rem;
+      letter-spacing: -0.02em;
+    }
+
+    .perspective-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2.25rem;
+    }
+
+    .perspective-col {
+      border-left: 2px solid rgba(116, 179, 249, 0.4);
+      padding-left: 1.35rem;
+    }
+
+    .perspective-col h4 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--hero-sky);
+      margin-bottom: 0.6rem;
+    }
+
+    .perspective-col p {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.7;
+    }
+
+    /* High-impact Closing Hook Statement */
+    .perspective-closing-callout {
+      margin-top: 2.75rem;
+      padding-top: 1.85rem;
+      border-top: 1px solid rgba(116, 179, 249, 0.25);
+      position: relative;
+      z-index: 2;
+    }
+
+    .perspective-closing-quote {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(1.15rem, 2.1vw, 1.38rem);
+      font-weight: 600;
+      font-style: italic;
+      color: var(--hero-sky);
+      line-height: 1.55;
+      letter-spacing: -0.01em;
+      max-width: 900px;
+    }
+
+    .section-behind-build {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto 100px;
+      padding: 0 2rem;
+    }
+
+    .behind-build-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+    }
+
+    .behind-build-header {
+      margin-bottom: 1.75rem;
+    }
+
+    .behind-build-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .behind-build-desc {
+      font-size: 0.985rem;
+      color: var(--mid);
+      line-height: 1.75;
+      max-width: 960px;
+    }
+
+    .flow-discernment-panel {
+      background: var(--off);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-top: 1.75rem;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .flow-img-box {
+      background: #000000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem;
+      border-right: 1px solid var(--border);
+    }
+
+    .flow-screenshot {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+
+    .flow-copy-box {
+      padding: 1.5rem 1.75rem 1.5rem 0.5rem;
+    }
+
+    .flow-copy-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--blue);
+      letter-spacing: 0.1em;
+      display: inline-block;
+      margin-bottom: 0.4rem;
+    }
+    [data-theme="dark"] .flow-copy-tag {
+      color: var(--hero-sky);
+    }
+
+    .flow-copy-heading {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.18rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    .flow-copy-text {
+      font-size: 0.915rem;
+      color: var(--mid);
+      line-height: 1.7;
+      margin-bottom: 0.75rem;
+    }
+
+    .multi-agent-terminal {
+      background: #090E1D;
+      color: #FFFFFF;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-top: 1.75rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+
+    .terminal-topbar {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .terminal-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .terminal-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .td-red { background: #FF5F56; }
+    .td-yellow { background: #FFBD2E; }
+    .td-green { background: #27C93F; }
+
+    .terminal-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .terminal-body {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .collab-turn {
+      display: flex;
+      gap: 0.85rem;
+      align-items: flex-start;
+    }
+
+    .collab-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .av-matt { background: var(--blue); color: #fff; }
+    .av-claude { background: #C07755; color: #fff; }
+    .av-gemini { background: #4285F4; color: #fff; }
+
+    .collab-bubble-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      flex-grow: 1;
+    }
+
+    .collab-author {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .collab-text {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem 1.1rem;
+      font-size: 0.885rem;
+      line-height: 1.65;
+      color: rgba(255, 255, 255, 0.88);
+    }
+    .collab-text strong {
+      color: #FFFFFF;
+    }
+
+    .behind-build-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin-top: 1.5rem;
+    }
+
+    .stack-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 0.4rem 0.85rem;
+      border-radius: 30px;
+      background: var(--off);
+      border: 1px solid var(--border);
+      color: var(--mid);
+    }
+    .stack-badge strong {
+      color: var(--blue);
+    }
+    [data-theme="dark"] .stack-badge strong {
+      color: var(--hero-sky);
+    }
+
+    footer {
+      background: var(--navy);
+      color: rgba(255, 255, 255, 0.7);
+      text-align: center;
+      padding: 2.5rem 2rem 3rem;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+    footer a {
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: underline;
+    }
+    footer a:hover {
+      color: #FFFFFF;
+    }
+
+    @media (max-width: 960px) {
+      .evolution-grid, .flow-discernment-panel {
+        grid-template-columns: 1fr;
+      }
+      .flow-img-box {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .flow-copy-box {
+        padding: 1.25rem;
+      }
+      .phase-card {
+        padding: 1.5rem 1.6rem;
+        width: 86vw;
+      }
+      .perspective-grid {
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
+      }
+      .perspective-card {
+        padding: 2.5rem 1.75rem;
+      }
+      .carousel-edge-btn {
+        width: 44px;
+        height: 44px;
+      }
+      .edge-prev {
+        left: 0.5rem;
+      }
+      .edge-next {
+        right: 0.5rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero-title {
+        font-size: 2.1rem;
+      }
+      .horizontal-track-container {
+        padding: 0.5rem 0.75rem 1.5rem;
+      }
+      .phase-highlights {
+        grid-template-columns: 1fr;
+      }
+      .candidate-row-label {
+        grid-template-columns: 20px 1fr;
+      }
+      .score-badge {
+        grid-column: 2;
+        align-items: flex-start;
+        margin-top: 0.25rem;
+      }
+      .carousel-edge-btn {
+        width: 38px;
+        height: 38px;
+      }
+      .edge-prev {
+        left: 0.25rem;
+      }
+      .edge-next {
+        right: 0.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<nav class="nav" aria-label="Site navigation">
+  <div class="nav-inner">
+    <a href="./index.html" class="nav-logo">Matt Hetzel</a>
+    <a href="./index.html" class="nav-back" aria-label="Back to portfolio home">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to portfolio
+    </a>
+    <div class="nav-right">
+      <button class="theme-btn" id="themeToggle" aria-pressed="false" aria-label="Toggle dark mode">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="12" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<canvas class="ambient-canvas" id="ambientCanvas" aria-hidden="true"></canvas>
+
+<main id="main">
+
+  <header class="hero-case" aria-labelledby="case-title">
+    <span class="hero-eyebrow">AI Service Design &amp; Architecture</span>
+    <h1 id="case-title" class="hero-title">TalentBridge: <em>Governed AI</em> for Public Workforce Triage</h1>
+    <p class="hero-subtitle">
+      How to eliminate clerical friction in candidate matching so workforce specialists can reclaim their time for nuanced career counseling, barrier removal, and live human interviews.
+    </p>
+
+    <div class="meta-pills-row" aria-label="Project attributes">
+      <span class="meta-pill">Service Blueprint</span>
+      <span class="meta-pill">Human-in-the-Loop Governance</span>
+      <span class="meta-pill">Algorithmic Bias Guardrails</span>
+      <span class="meta-pill">WCAG 2.2 AA Accessible UI</span>
+    </div>
+  </header>
+
+  <section class="section-evolution" aria-labelledby="evolution-title">
+    <div class="evolution-card">
+      <div class="evolution-header">
+        <span class="hero-eyebrow" style="margin-bottom:0.5rem;">Discovery to Delivery</span>
+        <h2 class="evolution-title" id="evolution-title">From Napkin Sketch to Governed Architecture</h2>
+        <p class="evolution-subtitle">
+          Complex service design never begins with automated code or black-box LLM prompts. It starts by untangling stakeholder friction, data flows, and accountability boundaries on paper.
+        </p>
+      </div>
+
+      <div class="evolution-grid">
+        <!-- Left: Ideation Artifact -->
+        <article class="evolution-panel">
+          <div class="evolution-img-wrap">
+            <img src="./Workflow-1-H.jpeg" 
+                 alt="Initial handwritten whiteboard napkin sketch showing AI system routing job description and resume pool of 6 out of 1000 candidates to human specialist review before email dispatch"
+                 class="sketch-img"
+                 onerror="this.src='./assets/images/case-studies/Workflow-1-H.jpeg'">
+          </div>
+          <div class="evolution-content">
+            <span class="evolution-tag tag-ideation">01 &bull; The Ideation Artifact</span>
+            <h3 class="evolution-panel-title">Initial Stakeholder Logic</h3>
+            <p class="evolution-panel-desc">
+              Initial napkin architecture sketched during a strategic workforce systems consultation. It mapped the fundamental instinct: filter the 1,000-candidate pool into top candidates and route them through human approval before any outreach occurs.
+            </p>
+          </div>
+        </article>
+
+        <!-- Right: Governed System Blueprint -->
+        <article class="evolution-panel">
+          <div class="evolution-img-wrap">
+            <img src="./Recruitment_system_workflow_diagram_2K_202609081417.jpeg" 
+                 alt="Formal system architecture blueprint illustrating semantic vectorization, demographic bias shielding, specialist cockpit review, and closed-loop dispatch"
+                 class="diagram-img"
+                 onerror="this.src='./assets/images/case-studies/Recruitment_system_workflow_diagram_2K_202609081417.jpeg'">
+          </div>
+          <div class="evolution-content">
+            <span class="evolution-tag tag-governed">02 &bull; The Governed Blueprint</span>
+            <h3 class="evolution-panel-title">Production Service Architecture</h3>
+            <p class="evolution-panel-desc">
+              The engineered service blueprint. We introduced demographic tensor stripping to prevent bias, confidence threshold routing (&lt;85% triggers mandatory review), and auditable state reporting milestones.
+            </p>
+          </div>
+        </article>
+      </div>
+
+      <div class="evolution-callout">
+        <strong>The Design Principle:</strong> Technology should never outpace governance. By identifying the human review gate during the earliest conceptual phase, we prevented the catastrophic hallucination and disparate impact risks that plague fully autonomous hiring tools.
+      </div>
+    </div>
+  </section>
+
+  <section class="horizontal-scroll-section" aria-label="End to End AI Service Delivery Journey">
+    
+    <div class="carousel-wrapper">
+      <button class="carousel-edge-btn edge-prev" id="edgePrevBtn" type="button" aria-label="Previous phase" disabled>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+
+      <div class="horizontal-track-container" id="trackContainer" tabindex="0" role="region" aria-label="Six phases of the TalentBridge service journey. Use arrow buttons, trackpad, or swipe to browse.">
+        <div class="horizontal-track" id="horizontalTrack">
+
+        <!-- Phase 01 -->
+        <article class="phase-card" id="phase-1" data-phase="1" aria-labelledby="p1-title">
+          <div class="phase-badge-row">
+            <span class="phase-num">Phase 01</span>
+            <span class="meta-pill">Cognitive Load Diagnosis</span>
+          </div>
+          <h2 class="phase-heading" id="p1-title">Phase 1: Administrative Bottlenecks</h2>
+          <div class="phase-body">
+            <p>
+              Workforce development specialists and public agency case managers are overwhelmed by clerical overhead. When hundreds of citizen resumes flow into state portals alongside incoming employer job orders, staff spend up to 70% of their workday opening PDFs, manually copying information, and cross-referencing eligibility rules.
+            </p>
+            <p>
+              This is not an issue of human speed; it is an issue of administrative friction. Every hour spent manually filtering spreadsheets is an hour stolen from personalized interview prep, barrier removal, and supportive counseling for citizens undergoing high-stress career transitions.
+            </p>
+          </div>
+          <div class="phase-highlights">
+            <div class="highlight-box">
+              <h3 class="highlight-title">The Friction Point</h3>
+              <p class="highlight-desc">Keyword matching algorithms often disqualify candidates with non-linear career paths or transferable skills.</p>
+            </div>
+            <div class="highlight-box">
+              <h3 class="highlight-title">The Human-Centered Goal</h3>
+              <p class="highlight-desc">Automate unstructured document parsing and skill vectorization so humans focus entirely on advising.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- Phase 02 -->
+        <article class="phase-card" id="phase-2" data-phase="2" aria-labelledby="p2-title">
+          <div class="phase-badge-row">
+            <span class="phase-num">Phase 02</span>
+            <span class="badge-judgment" role="note">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Human Judgment: Bias Oversight &amp; Audit
+            </span>
+          </div>
+          <h2 class="phase-heading" id="p2-title">Phase 2: Intake &amp; Semantic Matching</h2>
+          <div class="phase-body">
+            <p>
+              When an employer submits a requisition, the semantic ingestion pipeline vectorizes the core competencies required, rather than searching for exact keyword strings. The agent searches the regional citizen pool, evaluating transferable skill vectors alongside state grant eligibility (e.g., Indiana Workforce Ready Grant).
+            </p>
+            <p>
+              <strong>Bias Shielding:</strong> During initial triage, demographic markers (graduation years, residential zip codes, names) are stripped from ranking tensors. Edge cases scoring below 85% confidence are flagged for manual review rather than automatically rejected.
+            </p>
+          </div>
+          <div class="phase-highlights">
+            <div class="highlight-box">
+              <h3 class="highlight-title">Transferable Skill Mapping</h3>
+              <p class="highlight-desc">Recognizes that retail inventory management translates directly into advanced manufacturing logistics.</p>
+            </div>
+            <div class="highlight-box">
+              <h3 class="highlight-title">Explainable Matching</h3>
+              <p class="highlight-desc">Generates plain-language rationale for every match, preventing opaque black-box decisions.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- Phase 03 -->
+        <article class="phase-card" id="phase-3" data-phase="3" aria-labelledby="p3-title">
+          <div class="phase-badge-row">
+            <span class="phase-num">Phase 03</span>
+            <span class="meta-pill">Calibrated Batching</span>
+          </div>
+          <h2 class="phase-heading" id="p3-title">Phase 3: Specialist Review Cockpit</h2>
+          <div class="phase-body">
+            <p>
+              Rather than overwhelming workforce specialists with an unranked pool of 1,000 applicants or arbitrary 100-row spreadsheets, the triage engine filters the cohort down to a calibrated, high-probability tier (typically 4 to 8 candidates at a time). In this working demonstration, we surface a focused cohort of four to illustrate the human review gate.
+            </p>
+            <p>
+              The career professional retains total agency: choosing who moves forward, editing communication tone, and triggering personalized outreach with explicit human consent.
+            </p>
+          </div>
+
+          <div class="cockpit-preview-card">
+            <div class="cockpit-preview-meta">
+              <h4>Requisition: Quality Assurance Technician</h4>
+              <span>Regional Manufacturing Partner &bull; Req #4102</span>
+            </div>
+            <button class="btn-launch-cockpit" id="openCockpitModalBtn" type="button" aria-haspopup="dialog">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="m14 9 3 3-3 3"/></svg>
+              Launch Live Specialist Cockpit
+            </button>
+          </div>
+
+          <div class="phase-highlights">
+            <div class="highlight-box">
+              <h3 class="highlight-title">Alert Fatigue Prevention</h3>
+              <p class="highlight-desc">Calibrated batching protects counselors from cognitive exhaustion and decision paralysis.</p>
+            </div>
+            <div class="highlight-box">
+              <h3 class="highlight-title">Strict Governance Gate</h3>
+              <p class="highlight-desc">No message dispatches without human verification and editable personalization.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- Phase 04 -->
+        <article class="phase-card" id="phase-4" data-phase="4" aria-labelledby="p4-title">
+          <div class="phase-badge-row">
+            <span class="phase-num">Phase 04</span>
+            <span class="badge-judgment" role="note">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Human Judgment: Final Approval &amp; Voice Check
+            </span>
+          </div>
+          <h2 class="phase-heading" id="p4-title">Phase 4: Outreach &amp; Tone Calibration</h2>
+          <div class="phase-body">
+            <p>
+              Automated cold emails feel robotic and generate anxiety. In TalentBridge, outreach emails are drafted in the voice of the assigned career specialist, referencing specific transferable strengths that made the candidate stand out.
+            </p>
+            <p>
+              <strong>The Safeguard:</strong> The system cannot dispatch emails autonomously. The specialist must review, edit nuances if needed, and give explicit consent. This keeps human empathy and genuine professional guidance at the heart of the interaction.
+            </p>
+          </div>
+          <div class="phase-highlights">
+            <div class="highlight-box">
+              <h3 class="highlight-title">Tone Normalization</h3>
+              <p class="highlight-desc">Plain, supportive language calibrated to reduce the anxiety of job transitions.</p>
+            </div>
+            <div class="highlight-box">
+              <h3 class="highlight-title">Full Audit Trail</h3>
+              <p class="highlight-desc">Every approved draft and human edit is logged for compliance and continuous alignment.</p>
+            </div>
+          </div>
+        </article>
+
+        <!-- Phase 05: Accessible Semantic Chat List -->
+        <article class="phase-card" id="phase-5" data-phase="5" aria-labelledby="p5-title">
+          <div class="phase-badge-row">
+            <span class="phase-num">Phase 05</span>
+            <span class="meta-pill">Grounded RAG Assistant</span>
+          </div>
+          <h2 class="phase-heading" id="p5-title">Phase 5: Citizen Agent &amp; Logistics FAQ</h2>
+          <div class="phase-body">
+            <p>
+              Once outreach is sent, citizens often hesitate because they need fast clarity on practical logistics: pay rate, hybrid flexibility, bus line accessibility, or training prerequisites.
+            </p>
+            <p>
+              Instead of forcing a case manager to answer dozens of repetitive logistics emails each day, a grounded retrieval-augmented generation (RAG) assistant answers verified job questions instantly, 24/7, across SMS or web.
+            </p>
+          </div>
+
+          <!-- Structured Semantic List with Speaker Roles for Screen Readers -->
+          <ul class="chat-preview-box" role="list" aria-label="Simulated candidate conversation with AI logistics agent">
+            <li class="chat-bubble-msg bubble-user" aria-label="Candidate message">
+              <span class="chat-sender-tag" aria-hidden="true">Candidate Inquiry</span>
+              <p>"Hi! I received the outreach email for the QA Tech role. Does this company support the Workforce Ready Grant for the ISO certification, and is there public transit nearby?"</p>
+            </li>
+            <li class="chat-bubble-msg bubble-agent" aria-label="AI assistant response">
+              <span class="chat-sender-tag" aria-hidden="true">AI Logistics Assistant</span>
+              <p>"Hello Elena! Yes, this employer partners with the Indiana Workforce Ready Grant to cover 100% of the ISO 9001 prep training tuition. They are located along transit lines with a direct stop at the facility. Would you like me to book a 15-minute phone prep call with your counselor, Matt?"</p>
+            </li>
+          </ul>
+        </article>
+
+        <!-- Phase 06 -->
+        <article class="phase-card" id="phase-6" data-phase="6" aria-labelledby="p6-title">
+          <div class="phase-badge-row">
+            <span class="phase-num">Phase 06</span>
+            <span class="meta-pill">Employer Feedback Loop</span>
+          </div>
+          <h2 class="phase-heading" id="p6-title">Phase 6: Outcomes &amp; Continuous Learning</h2>
+          <div class="phase-body">
+            <p>
+              When candidates opt in, the specialist conducts live 1-on-1 interviews, focusing on motivational alignment and cultural fit. AI assists solely by organizing interview notes, drafting employer briefing summaries, and logging state reporting milestones.
+            </p>
+            <p>
+              <strong>Continuous Learning:</strong> If an employer notes that candidates lacked a particular safety certification, that feedback updates the semantic vector weights for the next requisition, ensuring the matching engine continually sharpens over time.
+            </p>
+          </div>
+          <div class="phase-highlights">
+            <div class="highlight-box">
+              <h3 class="highlight-title">3x Interview Capacity</h3>
+              <p class="highlight-desc">Specialists spend the majority of their working hours counseling citizens rather than sorting PDF resumes.</p>
+            </div>
+            <div class="highlight-box">
+              <h3 class="highlight-title">Explainable Placements</h3>
+              <p class="highlight-desc">State agency leaders receive auditable reports proving equitable match distribution across demographics.</p>
+            </div>
+          </div>
+        </article>
+
+        </div>
+      </div>
+
+      <button class="carousel-edge-btn edge-next" id="edgeNextBtn" type="button" aria-label="Next phase">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+
+    <div class="track-status-bar" aria-label="Journey progress">
+      <span class="track-step-counter" id="activePhasePill" aria-live="polite">Phase 1 of 6</span>
+      <span class="track-status-text">Use arrow buttons, trackpad, swipe, or keyboard arrow keys to browse</span>
+    </div>
+
+  </section>
+
+  <section class="section-perspective" aria-labelledby="perspective-title">
+    <div class="perspective-card">
+      <span class="perspective-eyebrow">Strategic Foundations</span>
+      <h2 class="perspective-heading" id="perspective-title">What I Bring to an AI Service Engagement</h2>
+
+      <div class="perspective-grid">
+        <div class="perspective-col">
+          <h4>Organizational Change Management</h4>
+          <p>
+            AI systems fail when people reject them. Having guided state-level teams through technical shifts and multi-agency platform consolidations, I know how to pace rollouts, address replacement anxiety, and turn skeptical staff into long-term champions.
+          </p>
+        </div>
+
+        <div class="perspective-col">
+          <h4>Adult Learning Psychology &amp; Resistance</h4>
+          <p>
+            Leveraging graduate training in counseling and psychology, I identify root causes of user hesitation: cognitive overload, algorithmic mistrust, and fear of error, designing interfaces that build psychological safety, transparency, and clarity.
+          </p>
+        </div>
+
+        <div class="perspective-col">
+          <h4>Systems Thinking Across the Public Sector</h4>
+          <p>
+            Looking beyond point-solution prompts to connect upstream employer job orders, midstream case manager triage, and downstream state grant reporting (such as the Workforce Ready Grant) into a coherent, auditable digital ecosystem.
+          </p>
+        </div>
+
+        <div class="perspective-col">
+          <h4>Accessibility as Immediate Reach</h4>
+          <p>
+            Accessibility is not an afterthought or a remediation checklist; it is immediate reach. Building Section 508 and WCAG 2.2 AA-compliant interfaces from day one ensures every citizen receives equitable access without friction.
+          </p>
+        </div>
+      </div>
+
+      <!-- High-Impact Closing Line -->
+      <div class="perspective-closing-callout">
+        <p class="perspective-closing-quote">
+          "I've sat on both sides of this table. That's not a credential. That's a different kind of knowing."
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-behind-build" aria-labelledby="build-title">
+    <div class="behind-build-card">
+      <div class="behind-build-header">
+        <span class="hero-eyebrow" style="margin-bottom:0.4rem;">Collaborative Delivery</span>
+        <h3 class="behind-build-title" id="build-title">Behind the Build: Multi-Agent AI Orchestration</h3>
+        <p class="behind-build-desc">
+          This case study is itself a demonstration of augmented human-AI orchestration. Matt Hetzel directed the product vision, service blueprinting, and workforce domain logic; Claude acted as logic auditor and prompt testing partner; and Gemini synthesized interactive front-end components and visual workflows.
+        </p>
+      </div>
+
+      <!-- Google Flow Exploration & Discernment Feature -->
+      <div class="flow-discernment-panel">
+        <div class="flow-img-box">
+          <img src="./assets/images/case-studies/Google-Flow-Exploration.png"
+               alt="Google Flow visual generation interface showing prompt iterations and three generated workflow options: Clean Digital Whiteboard, Minimal Wireframe, and High-Gloss Enterprise 3D"
+               class="flow-screenshot"
+               onerror="this.onerror=null; this.src='./Google-Flow-Exploration.png'; if(!this.complete) this.src='./assets/images/Google-Flow-Exploration.png';">
+        </div>
+        <div class="flow-copy-box">
+          <span class="flow-copy-tag">Product Discernment &bull; Google Flow Session</span>
+          <h4 class="flow-copy-heading">Knowing When to Reject Superficial AI Gloss</h4>
+          <p class="flow-copy-text">
+            During visual exploration in <strong>Google Flow</strong>, I prompted the model to explore multiple architectural treatments from my raw napkin sketch: a digital whiteboard, a minimal wireframe, and a high-gloss 3D enterprise visual.
+          </p>
+          <p class="flow-copy-text">
+            While generative models love generating glowing 3D chips and holographic dashboards, <em>true product design requires discernment</em>. Glossy marketing graphics obscure real-world logic. By rejecting the superficial 3D gloss in favor of the clean, structured wireframe, we kept the system transparent, auditable, and grounded in actual public sector constraints.
+          </p>
+        </div>
+      </div>
+
+      <!-- Multi-Agent Terminal Demonstration -->
+      <div class="multi-agent-terminal" role="region" aria-label="Collaborative multi-agent project dialogue">
+        <div class="terminal-topbar">
+          <div class="terminal-dots" aria-hidden="true">
+            <span class="terminal-dot td-red"></span>
+            <span class="terminal-dot td-yellow"></span>
+            <span class="terminal-dot td-green"></span>
+          </div>
+          <span class="terminal-title">multi-agent-orchestration &bull; bash &bull; 80x24</span>
+          <span style="font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:var(--hero-sky);">Live Session</span>
+        </div>
+        <div class="terminal-body">
+          
+          <div class="collab-turn">
+            <div class="collab-avatar av-matt">MH</div>
+            <div class="collab-bubble-wrap">
+              <span class="collab-author">Matt Hetzel &bull; Product Strategy &amp; Domain Lead</span>
+              <div class="collab-text">
+                "I started with a hand-drawn napkin sketch mapping the triage gate: 1,000 resumes down to 6 candidates before email dispatch. I then brought this into Google Flow to test three fidelity levels. The high-gloss 3D variant looked cool but obscured the actual governance steps. Now we need to formalize the minimal wireframe into our governed blueprint. Where could autonomous triage fail public equity rules?"
+              </div>
+            </div>
+          </div>
+
+          <div class="collab-turn">
+            <div class="collab-avatar av-claude">C</div>
+            <div class="collab-bubble-wrap">
+              <span class="collab-author">Claude &bull; Logic &amp; Governance Auditor</span>
+              <div class="collab-text">
+                "Crucial failure mode: <strong>proxy demographic bias</strong>. Even if names and zip codes are stripped, semantic embeddings can infer protected classes from graduation dates or community college markers. We must enforce a mandatory human review threshold: any candidate scoring between 50% and 85% must route to a specialist review queue rather than automatic disqualification."
+              </div>
+            </div>
+          </div>
+
+          <div class="collab-turn">
+            <div class="collab-avatar av-gemini">G</div>
+            <div class="collab-bubble-wrap">
+              <span class="collab-author">Gemini &bull; Rapid Synthesis &amp; UI Architecture</span>
+              <div class="collab-text">
+                "Synthesizing the front-end implementation. I'll translate the diagram into an accessible, responsive horizontal checkpoint interface with a modal triage cockpit. Adding keyboard focus traps (`Tab`, `Escape`), polite live regions for dispatch confirmations, and WCAG 2.2 AA contrast tokens across light and dark themes."
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="behind-build-stack" aria-label="Collaborative AI Delivery Stack">
+        <span class="stack-badge"><strong>Matt Hetzel:</strong> Product Strategy, Domain Logic &amp; Google Flow Ideation</span>
+        <span class="stack-badge"><strong>Claude:</strong> Logic Validation, Prompt Stress-Testing &amp; Guardrails</span>
+        <span class="stack-badge"><strong>Gemini:</strong> UI Synthesis, Responsive Scrollytelling &amp; Code Architecture</span>
+        <span class="stack-badge"><strong>Deque &amp; Manual:</strong> WCAG 2.2 AA Keyboard &amp; Contrast Auditing</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="modal-backdrop" id="cockpitModal" role="dialog" aria-modal="true" aria-labelledby="modalCockpitTitle" aria-describedby="modalCockpitDesc">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <div class="modal-title-group">
+        <h3 id="modalCockpitTitle">Specialist Review Cockpit</h3>
+        <p id="modalCockpitDesc">Requisition #4102 &bull; Quality Assurance Technician &bull; Regional Manufacturing Partner</p>
+      </div>
+      <button class="modal-close-btn" id="closeCockpitModalBtn" type="button" aria-label="Close Specialist Cockpit dialog">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <!-- Candidate List -->
+    <div class="candidate-grid" role="group" aria-label="Matched candidate cohort">
+      
+      <!-- Candidate 1 -->
+      <label class="candidate-row-label" for="cand-1">
+        <input type="checkbox" class="candidate-checkbox" id="cand-1" data-name="Elena Vance" data-score="94%">
+        <div>
+          <div class="cand-info-title">Elena Vance</div>
+          <div class="cand-info-desc">Precision Assembly &bull; 6 yrs manufacturing background</div>
+          <div class="cand-tags">
+            <span class="cand-tag">Blueprint Reading</span>
+            <span class="cand-tag">ISO 9001 Standards</span>
+            <span class="cand-tag">Workforce Ready Grant</span>
+          </div>
+        </div>
+        <div class="score-badge">
+          <span class="score-val score-high">94%</span>
+          <span class="score-label">Strong Match</span>
+        </div>
+      </label>
+
+      <!-- Candidate 2 -->
+      <label class="candidate-row-label" for="cand-2">
+        <input type="checkbox" class="candidate-checkbox" id="cand-2" data-name="Marcus Bell" data-score="81%">
+        <div>
+          <div class="cand-info-title">Marcus Bell</div>
+          <div class="cand-info-desc">Automotive Technician transitioning to Industrial Systems</div>
+          <div class="cand-tags">
+            <span class="cand-tag">Hydraulic Diagnostics</span>
+            <span class="cand-tag">OSHA 10 Certified</span>
+            <span class="cand-tag">Hands-on Mechanical</span>
+          </div>
+        </div>
+        <div class="score-badge">
+          <span class="score-val score-med">81%</span>
+          <span class="score-label">Good Match</span>
+        </div>
+      </label>
+
+      <!-- Candidate 3 -->
+      <label class="candidate-row-label" for="cand-3">
+        <input type="checkbox" class="candidate-checkbox" id="cand-3" data-name="David Chen" data-score="67%">
+        <div>
+          <div class="cand-info-title">David Chen</div>
+          <div class="cand-info-desc">Warehouse Logistics Lead &bull; Career shift to QA</div>
+          <div class="cand-tags">
+            <span class="cand-tag">Inventory Auditing</span>
+            <span class="cand-tag">ERP / SAP Logging</span>
+            <span class="cand-tag">Attention to Detail</span>
+          </div>
+        </div>
+        <div class="score-badge">
+          <span class="score-val score-med">67%</span>
+          <span class="score-label">Moderate Match</span>
+        </div>
+      </label>
+
+      <!-- Candidate 4 -->
+      <label class="candidate-row-label" for="cand-4">
+        <input type="checkbox" class="candidate-checkbox" id="cand-4" data-name="Sarah Lin" data-score="54%">
+        <div>
+          <div class="cand-info-title">Sarah Lin</div>
+          <div class="cand-info-desc">Retail Customer Care &bull; Unverified credential discrepancy</div>
+          <div class="cand-tags">
+            <span class="cand-tag">Customer Resolution</span>
+            <span class="cand-tag">Data Entry</span>
+            <span class="cand-tag">Needs Prerequisite</span>
+          </div>
+        </div>
+        <div class="score-badge">
+          <span class="score-val score-flagged">54%</span>
+          <span class="score-label">Needs Review</span>
+        </div>
+      </label>
+
+    </div>
+
+    <!-- Action Bar -->
+    <div class="cockpit-action-bar">
+      <span class="selection-counter" id="selectionCount" aria-live="polite">0 of 4 candidates selected</span>
+      <button class="btn-action btn-action-primary" id="draftOutreachBtn" disabled type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Draft Outreach Message
+      </button>
+    </div>
+
+    <!-- Slide-out Outreach Draft Drawer with Accessible Label and Polite Live Announcement -->
+    <div class="outreach-drawer" id="outreachDrawer" role="region" aria-label="AI-drafted outreach email — review before sending" aria-live="polite">
+      <div class="drawer-header">
+        <span class="drawer-title" id="drawerTitle">AI Outreach Draft for Review</span>
+        <button class="meta-pill" id="editToggleBtn" type="button" aria-pressed="false" style="cursor:pointer;">Edit Draft</button>
+      </div>
+      <label for="draftText" class="sr-only">Editable email draft message</label>
+      <textarea id="draftText" class="draft-textarea" readonly></textarea>
+      <div class="drawer-footer">
+        <!-- Status alert with role="status" and aria-atomic="true" without redundant aria-live -->
+        <div class="send-success-alert" id="sendSuccessAlert" role="status" aria-atomic="true">
+          Personalized message approved and queued for dispatch!
+        </div>
+        <button class="btn-action btn-action-primary" id="approveSendBtn" type="button">
+          Approve &amp; Send to Candidates
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Built by Matt Hetzel &mdash; <a href="./index.html">Back to portfolio</a></p>
+  <p style="margin-top:0.375rem;">Terre Haute, IN &bull; Open to remote roles nationally</p>
+</footer>
+
+<script>
+  // Theme Toggle with local persistence
+  const themeBtn = document.getElementById('themeToggle');
+  const savedTheme = localStorage.getItem('mh-theme');
+  if (savedTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    themeBtn.setAttribute('aria-pressed', 'true');
+  }
+  themeBtn.addEventListener('click', () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    localStorage.setItem('mh-theme', isDark ? 'light' : 'dark');
+    themeBtn.setAttribute('aria-pressed', isDark ? 'false' : 'true');
+    themeBtn.setAttribute('aria-label', isDark ? 'Switch to dark mode' : 'Switch to light mode');
+  });
+
+  // Ambient Canvas (Respects Reduced Motion)
+  const canvas = document.getElementById('ambientCanvas');
+  const ctx = canvas.getContext('2d');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let width, height, particles = [];
+  function resizeCanvas() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  if (!prefersReduced) {
+    const particleCount = 38;
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        radius: Math.random() * 2 + 1
+      });
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      ctx.fillStyle = isDark ? '#74B3F9' : '#1A4FBF';
+      ctx.strokeStyle = isDark ? 'rgba(116, 179, 249, 0.08)' : 'rgba(26, 79, 191, 0.08)';
+
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0) p.x = width;
+        if (p.x > width) p.x = 0;
+        if (p.y < 0) p.y = height;
+        if (p.y > height) p.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      requestAnimationFrame(animateParticles);
+    }
+    requestAnimationFrame(animateParticles);
+  }
+
+  const trackContainer = document.getElementById('trackContainer');
+  const cards = document.querySelectorAll('.phase-card');
+  const edgePrevBtn = document.getElementById('edgePrevBtn');
+  const edgeNextBtn = document.getElementById('edgeNextBtn');
+  const activePhasePill = document.getElementById('activePhasePill');
+
+  function updateTrackNavButtons() {
+    const atStart = trackContainer.scrollLeft <= 25;
+    const maxScroll = trackContainer.scrollWidth - trackContainer.clientWidth;
+    const atEnd = trackContainer.scrollLeft >= maxScroll - 35;
+
+    if (edgePrevBtn) edgePrevBtn.disabled = atStart;
+    if (edgeNextBtn) edgeNextBtn.disabled = atEnd;
+  }
+
+  function setPhaseIndicator(index) {
+    if (activePhasePill) {
+      activePhasePill.textContent = `Phase ${index + 1} of 6`;
+    }
+  }
+
+  function updateActivePhase() {
+    updateTrackNavButtons();
+
+    const maxScroll = trackContainer.scrollWidth - trackContainer.clientWidth;
+
+    // Boundary check: near start
+    if (trackContainer.scrollLeft <= 40) {
+      setPhaseIndicator(0);
+      return;
+    }
+
+    // Boundary check: near end
+    if (trackContainer.scrollLeft >= maxScroll - 40) {
+      setPhaseIndicator(cards.length - 1);
+      return;
+    }
+
+    const containerCenter = trackContainer.scrollLeft + (trackContainer.clientWidth / 2);
+    let closestIndex = 0;
+    let closestDist = Infinity;
+
+    cards.forEach((card, idx) => {
+      const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+      const dist = Math.abs(containerCenter - cardCenter);
+      if (dist < closestDist) {
+        closestDist = dist;
+        closestIndex = idx;
+      }
+    });
+
+    setPhaseIndicator(closestIndex);
+  }
+
+  function scrollCarousel(direction) {
+    const cardStep = cards[0].offsetWidth + 28; // width + gap
+    trackContainer.scrollBy({
+      left: direction * cardStep,
+      behavior: prefersReduced ? 'auto' : 'smooth'
+    });
+  }
+
+  if (edgePrevBtn) edgePrevBtn.addEventListener('click', () => scrollCarousel(-1));
+  if (edgeNextBtn) edgeNextBtn.addEventListener('click', () => scrollCarousel(1));
+
+  trackContainer.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      scrollCarousel(-1);
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      scrollCarousel(1);
+    }
+  });
+
+  trackContainer.addEventListener('scroll', updateActivePhase, { passive: true });
+  setPhaseIndicator(0);
+  updateTrackNavButtons();
+
+  const openCockpitModalBtn = document.getElementById('openCockpitModalBtn');
+  const closeCockpitModalBtn = document.getElementById('closeCockpitModalBtn');
+  const cockpitModal = document.getElementById('cockpitModal');
+
+  function openCockpit() {
+    cockpitModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    closeCockpitModalBtn.focus();
+    document.addEventListener('keydown', handleModalKeydown);
+  }
+
+  function closeCockpit() {
+    cockpitModal.classList.remove('active');
+    document.body.style.overflow = '';
+    document.removeEventListener('keydown', handleModalKeydown);
+    openCockpitModalBtn.focus();
+  }
+
+  function handleModalKeydown(e) {
+    if (e.key === 'Escape') {
+      closeCockpit();
+    }
+    if (e.key === 'Tab') {
+      const focusables = cockpitModal.querySelectorAll('button:not(:disabled), [href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex="0"]');
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  }
+
+  openCockpitModalBtn.addEventListener('click', openCockpit);
+  closeCockpitModalBtn.addEventListener('click', closeCockpit);
+  cockpitModal.addEventListener('click', (e) => {
+    if (e.target === cockpitModal) closeCockpit();
+  });
+
+  // Candidate Selection & Outreach Drafting in Cockpit
+  const candidateCheckboxes = document.querySelectorAll('.candidate-checkbox');
+  const selectionCount = document.getElementById('selectionCount');
+  const draftOutreachBtn = document.getElementById('draftOutreachBtn');
+  const outreachDrawer = document.getElementById('outreachDrawer');
+  const drawerTitle = document.getElementById('drawerTitle');
+  const draftText = document.getElementById('draftText');
+  const editToggleBtn = document.getElementById('editToggleBtn');
+  const approveSendBtn = document.getElementById('approveSendBtn');
+  const sendSuccessAlert = document.getElementById('sendSuccessAlert');
+
+  function updateSelectionState() {
+    const selected = Array.from(candidateCheckboxes).filter(cb => cb.checked);
+    const count = selected.length;
+
+    candidateCheckboxes.forEach(cb => {
+      const label = cb.closest('.candidate-row-label');
+      label.classList.toggle('selected', cb.checked);
+    });
+
+    selectionCount.textContent = `${count} of 4 candidates selected`;
+    draftOutreachBtn.disabled = count === 0;
+
+    if (count === 0) {
+      outreachDrawer.classList.remove('active');
+    }
+  }
+
+  candidateCheckboxes.forEach(cb => {
+    cb.addEventListener('change', updateSelectionState);
+  });
+
+  draftOutreachBtn.addEventListener('click', () => {
+    const selected = Array.from(candidateCheckboxes).filter(cb => cb.checked);
+    const count = selected.length;
+    outreachDrawer.classList.add('active');
+    sendSuccessAlert.style.display = 'none';
+    approveSendBtn.disabled = false;
+    approveSendBtn.textContent = `Approve & Send to ${count} Candidate${count > 1 ? 's' : ''}`;
+
+    drawerTitle.textContent = count === 1 
+      ? `Personalized Outreach Draft (1 Candidate: ${selected[0].dataset.name})`
+      : `Cohort Outreach Draft (${count} Candidates)`;
+
+    draftText.value = count === 1
+      ? `Hi ${selected[0].dataset.name.split(' ')[0]},\n\nI reviewed your background in precision assembly and blueprint verification against an open Quality Assurance Technician role with our regional manufacturing partner. Your experience with ISO 9001 standards is a strong match, and this role also qualifies for state Workforce Ready Grant funding for any additional technical certifications.\n\nWould you have 15 minutes this week for a phone conversation to discuss this pathway?\n\nWarm regards,\nMatt Hetzel\nRegional Workforce Specialist`
+      : `Hello,\n\nI've reviewed your qualifications against an open Quality Assurance Technician role with our regional manufacturing partner. Your transferable mechanical and precision diagnostics skills are a direct fit for this facility, and this pathway is supported by state Workforce Ready Grant training funds.\n\nI'd love to connect for a quick 15-minute introductory call to share the employer details and see if this aligns with your career goals.\n\nWarm regards,\nMatt Hetzel\nRegional Workforce Specialist`;
+
+    outreachDrawer.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'nearest' });
+  });
+
+  // Toggling edit mode with aria-pressed state sync
+  editToggleBtn.addEventListener('click', () => {
+    const isEditing = !draftText.hasAttribute('readonly');
+    if (!isEditing) {
+      draftText.removeAttribute('readonly');
+      draftText.focus();
+      editToggleBtn.textContent = 'Save Changes';
+      editToggleBtn.setAttribute('aria-pressed', 'true');
+    } else {
+      draftText.setAttribute('readonly', 'true');
+      editToggleBtn.textContent = 'Edit Draft';
+      editToggleBtn.setAttribute('aria-pressed', 'false');
+    }
+  });
+
+  approveSendBtn.addEventListener('click', () => {
+    approveSendBtn.disabled = true;
+    approveSendBtn.textContent = 'Dispatched';
+    sendSuccessAlert.style.display = 'block';
+  });
+</script>
+</body>
+</html>
