@@ -55,10 +55,10 @@
     .nav-links{display:flex;gap:1.75rem;align-items:center;}
     .nav-links a{color:rgba(255,255,255,.75);font-size:.875rem;font-weight:500;transition:color var(--dur);}
     .nav-links a:hover{color:#fff;text-decoration:none;}
-    .theme-btn{background:none;border:1.5px solid rgba(255,255,255,.25);cursor:pointer;color:rgba(255,255,255,.75);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all var(--dur);flex-shrink:0;}
+    .theme-btn{background:none;border:1.5px solid rgba(255,255,255,.25);cursor:pointer;color:rgba(255,255,255,.75);width: 44px;height: 44px;min-width: 44px;min-height: 44px;;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all var(--dur);flex-shrink:0;}
     .theme-btn:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.5);color:#fff;}
     .theme-btn:focus-visible{outline:2px solid var(--hero-sky);outline-offset:3px;}
-    .theme-btn svg{width:16px;height:16px;}
+    .theme-btn svg{width:20px;height:20px;}
     .icon-sun{display:none;}
     [data-theme="dark"] .icon-moon{display:none;}
     [data-theme="dark"] .icon-sun{display:block;}
@@ -342,6 +342,7 @@
       <li><a href="#tool">A11y-Audit</a></li>
       <li><a href="./future-vision.html">Future Vision</a></li>
       <li><a href="./ai-service-design.html">AI Service Design</a></li>
+      <li><a href="./ai-change-management.html">Change Management</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
     <button class="theme-btn" id="themeToggle" aria-pressed="false" aria-label="Toggle dark mode">
