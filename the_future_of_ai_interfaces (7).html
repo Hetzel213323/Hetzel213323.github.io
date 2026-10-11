@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Future of AI Interfaces Is (More) Human — Matt Hetzel</title>
+  <meta name="description" content="Talking to computers is getting easier. That does not mean screens, keyboards, and hands are going away. It means we finally get to use all of them.">
+
+  <!-- Typography & Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V65QYS3RYX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-V65QYS3RYX');
+  </script>
+
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM & THEME TOKENS (Matching Homepage & ai-change-management)
+       ========================================================================== */
+    :root {
+      --navy: #0C2E6E;
+      --blue: #1A4FBF;
+      --sky: #4A90E2;
+      --hero-sky: #74B3F9;
+      --sky-light: #EBF3FC;
+      --white: #FFFFFF;
+      --off: #F7F9FC;
+      --ink: #111827;
+      --mid: #374151;
+      --muted: #595F6B;
+      --border: #E5E7EB;
+      --card-bg: #FFFFFF;
+      --bg: #F7F9FC;
+      --coral-accent: #C84628;
+      --coral-tint: rgba(200, 70, 40, 0.10);
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.07), 0 2px 8px rgba(0,0,0,.05);
+      --shadow-md: 0 4px 12px rgba(0,0,0,.10), 0 8px 24px rgba(0,0,0,.07);
+      --radius: 14px;
+      --radius-sm: 8px;
+      --radius-lg: 20px;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+      --dur: 0.25s;
+    }
+
+    [data-theme="dark"] {
+      --white: #1A1F2E;
+      --off: #111827;
+      --ink: #F3F4F6;
+      --mid: #D1D5DB;
+      --muted: #9CA3AF;
+      --border: #2D3748;
+      --card-bg: #1E2533;
+      --bg: #111827;
+      --sky-light: #1A2E4A;
+      --coral-accent: #FF7E63;
+      --coral-tint: rgba(255, 126, 99, 0.15);
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.3), 0 2px 8px rgba(0,0,0,.2);
+      --shadow-md: 0 4px 12px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.3);
+    }
+
+    /* ==========================================================================
+       RESET & BASELINE ACCESSIBILITY
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.65;
+      font-size: 1.0625rem;
+      transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: underline;
+      transition: color var(--dur);
+    }
+    a:hover {
+      color: var(--navy);
+    }
+    [data-theme="dark"] a {
+      color: var(--hero-sky);
+    }
+    [data-theme="dark"] a:hover {
+      color: #fff;
+    }
+
+    a:focus-visible, button:focus-visible, [tabindex="0"]:focus-visible, summary:focus-visible {
+      outline: 3px solid var(--sky);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      border: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* ==========================================================================
+       CONTAINERS & TYPOGRAPHY
+       ========================================================================== */
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 1.75rem;
+    }
+
+    .container--mid {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 1.75rem;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--ink);
+      line-height: 1.22;
+      letter-spacing: -0.025em;
+    }
+
+    p {
+      margin-bottom: 1.25rem;
+      color: var(--mid);
+    }
+
+    .section-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      display: block;
+      margin-bottom: 0.65rem;
+      font-weight: 700;
+    }
+    [data-theme="dark"] .section-eyebrow {
+      color: var(--hero-sky);
+    }
+
+    section {
+      padding: 80px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ==========================================================================
+       SUBPAGE NAVIGATION (3 Direct Children: Left, Center, Right)
+       Matches ai-change-management.html exactly
+       ========================================================================== */
+    .skip-link {
+      position: absolute;
+      top: -120px;
+      left: 1rem;
+      background: var(--blue);
+      color: #fff;
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      font-weight: 600;
+      z-index: 9999;
+      transition: top 0.2s;
+      text-decoration: none;
+    }
+    .skip-link:focus {
+      top: 1rem;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(12, 46, 110, 0.96);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .nav-logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+    .nav-logo:hover {
+      color: var(--hero-sky);
+      text-decoration: none;
+    }
+
+    .nav-back {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.88);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: color var(--dur);
+    }
+    .nav-back:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .theme-btn {
+      background: none;
+      border: 1.5px solid rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.85);
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--dur);
+      padding: 0;
+      flex-shrink: 0;
+    }
+    .theme-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.6);
+      color: #fff;
+    }
+    .theme-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+    .icon-sun { display: none; }
+    [data-theme="dark"] .icon-moon { display: none; }
+    [data-theme="dark"] .icon-sun { display: block; }
+
+    /* ==========================================================================
+       SECTION 1: HERO
+       ========================================================================== */
+    .hero {
+      background: var(--navy);
+      padding: 110px 0 76px;
+      position: relative;
+      overflow: hidden;
+      border-bottom: none;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 75% 40%, rgba(74, 144, 226, .18) 0%, transparent 70%),
+                  radial-gradient(ellipse 40% 40% at 20% 80%, rgba(26, 79, 191, .25) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero h1 {
+      font-size: clamp(2.35rem, 5vw, 4rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.25rem;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--hero-sky);
+    }
+    .hero-sub {
+      font-size: 1.15rem;
+      color: rgba(255, 255, 255, .88);
+      line-height: 1.7;
+      max-width: 820px;
+      margin-bottom: 1.75rem;
+    }
+    .hero__byline {
+      font-size: 0.9375rem;
+      color: rgba(255, 255, 255, .72);
+      border-top: 1px solid rgba(255, 255, 255, .15);
+      padding-top: 1.25rem;
+      margin-top: 1.5rem;
+      line-height: 1.6;
+    }
+    .hero__byline strong {
+      color: #fff;
+    }
+    .hero__banner {
+      margin-top: 2.75rem;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .15);
+      background: var(--card-bg);
+      box-shadow: var(--shadow-md);
+    }
+    .hero__banner img {
+      width: 100%;
+      height: auto;
+      display: block;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
+    .hero__banner figcaption {
+      padding: 0.85rem 1.25rem;
+      font-size: 0.875rem;
+      color: var(--mid);
+      background: var(--white);
+      border-top: 1px solid var(--border);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.5;
+    }
+
+    /* ==========================================================================
+       SECTION 2: FOUR WAYS TIMELINE (4-Column Single Row)
+       ========================================================================== */
+    .timeline-wrapper {
+      position: relative;
+      margin-top: 3rem;
+    }
+    
+    .timeline-track-line {
+      display: none;
+      position: absolute;
+      top: 125px;
+      left: 6%;
+      right: 6%;
+      height: 3px;
+      background: repeating-linear-gradient(90deg, var(--sky) 0, var(--sky) 10px, transparent 10px, transparent 18px);
+      z-index: 1;
+    }
+    @media (min-width: 960px) {
+      .timeline-track-line {
+        display: block;
+      }
+    }
+
+    .timeline-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      position: relative;
+      z-index: 2;
+    }
+    @media (min-width: 600px) and (max-width: 959px) {
+      .timeline-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (min-width: 960px) {
+      .timeline-row {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.15rem;
+      }
+    }
+
+    .timeline-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--dur), box-shadow var(--dur);
+    }
+    .timeline-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--sky);
+    }
+
+    .timeline-card__visual {
+      background: var(--off);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+    }
+    .timeline-card__visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .timeline-card__body {
+      padding: 1.15rem 1.1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    .timeline-card__badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--blue);
+      background: var(--sky-light);
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 0.6rem;
+      align-self: flex-start;
+    }
+    [data-theme="dark"] .timeline-card__badge {
+      color: var(--hero-sky);
+    }
+    .timeline-card__title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      margin-bottom: 0.45rem;
+      color: var(--ink);
+    }
+    .timeline-card__desc {
+      font-size: 0.885rem;
+      color: var(--mid);
+      line-height: 1.55;
+      margin-bottom: 0;
+    }
+
+    /* Section Divider: What Comes Next */
+    .timeline-divider {
+      margin-top: 4.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      text-align: center;
+    }
+    .timeline-divider::before,
+    .timeline-divider::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--border), var(--sky), transparent);
+    }
+    .timeline-divider h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      text-transform: none;
+    }
+    [data-theme="dark"] .timeline-divider h3 {
+      color: var(--hero-sky);
+    }
+    [data-theme="dark"] .timeline-divider::before,
+    [data-theme="dark"] .timeline-divider::after {
+      background: linear-gradient(90deg, transparent, var(--border), var(--hero-sky), transparent);
+    }
+
+    /* ==========================================================================
+       SECTION 3: WHERE THINGS STAND NOW (Video Placeholder)
+       ========================================================================== */
+    .stand-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      margin-top: 1.75rem;
+      align-items: center;
+    }
+    @media (min-width: 860px) {
+      .stand-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .video-placeholder-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .video-placeholder-screen {
+      background: #081126;
+      aspect-ratio: 16 / 9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      padding: 1.5rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .video-placeholder-card figcaption {
+      padding: 0.85rem 1.15rem;
+      font-size: 0.8125rem;
+      color: var(--muted);
+      background: var(--white);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ==========================================================================
+       SECTION 4: CONTEXT & MODALITY (YouTube Video & Script)
+       ========================================================================== */
+    .video-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      margin: 2.25rem 0;
+    }
+    .video-viewport {
+      background: #060C1C;
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .video-viewport iframe,
+    .video-viewport video {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    .video-embed-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+    .video-embed-container iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    .video-transcript-box {
+      padding: 1.75rem;
+      background: var(--white);
+      border-top: 1px solid var(--border);
+    }
+    details.transcript-details summary {
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--blue);
+      font-size: 1.05rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    [data-theme="dark"] details.transcript-details summary {
+      color: var(--hero-sky);
+    }
+    .transcript-beat {
+      margin: 1.25rem 0;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .transcript-beat:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+    .transcript-beat strong {
+      color: var(--coral-accent);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    /* ==========================================================================
+       SECTION 5: ACCESSIBILITY (Prominent Stacked Editorial Layout)
+       ========================================================================== */
+    .a11y-banner-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      margin: 1.75rem 0 2.25rem;
+      transition: border-color var(--dur);
+    }
+    .a11y-banner-card:hover {
+      border-color: var(--sky);
+    }
+    .a11y-banner-media {
+      background: #FFFFFF;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    [data-theme="dark"] .a11y-banner-media {
+      background: #141C2B;
+    }
+    .a11y-banner-media img {
+      width: 100%;
+      max-width: 940px;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+    }
+    .a11y-banner-card figcaption {
+      padding: 1rem 1.5rem;
+      font-size: 0.875rem;
+      color: var(--muted);
+      background: var(--white);
+      border-top: 1px solid var(--border);
+      font-family: 'JetBrains Mono', monospace;
+      line-height: 1.55;
+      text-align: center;
+    }
+    .a11y-prose {
+      max-width: 820px;
+      margin: 0 auto;
+      font-size: 1.0625rem;
+      line-height: 1.75;
+    }
+    .a11y-prose p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ==========================================================================
+       SECTION 6: HOW I BUILT THIS & SKETCH ARTIFACTS (ACCESSIBLE ACCORDIONS)
+       ========================================================================== */
+    .accordion-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin: 2.25rem 0;
+    }
+    .accordion-item {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: border-color var(--dur), box-shadow var(--dur);
+    }
+    .accordion-item:hover {
+      border-color: var(--sky);
+      box-shadow: var(--shadow-md);
+    }
+    .accordion-item summary {
+      padding: 1.25rem 1.5rem;
+      cursor: pointer;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      user-select: none;
+      list-style: none;
+    }
+    .accordion-item summary::-webkit-details-marker {
+      display: none;
+    }
+    .accordion-item summary:focus-visible {
+      outline: 3px solid var(--sky);
+      outline-offset: -2px;
+    }
+    .accordion-summary-content {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+    .accordion-step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--sky-light);
+      color: var(--blue);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    [data-theme="dark"] .accordion-step-num {
+      background: var(--navy);
+      color: var(--hero-sky);
+    }
+    .accordion-chevron {
+      width: 20px;
+      height: 20px;
+      color: var(--muted);
+      transition: transform var(--dur) var(--ease);
+      flex-shrink: 0;
+    }
+    .accordion-item[open] .accordion-chevron {
+      transform: rotate(180deg);
+      color: var(--blue);
+    }
+    [data-theme="dark"] .accordion-item[open] .accordion-chevron {
+      color: var(--hero-sky);
+    }
+    .accordion-body {
+      padding: 0 1.5rem 1.5rem 1.5rem;
+      color: var(--mid);
+      font-size: 0.985rem;
+      line-height: 1.7;
+      border-top: 1px solid var(--border);
+      padding-top: 1.25rem;
+    }
+    .accordion-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .sketch-showcase {
+      margin: 1.25rem 0 0.5rem;
+      background: var(--off);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+    }
+    .sketch-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      margin-top: 1rem;
+    }
+    @media (min-width: 680px) {
+      .sketch-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .sketch-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+    }
+    .sketch-card img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border);
+    }
+    .sketch-card figcaption {
+      padding: 0.75rem 1rem;
+      font-size: 0.8125rem;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      line-height: 1.4;
+      background: var(--white);
+    }
+
+    /* ==========================================================================
+       FOOTER (Strictly Matching Homepage & ai-change-management)
+       ========================================================================== */
+    footer {
+      background: var(--navy);
+      color: rgba(255, 255, 255, 0.85);
+      text-align: center;
+      padding: 2.75rem 1.5rem 3rem;
+      font-size: 0.925rem;
+      line-height: 1.6;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    footer p {
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 0.35rem;
+    }
+    footer a {
+      color: #FFFFFF;
+      text-decoration: underline;
+      font-weight: 500;
+    }
+    footer a:hover {
+      color: var(--hero-sky);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Accessible Skip Link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- ========================================================================
+       TOP NAVIGATION BAR
+       Strictly matching ai-change-management.html:
+       3 Direct flex children: [Logo Left] [Back to Portfolio Center] [Theme Right]
+       ======================================================================== -->
+  <nav class="nav" aria-label="Site navigation">
+    <div class="nav-inner">
+      <a href="./index.html" class="nav-logo">Matt Hetzel</a>
+
+      <a href="./index.html" class="nav-back" aria-label="Back to portfolio home">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+        <span>Back to portfolio</span>
+      </a>
+
+      <button class="theme-btn" id="themeToggle" type="button" aria-pressed="false" aria-label="Toggle dark mode">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="12" x2="12" y2="3"/><line x1="12" y1="21" x2="23" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========================================================================
+       SECTION 1: HERO
+       ======================================================================== -->
+  <header class="hero" aria-labelledby="hero-title">
+    <div class="container container--mid">
+      <span class="hero-eyebrow" style="font-family:'JetBrains Mono', monospace; font-size:0.875rem; color:var(--hero-sky); letter-spacing:.12em; text-transform:uppercase; display:block; margin-bottom:1.25rem;">
+        Thought Leadership &bull; Conversational UX &bull; Multimodal AI
+      </span>
+      <h1 id="hero-title">The Future of AI Interfaces Is <em>(More) Human</em></h1>
+      <p class="hero-sub">
+      <!-- Hero Banner Image with GitHub Assets Path & Safe Root Fallback -->
+      <figure class="hero__banner">
+        <img 
+          src="assets/images/future-vision/Sound_waves_transforming_into_UI.jpg" 
+          alt="Glowing sound wave on the left flowing smoothly into tactile digital controls: sliders, toggles, a card interface, and an interactive hand reaching to adjust a setting."
+          onerror="if(!this.dataset.fallback){this.dataset.fallback=true;this.src='Sound_waves_transforming_into_UI.jpg';}else{this.onerror=null;this.src='https://placehold.co/1200x675/0C2E6E/FFFFFF?text=Sound_waves_transforming_into_UI.jpg';}">
+        <figcaption>
+          Speech initiates intent with fluid speed, while spatial controls and visual cards ground complex work in tactile precision.
+        </figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- ======================================================================
+         SECTION 2: FOUR WAYS WE'VE TALKED TO MACHINES (4-COL ROW TIMELINE)
+         ====================================================================== -->
+    <section id="timeline-section" aria-labelledby="timeline-heading">
+      <div class="container">
+        <span class="section-eyebrow">Evolution</span>
+        <h2 id="timeline-heading" style="font-size:clamp(1.75rem,3vw,2.5rem); margin-bottom:0.75rem;">Four Ways We've Talked to Machines</h2>
+        <p style="font-size:1.05rem; color:var(--mid); max-width:800px; margin-bottom:2rem;">
+          Every era of computing has answered one question differently: how does a person tell a machine what they want? Nielsen Norman Group describes three major shifts. I split the middle one in two, because the jump from menus to assistants taught us something worth its own stop.
+        </p>
+
+        <!-- 4-Column Single Row Connected Timeline Layout with GitHub Asset Paths -->
+        <div class="timeline-wrapper">
+          <div class="timeline-track-line" aria-hidden="true"></div>
+
+          <div class="timeline-row">
+            
+            <!-- Stage 1 Card -->
+            <article class="timeline-card" aria-labelledby="stage-1-title">
+              <div class="timeline-card__visual">
+                <img 
+                  src="assets/images/future-vision/Technician_holding_punch_cards.jpg" 
+                  alt="A person holding a stack of punched cards waits at a counter in front of a room-sized mainframe computer."
+                  onerror="if(!this.dataset.fallback){this.dataset.fallback=true;this.src='Technician_holding_punch_cards.jpg';}else{this.onerror=null;this.src='https://placehold.co/600x400/0C2E6E/FFFFFF?text=Technician+holding+punch+cards';}">
+              </div>
+              <div class="timeline-card__body">
+                <span class="timeline-card__badge">Stage 1: 1940s–60s</span>
+                <h3 id="stage-1-title" class="timeline-card__title">Hand It Over</h3>
+                <p class="timeline-card__desc">
+                  You wrote out everything in advance, punched it into cards, and handed it to an operator. Hours or days later, you got an answer. One typo meant starting over. The machine set the pace, and you waited.
+                </p>
+              </div>
+            </article>
+
+            <!-- Stage 2 Card -->
+            <article class="timeline-card" aria-labelledby="stage-2-title">
+              <div class="timeline-card__visual">
+                <img 
+                  src="assets/images/future-vision/Person_working_on_vintage_computer.jpg" 
+                  alt="A person at a 1990s desktop computer with windows and folder icons on screen, hand on the mouse."
+                  onerror="if(!this.dataset.fallback){this.dataset.fallback=true;this.src='Person_working_on_vintage_computer.jpg';}else{this.onerror=null;this.src='https://placehold.co/600x400/0C2E6E/FFFFFF?text=Person+working+on+vintage+computer';}">
+              </div>
+              <div class="timeline-card__body">
+                <span class="timeline-card__badge">Stage 2: 1980s–00s</span>
+                <h3 id="stage-2-title" class="timeline-card__title">Point and Click</h3>
+                <p class="timeline-card__desc">
+                  Screens finally showed you what the computer was doing. You steered with commands, menus, and a mouse, and every step was yours. You could see the result and decide what came next. The price was learning the machine's language.
+                </p>
+              </div>
+            </article>
+
+            <!-- Stage 3 Card -->
+            <article class="timeline-card" aria-labelledby="stage-3-title">
+              <div class="timeline-card__visual">
+                <img 
+                  src="assets/images/future-vision/Woman_speaking_to_smart_assistant.jpg" 
+                  alt="A person with full arms talks to a smart speaker while a glowing confused waveform floats nearby."
+                  onerror="if(!this.dataset.fallback){this.dataset.fallback=true;this.src='Woman_speaking_to_smart_assistant.jpg';}else{this.onerror=null;this.src='https://placehold.co/600x400/0C2E6E/FFFFFF?text=Woman+speaking+to+smart+assistant';}">
+              </div>
+              <div class="timeline-card__body">
+                <span class="timeline-card__badge">Stage 3: 2010s</span>
+                <h3 id="stage-3-title" class="timeline-card__title">Ask and Hope</h3>
+                <p class="timeline-card__desc">
+                  Voice assistants and chatbots let you use plain words, but only for the short list of things they were scripted to handle. Say it the right way and it worked. Say it slightly differently and you got "Sorry, I didn't catch that."
+                </p>
+              </div>
+            </article>
+
+            <!-- Stage 4 Card -->
+            <article class="timeline-card" aria-labelledby="stage-4-title">
+              <div class="timeline-card__visual">
+                <img 
+                  src="assets/images/future-vision/Man_adjusting_glowing_digital.jpg" 
+                  alt="A person speaks to an AI while dragging a slider on a glowing screen full of generated interface controls and charts."
+                  onerror="if(!this.dataset.fallback){this.dataset.fallback=true;this.src='Man_adjusting_glowing_digital.jpg';}else{this.onerror=null;this.src='https://placehold.co/600x400/0C2E6E/FFFFFF?text=Man+adjusting+glowing+digital';}">
+              </div>
+              <div class="timeline-card__body">
+                <span class="timeline-card__badge">Stage 4: 2022 to now</span>
+                <h3 id="stage-4-title" class="timeline-card__title">Say What You Want</h3>
+                <p class="timeline-card__desc">
+                  Large language models changed the deal. You describe the outcome and the system works out the steps. It is powerful, and it creates a new problem: you have to put what you want into words, starting from a blank box.
+                </p>
+              </div>
+            </article>
+
+          </div>
+        </div>
+
+        <!-- The Bold Section Divider (What Comes Next) -->
+        <div class="timeline-divider" role="separator" aria-label="Timeline continuation">
+          <h3>What Comes Next?</h3>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 3: WHERE THINGS STAND NOW (Embedded YouTube Short & Reference)
+         ====================================================================== -->
+    <section id="where-things-stand" aria-labelledby="stand-title">
+      <div class="container container--mid">
+        <span class="section-eyebrow">State of Play</span>
+        <div class="stand-grid">
+          <div>
+            <h2 id="stand-title" style="font-size:clamp(1.75rem,3vw,2.35rem); margin-bottom:1rem;">Voice Got Good. Screens Didn't Go Away.</h2>
+            <p>
+              Voice models can now respond fast enough that you can interrupt them mid-sentence, and they pick up on tone. Phones are teaching their assistants to see what is on your screen. Some tools build a custom interface on the spot instead of answering with a wall of text. And then there is the Humane AI Pin, a screenless wearable that tried to replace the phone and didn't last. Same underlying technology, different bet. The products gaining ground tend to keep a screen in the loop.
+            </p>
+            <p style="margin-bottom:0;">
+              This direction is already accelerating. OpenAI's demonstration of canvas and multimodal steering captures this exact thesis: speech sets the direction, but humans still need visual, interactive canvases to refine the work. <a href="https://youtu.be/IsL4dVezs18?si=MagkHKpcitvL_RBw" target="_blank" rel="noopener noreferrer">Watch OpenAI's demo for the same interaction model <span class="sr-only">(opens in new window)</span>&rarr;</a>
+            </p>
+          </div>
+
+          <!-- Video Card with Official YouTube Embed Parameters -->
+          <figure class="video-placeholder-card">
+            <div class="video-embed-container">
+              <iframe 
+                src="https://www.youtube.com/embed/FerpsKOhnVM?si=KVz0M6QAEFgUuSP_" 
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" 
+                allowfullscreen>
+              </iframe>
+            </div>
+            <figcaption>
+              Video analysis: Exploring why screenless wearables hit friction while hybrid multimodal interfaces took root.
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 4: CONTEXT & MODALITY (Embedded YouTube Video & Script)
+         ====================================================================== -->
+    <section id="video-section" aria-labelledby="video-heading">
+      <div class="container container--mid">
+        <span class="section-eyebrow">Context & Modality</span>
+        <h2 id="video-heading" style="font-size:clamp(1.75rem,3vw,2.35rem); margin-bottom:1rem;">Sometimes Voice Is the Right Answer</h2>
+        <p>
+          Hands full, eyes busy, screen out of reach: that is where voice wins. A woodworker mid-cut does not want to wipe sawdust off a keyboard. But watch what happens next. She still glances at a screen to check the plan, and she still adjusts it by touch. Voice started the work. The screen and her hands finished it.
+        </p>
+
+        <!-- Video Player Card with Official YouTube Embed Parameters -->
+        <figure class="video-card">
+          <div class="video-embed-container">
+            <iframe 
+              src="https://www.youtube.com/embed/tprS79rjAiI?si=qhBdWEoU2ssuI0Be" 
+              title="YouTube video player" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              referrerpolicy="strict-origin-when-cross-origin" 
+              allowfullscreen>
+            </iframe>
+          </div>
+          
+          <figcaption style="padding: 1rem 1.75rem 0.5rem 1.75rem; font-size: 0.85rem; color: var(--muted); font-family: 'JetBrains Mono', monospace;">
+            Scene demonstration: A woodworker in her shop glances at a wall-mounted display showing a cutting plan while holding a wooden panel.
+          </figcaption>
+
+          <!-- Accessible Script Transcript -->
+          <div class="video-transcript-box">
+            <details class="transcript-details">
+              <summary>Read full video transcript and scene descriptions</summary>
+              
+              <div class="transcript-beat">
+                <strong>Beat 1 &bull; Ask</strong>
+                <p style="font-weight:600; color:var(--ink); margin-bottom:0.25rem;">Woodworker: "I need a plan for a six-foot bookshelf that fits that alcove, using the offcuts from the last job."</p>
+                <p style="font-size:0.9rem; color:var(--muted); font-style:italic;">Visual: She holds a half-finished oak panel with both hands, sawdust in the air.</p>
+              </div>
+
+              <div class="transcript-beat">
+                <strong>Beat 2 &bull; Work</strong>
+                <p style="font-weight:600; color:var(--ink); margin-bottom:0.25rem;">Assistant Voice: "Working on it. I'm checking your offcuts against the plan."</p>
+                <p style="font-size:0.9rem; color:var(--muted); font-style:italic;">Visual: The display lights up with an abstract progress ring and a simple cutting diagram that gradually draws itself.</p>
+              </div>
+
+              <div class="transcript-beat">
+                <strong>Beat 3 &bull; Review</strong>
+                <p style="font-weight:600; color:var(--ink); margin-bottom:0.25rem;">Woodworker: "Move the middle shelf up two inches."</p>
+                <p style="font-size:0.9rem; color:var(--muted); font-style:italic;">Visual: She wipes her hands, steps to the display, and drags a handle to change the spacing between two shelves. The diagram updates.</p>
+              </div>
+
+              <div class="transcript-beat">
+                <strong>Beat 4 &bull; Build</strong>
+                <p style="font-weight:600; color:var(--ink); margin-bottom:0.25rem;">Assistant Voice: "Cut list is ready. First cut is thirty-six inches."</p>
+                <p style="font-size:0.9rem; color:var(--muted); font-style:italic;">Visual: The display shows a clean cut list in the background. She picks up a handsaw and starts the first cut, glancing up at the display once.</p>
+              </div>
+            </details>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 5: ACCESSIBILITY (Prominent Centered Graphic & Reading Column)
+         ====================================================================== -->
+    <section id="accessibility-section" aria-labelledby="a11y-heading">
+      <div class="container container--mid">
+        <span class="section-eyebrow">Universal Design</span>
+        <h2 id="a11y-heading" style="font-size:clamp(1.75rem,3.2vw,2.5rem); margin-bottom:1.25rem;">
+          Multimodal Isn't a Feature. It's the Original Accessibility Requirement.
+        </h2>
+        
+        <!-- Large Centered Curb Cut Infographic Card -->
+        <figure class="a11y-banner-card">
+          <div class="a11y-banner-media">
+            <img 
+              src="assets/images/future-vision/Infographic_comparing_ramp_access.jpg" 
+              alt="Infographic showing physical curb cuts on the left helping wheelchairs, strollers, and delivery hand trucks, compared to digital curb cuts on the right featuring voice input, closed captioning, and touch input."
+              onerror="if(!this.dataset.fallback){this.dataset.fallback=true;this.src='Infographic_comparing_ramp_access.jpg';}else{this.onerror=null;this.src='https://placehold.co/1000x700/0C2E6E/FFFFFF?text=The+Curb+Cut+Effect+Infographic';}">
+          </div>
+          <figcaption>
+            <strong>The Curb Cut Effect:</strong> Physical accommodations built for wheelchair accessibility ended up helping parents with strollers, delivery workers, and travelers with luggage&mdash;just as digital multimodal input (voice, text, and touch) creates universal resilience for all users.
+          </figcaption>
+        </figure>
+
+        <!-- Centered Editorial Text Column -->
+        <div class="a11y-prose">
+          <p>
+            A voice-only interface shuts out people who are Deaf or hard of hearing, and people whose speech a system does not recognize. A screen-only interface shuts out people who are blind or have low vision. Neither group is a niche. Together they make a simple case: every important action should be reachable more than one way.
+          </p>
+          <p>
+            There is a name for that idea. Curb cuts were added to sidewalks for wheelchair users, and they ended up helping parents with strollers, delivery workers, and travelers with rolling suitcases. Multimodal AI is a chance to build the curb cut in from the start.
+          </p>
+          <p>
+            In practice that comes down to three things. Spoken prompts also appear as text. Visual results have text equivalents that a screen reader can announce. Nothing important is voice-only or mouse-only.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 6: HOW I BUILT THIS (ACCESSIBLE COLLAPSIBLE ACCORDIONS)
+         ====================================================================== -->
+    <section id="how-i-built-this" aria-labelledby="build-heading">
+      <div class="container container--mid">
+        <span class="section-eyebrow">Methodology & Transparency</span>
+        <h2 id="build-heading" style="font-size:clamp(1.75rem,3vw,2.35rem); margin-bottom:1rem;">How I Built This</h2>
+        <p style="font-size: 1.125rem; color: var(--mid); margin-bottom: 2rem;">
+          This page was a collaboration between me and AI tools. I want to be specific about who did what, because that is the part most people skip.
+        </p>
+
+        <!-- Fully Accessible Accordion Group -->
+        <div class="accordion-list">
+          
+          <!-- Step 1 Accordion -->
+          <details class="accordion-item">
+            <summary>
+              <div class="accordion-summary-content">
+                <span class="accordion-step-num">1</span>
+                <span>Research</span>
+              </div>
+              <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div class="accordion-body">
+              <p>I asked Gemini for deep research on whether voice will replace screens. It produced a long, well-organized report examining interaction history, speech latency, and emerging multimodal form factors.</p>
+            </div>
+          </details>
+
+          <!-- Step 2 Accordion -->
+          <details class="accordion-item">
+            <summary>
+              <div class="accordion-summary-content">
+                <span class="accordion-step-num">2</span>
+                <span>Critique</span>
+              </div>
+              <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div class="accordion-body">
+              <p>I gave that report to Claude and asked for honest feedback. It flagged a few things: some claims were one-sided, one latency figure came from a third-party test and not the company, several sources were weak, and the works cited included my own uploaded files. I decided what to keep.</p>
+            </div>
+          </details>
+
+          <!-- Step 3 Accordion (Open by default to showcase wireframes) -->
+          <details class="accordion-item" open>
+            <summary>
+              <div class="accordion-summary-content">
+                <span class="accordion-step-num">3</span>
+                <span>Sketch</span>
+              </div>
+              <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div class="accordion-body">
+              <p>I drew the page on paper and scanned it. These initial sketches laid out the structural progression from evolution cards to the video case study.</p>
+
+              <!-- Integrated Sketch Artifacts with GitHub Assets Path & Root Fallbacks -->
+              <div class="sketch-showcase">
+                <span class="section-eyebrow" style="font-size:0.75rem; margin-bottom:0.25rem;">Original Paper Wireframes</span>
+                <p style="font-size:0.875rem; color:var(--muted); margin-bottom:0.5rem;">
+                  Scanned hand-drawn wireframes created before prompting or code generation:
+                </p>
+                <div class="sketch-grid">
+                  <figure class="sketch-card">
+                    <img 
+                      src="assets/images/future-vision/Future Design 1.jpg" 
+                      alt="Hand-drawn paper sketch showing the headline, evolution history cards with dots, current trends block, and the video section layout." 
+                      onerror="if(!this.dataset.fallback){this.dataset.fallback=true;this.src='Future Design 1.jpg';}else{this.onerror=null;this.src='https://placehold.co/600x800/FFFFFF/0C2E6E?text=Future+Design+1.jpg+Sketch';}">
+                    <figcaption>
+                      <strong>Sketch 1:</strong> Architecture flow from Hero headline into HCI timeline cards, product trends, and the shop video slot.
+                    </figcaption>
+                  </figure>
+
+                  <figure class="sketch-card">
+                    <img 
+                      src="assets/images/future-vision/Future Design 2.jpg" 
+                      alt="Hand-drawn paper sketch mapping out the accessibility section, voice and manual interaction flow, and the four-step AI development methodology notes." 
+                      onerror="if(!this.dataset.fallback){this.dataset.fallback=true;this.src='Future Design 2.jpg';}else{this.onerror=null;this.src='https://placehold.co/600x800/FFFFFF/0C2E6E?text=Future+Design+2.jpg+Sketch';}">
+                    <figcaption>
+                      <strong>Sketch 2:</strong> Accessibility notes for broader audiences, modality considerations, and the four-step research-to-canvas build workflow.
+                    </figcaption>
+                  </figure>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <!-- Step 4 Accordion -->
+          <details class="accordion-item">
+            <summary>
+              <div class="accordion-summary-content">
+                <span class="accordion-step-num">4</span>
+                <span>Content & Production</span>
+              </div>
+              <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div class="accordion-body">
+              <p>Claude drafted initial copy and image prompts from my sketch, which I heavily edited for my voice. During this stage, I recognized that a static form prototype and reading speed metrics distracted from the bigger picture. Instead, I pivoted to generating multimodal video concepts with Google Flow, demonstrating the human-AI conversation directly through video and visual format.</p>
+            </div>
+          </details>
+
+          <!-- Step 5 Accordion -->
+          <details class="accordion-item">
+            <summary>
+              <div class="accordion-summary-content">
+                <span class="accordion-step-num">5</span>
+                <span>Build & Validation</span>
+              </div>
+              <svg class="accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <div class="accordion-body">
+              <p>I built the page in Gemini Canvas over several rounds and brought in Claude for a second opinion. Using Gemini and Claude together created an effective system of checks and balances—each tool caught edge cases the other overlooked, from color contrast adherence to structural layout precision.</p>
+            </div>
+          </details>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       FOOTER
+       Strictly matching ai-change-management.html & homepage standard
+       High contrast, clean typography, WCAG 2.2 AA compliant
+       ======================================================================== -->
+  <footer>
+    <p>Built by Matt Hetzel &mdash; <a href="./index.html">Back to portfolio home</a></p>
+    <p style="margin-top:0.4rem;">Terre Haute, IN &bull; Open to strategic roles nationally</p>
+  </footer>
+
+  <!-- ========================================================================
+       JAVASCRIPT: THEME TOGGLE
+       ======================================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      // Dark Mode Sync with Homepage (localStorage 'mh-theme')
+      const themeBtn = document.getElementById('themeToggle');
+      const savedTheme = localStorage.getItem('mh-theme');
+      
+      if (savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        if (themeBtn) {
+          themeBtn.setAttribute('aria-pressed', 'true');
+          themeBtn.setAttribute('aria-label', 'Switch to light mode');
+        }
+      }
+
+      if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+          const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+          const next = isDark ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', next);
+          localStorage.setItem('mh-theme', next);
+          themeBtn.setAttribute('aria-pressed', isDark ? 'false' : 'true');
+          themeBtn.setAttribute('aria-label', isDark ? 'Switch to dark mode' : 'Switch to light mode');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
