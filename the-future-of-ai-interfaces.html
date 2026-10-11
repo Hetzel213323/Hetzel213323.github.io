@@ -39,12 +39,10 @@
       --card-bg: #FFFFFF;
       --bg: #F7F9FC;
       --coral-accent: #C84628;
-      --coral-tint: rgba(200, 70, 40, 0.10);
       --shadow-sm: 0 1px 3px rgba(0,0,0,.07), 0 2px 8px rgba(0,0,0,.05);
       --shadow-md: 0 4px 12px rgba(0,0,0,.10), 0 8px 24px rgba(0,0,0,.07);
       --radius: 14px;
       --radius-sm: 8px;
-      --radius-lg: 20px;
       --ease: cubic-bezier(0.4, 0, 0.2, 1);
       --dur: 0.25s;
     }
@@ -60,7 +58,6 @@
       --bg: #111827;
       --sky-light: #1A2E4A;
       --coral-accent: #FF7E63;
-      --coral-tint: rgba(255, 126, 99, 0.15);
       --shadow-sm: 0 1px 3px rgba(0,0,0,.3), 0 2px 8px rgba(0,0,0,.2);
       --shadow-md: 0 4px 12px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.3);
     }
@@ -183,8 +180,7 @@
     }
 
     /* ==========================================================================
-       SUBPAGE NAVIGATION (3 Direct Children: Left, Center, Right)
-       Matches ai-change-management.html exactly
+       SUBPAGE NAVIGATION (Logo Left, Centered Back Link, Theme Right)
        ========================================================================== */
     .skip-link {
       position: absolute;
@@ -498,7 +494,7 @@
     }
 
     /* ==========================================================================
-       SECTION 3: WHERE THINGS STAND NOW (Video Placeholder)
+       SECTION 3: WHERE THINGS STAND NOW (Embedded Video Card)
        ========================================================================== */
     .stand-grid {
       display: grid;
@@ -520,18 +516,6 @@
       overflow: hidden;
       box-shadow: var(--shadow-sm);
     }
-    .video-placeholder-screen {
-      background: #081126;
-      aspect-ratio: 16 / 9;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      padding: 1.5rem;
-      text-align: center;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
     .video-placeholder-card figcaption {
       padding: 0.85rem 1.15rem;
       font-size: 0.8125rem;
@@ -550,20 +534,6 @@
       overflow: hidden;
       box-shadow: var(--shadow-sm);
       margin: 2.25rem 0;
-    }
-    .video-viewport {
-      background: #060C1C;
-      aspect-ratio: 16 / 9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-    .video-viewport iframe,
-    .video-viewport video {
-      width: 100%;
-      height: 100%;
-      border: 0;
     }
     .video-embed-container {
       position: relative;
@@ -669,7 +639,7 @@
     }
 
     /* ==========================================================================
-       SECTION 6: HOW I BUILT THIS & SKETCH ARTIFACTS (ACCESSIBLE ACCORDIONS)
+       SECTION 6: HOW I BUILT THIS (Accessible Accordions)
        ========================================================================== */
     .accordion-list {
       display: flex;
@@ -803,7 +773,7 @@
     }
 
     /* ==========================================================================
-       FOOTER (Strictly Matching Homepage & ai-change-management)
+       FOOTER
        ========================================================================== */
     footer {
       background: var(--navy);
@@ -833,11 +803,7 @@
   <!-- Accessible Skip Link -->
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  <!-- ========================================================================
-       TOP NAVIGATION BAR
-       Strictly matching ai-change-management.html:
-       3 Direct flex children: [Logo Left] [Back to Portfolio Center] [Theme Right]
-       ======================================================================== -->
+  <!-- Top Navigation Bar -->
   <nav class="nav" aria-label="Site navigation">
     <div class="nav-inner">
       <a href="./index.html" class="nav-logo">Matt Hetzel</a>
@@ -856,9 +822,7 @@
     </div>
   </nav>
 
-  <!-- ========================================================================
-       SECTION 1: HERO
-       ======================================================================== -->
+  <!-- SECTION 1: HERO -->
   <header class="hero" aria-labelledby="hero-title">
     <div class="container container--mid">
       <span class="hero-eyebrow" style="font-family:'JetBrains Mono', monospace; font-size:0.875rem; color:var(--hero-sky); letter-spacing:.12em; text-transform:uppercase; display:block; margin-bottom:1.25rem;">
@@ -866,12 +830,19 @@
       </span>
       <h1 id="hero-title">The Future of AI Interfaces Is <em>(More) Human</em></h1>
       <p class="hero-sub">
-      <!-- Hero Banner Image with GitHub Assets Path & Safe Root Fallback -->
+        Talking to computers is getting easier. That does not mean screens, keyboards, and hands are going away. It means we finally get to use all of them.
+      </p>
+
+      <div class="hero__byline">
+        <strong>By Matt Hetzel.</strong> Researched with Gemini, pressure-tested with Claude, built with both. About a 6 minute read.
+      </div>
+
+      <!-- Hero Banner Image -->
       <figure class="hero__banner">
         <img 
           src="assets/images/future-vision/Sound_waves_transforming_into_UI.jpg" 
           alt="Glowing sound wave on the left flowing smoothly into tactile digital controls: sliders, toggles, a card interface, and an interactive hand reaching to adjust a setting."
-          onerror="if(!this.dataset.fallback){this.dataset.fallback=true;this.src='Sound_waves_transforming_into_UI.jpg';}else{this.onerror=null;this.src='https://placehold.co/1200x675/0C2E6E/FFFFFF?text=Sound_waves_transforming_into_UI.jpg';}">
+          onerror="this.onerror=null; this.src='Sound_waves_transforming_into_UI.jpg';">
         <figcaption>
           Speech initiates intent with fluid speed, while spatial controls and visual cards ground complex work in tactile precision.
         </figcaption>
@@ -881,9 +852,7 @@
 
   <main id="main-content">
 
-    <!-- ======================================================================
-         SECTION 2: FOUR WAYS WE'VE TALKED TO MACHINES (4-COL ROW TIMELINE)
-         ====================================================================== -->
+    <!-- SECTION 2: FOUR WAYS WE'VE TALKED TO MACHINES -->
     <section id="timeline-section" aria-labelledby="timeline-heading">
       <div class="container">
         <span class="section-eyebrow">Evolution</span>
@@ -892,7 +861,7 @@
           Every era of computing has answered one question differently: how does a person tell a machine what they want? Nielsen Norman Group describes three major shifts. I split the middle one in two, because the jump from menus to assistants taught us something worth its own stop.
         </p>
 
-        <!-- 4-Column Single Row Connected Timeline Layout with GitHub Asset Paths -->
+        <!-- 4-Column Connected Timeline Layout -->
         <div class="timeline-wrapper">
           <div class="timeline-track-line" aria-hidden="true"></div>
 
@@ -904,7 +873,7 @@
                 <img 
                   src="assets/images/future-vision/Technician_holding_punch_cards.jpg" 
                   alt="A person holding a stack of punched cards waits at a counter in front of a room-sized mainframe computer."
-                  onerror="if(!this.dataset.fallback){this.dataset.fallback=true;this.src='Technician_holding_punch_cards.jpg';}else{this.onerror=null;this.src='https://placehold.co/600x400/0C2E6E/FFFFFF?text=Technician+holding+punch+cards';}">
+                  onerror="this.onerror=null; this.src='Technician_holding_punch_cards.jpg';">
               </div>
               <div class="timeline-card__body">
                 <span class="timeline-card__badge">Stage 1: 1940s–60s</span>
@@ -921,7 +890,7 @@
                 <img 
                   src="assets/images/future-vision/Person_working_on_vintage_computer.jpg" 
                   alt="A person at a 1990s desktop computer with windows and folder icons on screen, hand on the mouse."
-                  onerror="if(!this.dataset.fallback){this.dataset.fallback=true;this.src='Person_working_on_vintage_computer.jpg';}else{this.onerror=null;this.src='https://placehold.co/600x400/0C2E6E/FFFFFF?text=Person+working+on+vintage+computer';}">
+                  onerror="this.onerror=null; this.src='Person_working_on_vintage_computer.jpg';">
               </div>
               <div class="timeline-card__body">
                 <span class="timeline-card__badge">Stage 2: 1980s–00s</span>
@@ -938,7 +907,7 @@
                 <img 
                   src="assets/images/future-vision/Woman_speaking_to_smart_assistant.jpg" 
                   alt="A person with full arms talks to a smart speaker while a glowing confused waveform floats nearby."
-                  onerror="if(!this.dataset.fallback){this.dataset.fallback=true;this.src='Woman_speaking_to_smart_assistant.jpg';}else{this.onerror=null;this.src='https://placehold.co/600x400/0C2E6E/FFFFFF?text=Woman+speaking+to+smart+assistant';}">
+                  onerror="this.onerror=null; this.src='Woman_speaking_to_smart_assistant.jpg';">
               </div>
               <div class="timeline-card__body">
                 <span class="timeline-card__badge">Stage 3: 2010s</span>
@@ -955,7 +924,7 @@
                 <img 
                   src="assets/images/future-vision/Man_adjusting_glowing_digital.jpg" 
                   alt="A person speaks to an AI while dragging a slider on a glowing screen full of generated interface controls and charts."
-                  onerror="if(!this.dataset.fallback){this.dataset.fallback=true;this.src='Man_adjusting_glowing_digital.jpg';}else{this.onerror=null;this.src='https://placehold.co/600x400/0C2E6E/FFFFFF?text=Man+adjusting+glowing+digital';}">
+                  onerror="this.onerror=null; this.src='Man_adjusting_glowing_digital.jpg';">
               </div>
               <div class="timeline-card__body">
                 <span class="timeline-card__badge">Stage 4: 2022 to now</span>
@@ -969,7 +938,7 @@
           </div>
         </div>
 
-        <!-- The Bold Section Divider (What Comes Next) -->
+        <!-- Section Divider: What Comes Next -->
         <div class="timeline-divider" role="separator" aria-label="Timeline continuation">
           <h3>What Comes Next?</h3>
         </div>
@@ -977,9 +946,7 @@
       </div>
     </section>
 
-    <!-- ======================================================================
-         SECTION 3: WHERE THINGS STAND NOW (Embedded YouTube Short & Reference)
-         ====================================================================== -->
+    <!-- SECTION 3: WHERE THINGS STAND NOW -->
     <section id="where-things-stand" aria-labelledby="stand-title">
       <div class="container container--mid">
         <span class="section-eyebrow">State of Play</span>
@@ -994,13 +961,12 @@
             </p>
           </div>
 
-          <!-- Video Card with Official YouTube Embed Parameters -->
+          <!-- Official YouTube Embed: Wearables vs Hybrid Screens -->
           <figure class="video-placeholder-card">
             <div class="video-embed-container">
               <iframe 
                 src="https://www.youtube.com/embed/FerpsKOhnVM?si=KVz0M6QAEFgUuSP_" 
-                title="YouTube video player" 
-                frameborder="0" 
+                title="Person interacting with an interface that pops up and allows for interactivity" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                 referrerpolicy="strict-origin-when-cross-origin" 
                 allowfullscreen>
@@ -1014,9 +980,7 @@
       </div>
     </section>
 
-    <!-- ======================================================================
-         SECTION 4: CONTEXT & MODALITY (Embedded YouTube Video & Script)
-         ====================================================================== -->
+    <!-- SECTION 4: CONTEXT & MODALITY -->
     <section id="video-section" aria-labelledby="video-heading">
       <div class="container container--mid">
         <span class="section-eyebrow">Context & Modality</span>
@@ -1025,13 +989,12 @@
           Hands full, eyes busy, screen out of reach: that is where voice wins. A woodworker mid-cut does not want to wipe sawdust off a keyboard. But watch what happens next. She still glances at a screen to check the plan, and she still adjusts it by touch. Voice started the work. The screen and her hands finished it.
         </p>
 
-        <!-- Video Player Card with Official YouTube Embed Parameters -->
+        <!-- Official YouTube Embed: Woodworker Concept -->
         <figure class="video-card">
           <div class="video-embed-container">
             <iframe 
               src="https://www.youtube.com/embed/tprS79rjAiI?si=qhBdWEoU2ssuI0Be" 
               title="YouTube video player" 
-              frameborder="0" 
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
               referrerpolicy="strict-origin-when-cross-origin" 
               allowfullscreen>
@@ -1076,9 +1039,7 @@
       </div>
     </section>
 
-    <!-- ======================================================================
-         SECTION 5: ACCESSIBILITY (Prominent Centered Graphic & Reading Column)
-         ====================================================================== -->
+    <!-- SECTION 5: ACCESSIBILITY -->
     <section id="accessibility-section" aria-labelledby="a11y-heading">
       <div class="container container--mid">
         <span class="section-eyebrow">Universal Design</span>
@@ -1092,7 +1053,7 @@
             <img 
               src="assets/images/future-vision/Infographic_comparing_ramp_access.jpg" 
               alt="Infographic showing physical curb cuts on the left helping wheelchairs, strollers, and delivery hand trucks, compared to digital curb cuts on the right featuring voice input, closed captioning, and touch input."
-              onerror="if(!this.dataset.fallback){this.dataset.fallback=true;this.src='Infographic_comparing_ramp_access.jpg';}else{this.onerror=null;this.src='https://placehold.co/1000x700/0C2E6E/FFFFFF?text=The+Curb+Cut+Effect+Infographic';}">
+              onerror="this.onerror=null; this.src='Infographic_comparing_ramp_access.jpg';">
           </div>
           <figcaption>
             <strong>The Curb Cut Effect:</strong> Physical accommodations built for wheelchair accessibility ended up helping parents with strollers, delivery workers, and travelers with luggage&mdash;just as digital multimodal input (voice, text, and touch) creates universal resilience for all users.
@@ -1114,9 +1075,7 @@
       </div>
     </section>
 
-    <!-- ======================================================================
-         SECTION 6: HOW I BUILT THIS (ACCESSIBLE COLLAPSIBLE ACCORDIONS)
-         ====================================================================== -->
+    <!-- SECTION 6: HOW I BUILT THIS -->
     <section id="how-i-built-this" aria-labelledby="build-heading">
       <div class="container container--mid">
         <span class="section-eyebrow">Methodology & Transparency</span>
@@ -1125,7 +1084,7 @@
           This page was a collaboration between me and AI tools. I want to be specific about who did what, because that is the part most people skip.
         </p>
 
-        <!-- Fully Accessible Accordion Group -->
+        <!-- Accessible Accordion Group -->
         <div class="accordion-list">
           
           <!-- Step 1 Accordion -->
@@ -1168,7 +1127,7 @@
             <div class="accordion-body">
               <p>I drew the page on paper and scanned it. These initial sketches laid out the structural progression from evolution cards to the video case study.</p>
 
-              <!-- Integrated Sketch Artifacts with GitHub Assets Path & Root Fallbacks -->
+              <!-- Integrated Scanned Sketch Wireframes -->
               <div class="sketch-showcase">
                 <span class="section-eyebrow" style="font-size:0.75rem; margin-bottom:0.25rem;">Original Paper Wireframes</span>
                 <p style="font-size:0.875rem; color:var(--muted); margin-bottom:0.5rem;">
@@ -1178,8 +1137,8 @@
                   <figure class="sketch-card">
                     <img 
                       src="assets/images/future-vision/Future Design 1.jpg" 
-                      alt="Hand-drawn paper sketch showing the headline, evolution history cards with dots, current trends block, and the video section layout." 
-                      onerror="if(!this.dataset.fallback){this.dataset.fallback=true;this.src='Future Design 1.jpg';}else{this.onerror=null;this.src='https://placehold.co/600x800/FFFFFF/0C2E6E?text=Future+Design+1.jpg+Sketch';}">
+                      alt="Hand-drawn paper sketch showing the headline, evolution history cards with dots, current trends block, and the video section layout."
+                      onerror="this.onerror=null; this.src='Future Design 1.jpg';">
                     <figcaption>
                       <strong>Sketch 1:</strong> Architecture flow from Hero headline into HCI timeline cards, product trends, and the shop video slot.
                     </figcaption>
@@ -1188,8 +1147,8 @@
                   <figure class="sketch-card">
                     <img 
                       src="assets/images/future-vision/Future Design 2.jpg" 
-                      alt="Hand-drawn paper sketch mapping out the accessibility section, voice and manual interaction flow, and the four-step AI development methodology notes." 
-                      onerror="if(!this.dataset.fallback){this.dataset.fallback=true;this.src='Future Design 2.jpg';}else{this.onerror=null;this.src='https://placehold.co/600x800/FFFFFF/0C2E6E?text=Future+Design+2.jpg+Sketch';}">
+                      alt="Hand-drawn paper sketch mapping out the accessibility section, voice and manual interaction flow, and the four-step AI development methodology notes."
+                      onerror="this.onerror=null; this.src='Future Design 2.jpg';">
                     <figcaption>
                       <strong>Sketch 2:</strong> Accessibility notes for broader audiences, modality considerations, and the four-step research-to-canvas build workflow.
                     </figcaption>
@@ -1233,19 +1192,12 @@
 
   </main>
 
-  <!-- ========================================================================
-       FOOTER
-       Strictly matching ai-change-management.html & homepage standard
-       High contrast, clean typography, WCAG 2.2 AA compliant
-       ======================================================================== -->
+  <!-- FOOTER -->
   <footer>
     <p>Built by Matt Hetzel &mdash; <a href="./index.html">Back to portfolio home</a></p>
     <p style="margin-top:0.4rem;">Terre Haute, IN &bull; Open to strategic roles nationally</p>
   </footer>
 
-  <!-- ========================================================================
-       JAVASCRIPT: THEME TOGGLE
-       ======================================================================== -->
   <script>
     (function () {
       'use strict';
