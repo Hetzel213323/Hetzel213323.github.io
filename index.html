@@ -3,263 +3,220 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Matt Hetzel | AI Practitioner &amp; Human-Centered Designer</title>
-  <meta name="description" content="Matt Hetzel is an AI practitioner and human-centered designer with 14 years helping people navigate technology transitions with clarity and empathy.">
+  <title>Matt Hetzel | AI Practitioner, UX Designer &amp; Digital Strategist</title>
+  <meta name="description" content="Matt Hetzel is an AI practitioner, human-centered designer, and accessibility advocate with 14 years bridging psychology, design, and technical systems.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
   <style>
-    /* === STREAMING_CHUNK:Defining design system tokens... === */
+    /* */
     :root {
-      --navy:#0C2E6E;--blue:#1A4FBF;--sky:#4A90E2;--hero-sky:#74B3F9;--sky-light:#EBF3FC;
-      --white:#FFFFFF;--off:#F7F9FC;--ink:#111827;--mid:#374151;
-      --muted:#595F6B;--border:#E5E7EB;--card-bg:#FFFFFF;--bg:#F7F9FC;
-      --shadow-sm:0 1px 3px rgba(0,0,0,.07),0 2px 8px rgba(0,0,0,.05);
-      --shadow-md:0 4px 12px rgba(0,0,0,.10),0 8px 24px rgba(0,0,0,.07);
-      --radius:14px;--radius-sm:8px;
-      --ease:cubic-bezier(0.4,0,0.2,1);--dur:0.25s;
+      --navy: #0C2E6E;
+      --blue: #1A4FBF;
+      --sky: #4A90E2;
+      --hero-sky: #74B3F9;
+      --sky-light: #EBF3FC;
+      --white: #FFFFFF;
+      --off: #F7F9FC;
+      --ink: #111827;
+      --mid: #374151;
+      --muted: #595F6B;
+      --border: #E5E7EB;
+      --card-bg: #FFFFFF;
+      --bg: #F7F9FC;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.08), 0 2px 8px rgba(0,0,0,.05);
+      --shadow-md: 0 4px 14px rgba(0,0,0,.10), 0 8px 24px rgba(0,0,0,.06);
+      --shadow-lg: 0 12px 30px rgba(12,46,110,.15);
+      --radius: 14px;
+      --radius-sm: 8px;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+      --dur: 0.25s;
     }
+
     [data-theme="dark"] {
-      --white:#1A1F2E;--off:#111827;--ink:#F3F4F6;--mid:#D1D5DB;
-      --muted:#9CA3AF;--border:#2D3748;--card-bg:#1E2533;--bg:#111827;
-      --sky-light:#1A2E4A;
-      --shadow-sm:0 1px 3px rgba(0,0,0,.3),0 2px 8px rgba(0,0,0,.2);
-      --shadow-md:0 4px 12px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);
+      --white: #1A1F2E;
+      --off: #111827;
+      --ink: #F3F4F6;
+      --mid: #D1D5DB;
+      --muted: #9CA3AF;
+      --border: #2D3748;
+      --card-bg: #1E2533;
+      --bg: #111827;
+      --sky-light: #1A2E4A;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.4), 0 2px 8px rgba(0,0,0,.3);
+      --shadow-md: 0 4px 14px rgba(0,0,0,.5), 0 8px 24px rgba(0,0,0,.4);
+      --shadow-lg: 0 12px 30px rgba(0,0,0,.6);
     }
 
-    /* === STREAMING_CHUNK:Applying base styles and accessibility resets... === */
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    html{scroll-behavior:smooth;}
-    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;transition:background var(--dur) var(--ease),color var(--dur) var(--ease);}
-    img{max-width:100%;display:block;}
-    a{color:var(--blue);text-decoration:none;}
-    a:hover{text-decoration:underline;}
-    a:focus-visible{outline:2px solid var(--sky);outline-offset:3px;border-radius:3px;}
-    ul,ol{list-style:none;}
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}
-
-    @media(prefers-reduced-motion:reduce){
-      html{scroll-behavior:auto;}
-      *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
-      .fade-up{opacity:1!important;transform:none!important;}
-      .a11y-cell:hover{transform:none!important;}
+    /* */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    /* === STREAMING_CHUNK:Styling navigation and skip links... === */
-    .skip-link{position:absolute;top:-120px;left:1rem;background:var(--blue);color:#fff;padding:.6rem 1.2rem;border-radius:var(--radius-sm);font-size:.875rem;font-weight:500;z-index:9999;transition:top .2s;}
-    .skip-link:focus{top:1rem;}
-
-    .nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(12,46,110,.97);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.07);}
-    .nav-inner{max-width:1120px;margin:0 auto;padding:0 2rem;height:62px;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;}
-    .nav-logo{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1rem;color:#fff;letter-spacing:-.01em;white-space:nowrap;}
-    .nav-links{display:flex;gap:1.75rem;align-items:center;}
-    .nav-links a{color:rgba(255,255,255,.75);font-size:.875rem;font-weight:500;transition:color var(--dur);}
-    .nav-links a:hover{color:#fff;text-decoration:none;}
-    .theme-btn{background:none;border:1.5px solid rgba(255,255,255,.25);cursor:pointer;color:rgba(255,255,255,.75);width: 44px;height: 44px;min-width: 44px;min-height: 44px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all var(--dur);flex-shrink:0;}
-    .theme-btn:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.5);color:#fff;}
-    .theme-btn:focus-visible{outline:2px solid var(--hero-sky);outline-offset:3px;}
-    .theme-btn svg{width:20px;height:20px;}
-    .icon-sun{display:none;}
-    [data-theme="dark"] .icon-moon{display:none;}
-    [data-theme="dark"] .icon-sun{display:block;}
-
-    /* === STREAMING_CHUNK:Styling hero header section... === */
-    .hero{background:var(--navy);padding:130px 2rem 90px;position:relative;overflow:hidden;}
-    .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 75% 40%,rgba(74,144,226,.14) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 20% 80%,rgba(26,79,191,.2) 0%,transparent 60%);pointer-events:none;}
-    .hero-inner{max-width:1120px;margin:0 auto;position:relative;}
-    .hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size: 1rem;color:var(--hero-sky);letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:1.25rem;}
-    .hero h1{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2.4rem,5.5vw,4.25rem);font-weight:700;color:#fff;line-height:1.1;letter-spacing:-.03em;max-width:820px;margin-bottom:1.375rem;}
-    .hero h1 em{font-style:normal;color:var(--hero-sky);}
-    .hero-sub{font-size:1.075rem;color:rgba(255,255,255,.80);max-width:540px;line-height:1.75;margin-bottom:2.25rem;}
-    .hero-ctas{display:flex;gap:.875rem;flex-wrap:wrap;}
-    .btn{display:inline-flex;align-items:center;gap:.4rem;padding:.7rem 1.5rem;border-radius:50px;font-family:'Inter',sans-serif;font-size:.875rem;font-weight:600;cursor:pointer;border:none;transition:all var(--dur) var(--ease);text-decoration:none;}
-    .btn-white{background:#fff;color:var(--navy);}
-    .btn-white:hover{background:var(--hero-sky);color:var(--navy);text-decoration:none;}
-    .btn-ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.5);}
-    .btn-ghost:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.9);text-decoration:none;}
-
-    /* === STREAMING_CHUNK:Styling main sections and layout components... === */
-    section{padding:88px 2rem;}
-    .section-inner{max-width:1120px;margin:0 auto;}
-    .section-label{font-family:'JetBrains Mono',monospace;font-size:1rem;color:var(--blue);text-transform:uppercase;letter-spacing:.12em;display:block;margin-bottom:.5rem;}
-    [data-theme="dark"] .section-label{color:var(--sky);}
-    .section-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:700;color:var(--ink);letter-spacing:-.025em;line-height:1.2;margin-bottom:.875rem;}
-    .section-desc{font-size:1rem;color:var(--muted);max-width:580px;line-height:1.75;margin-bottom:2.75rem;}
-
-    /* === STREAMING_CHUNK:Styling about section and metric tiles... === */
-    #about{background:var(--white);}
-    .about-grid{display:grid;grid-template-columns:1fr 320px;gap:4rem;align-items:start;}
-    .about-body p{font-size:1rem;color:var(--mid);line-height:1.85;margin-bottom:1.1rem;}
-    .about-body p:last-child{margin-bottom:0;}
-    .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-    .stat-tile{background:var(--off);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1rem;text-align:center;transition:box-shadow var(--dur);}
-    .stat-tile:hover{box-shadow:var(--shadow-sm);}
-    .stat-n{font-family:'Plus Jakarta Sans',sans-serif;font-size:2.1rem;font-weight:700;color:var(--blue);display:block;line-height:1;margin-bottom:.35rem;}
-    .stat-l{font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;}
-    .stat-tile.wide{grid-column:1/-1;}
-
-    /* === STREAMING_CHUNK:Styling credentials summary cards... === */
-    #credentials{background:var(--off);}
-    .cred-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
-    .cred-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.375rem;box-shadow:var(--shadow-sm);transition:box-shadow var(--dur),transform var(--dur);position:relative;overflow:hidden;}
-    .cred-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px);}
-    .cred-bar{position:absolute;top:0;left:0;right:0;height:3px;}
-    .bar-linkedin{background:#0A66C2;}
-    .bar-trailhead{background:#00A1E0;}
-    .bar-google{background:linear-gradient(90deg,#4285F4 0%,#EA4335 33%,#FBBC04 66%,#34A853 100%);}
-    .bar-ibm{background:#1F70C1;}
-    .bar-anthropic{background:#C07755;}
-    .bar-deque{background:#7B2DBF;}
-    .cred-head{display:flex;align-items:center;gap:10px;margin-bottom:1rem;}
-    .cred-ico{width:38px;height:38px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-    .cred-platform{font-family:'Plus Jakarta Sans',sans-serif;font-size:.95rem;font-weight:600;color:var(--ink);display:block;}
-    .cred-role{font-size:.8rem;color:var(--muted);font-weight:500;}
-    .cred-nums{display:flex;gap:1.25rem;margin-bottom:.875rem;}
-    .cred-num-n{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.35rem;font-weight:700;color:var(--blue);display:block;line-height:1;}
-    .cred-num-l{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:500;}
-    .cred-pills{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:.875rem;}
-    .cred-pill{font-size:.8rem;padding:3px 9px;border-radius:20px;background:var(--off);color:var(--mid);border:1px solid var(--border);font-weight:500;}
-    .cred-link{font-size:.875rem;font-weight:600;color:var(--blue);display:inline-flex;align-items:center;gap:3px;transition:color var(--dur);}
-    .cred-link:hover{color:var(--navy);text-decoration:none;}
-    .cred-cta-row{margin-top:2.5rem;text-align:center;}
-
-    /* === STREAMING_CHUNK:Styling built with AI case study section... === */
-    #built{background:#060C1C;color:#fff;}
-    #built .section-label{color:var(--hero-sky);}
-    #built .section-title{color:#fff;}
-    #built .section-desc{color:rgba(255,255,255,.70);max-width:540px;}
-    .built-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
-    .built-copy p{font-size:.975rem;color:rgba(255,255,255,.75);line-height:1.85;margin-bottom:1rem;}
-    .built-copy strong{color:#fff;font-weight:600;}
-    .workflow-steps{margin-top:1.5rem;display:flex;flex-direction:column;gap:1rem;}
-    .w-step{display:flex;gap:.875rem;align-items:flex-start;}
-    .w-num{width:24px;height:24px;border-radius:50%;background:var(--hero-sky);color:#060C1C;font-size:.75rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;font-family:'JetBrains Mono',monospace;}
-    .w-text{font-size:.925rem;color:rgba(255,255,255,.72);line-height:1.7;}
-    .w-text strong{color:rgba(255,255,255,.95);}
-    .chat-window{background:#0A0F1E;border-radius:var(--radius);border:1px solid rgba(255,255,255,.09);overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.4);}
-    .chat-titlebar{background:rgba(255,255,255,.05);padding:.75rem 1rem;display:flex;align-items:center;gap:6px;border-bottom:1px solid rgba(255,255,255,.07);}
-    .dot{width:10px;height:10px;border-radius:50%;}
-    .dot-r{background:#FF5F57;}.dot-y{background:#FEBC2E;}.dot-g{background:#28C840;}
-    .chat-title-text{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:rgba(255,255,255,.45);margin-left:6px;}
-    .chat-body{padding:1.25rem;display:flex;flex-direction:column;gap:1.125rem;}
-    .msg{display:flex;gap:.7rem;align-items:flex-start;}
-    .msg-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0;margin-top:1px;font-family:'Plus Jakarta Sans',sans-serif;}
-    .av-h{background:var(--blue);color:#fff;}.av-a{background:#C07755;color:#fff;}
-    .msg-inner{display:flex;flex-direction:column;gap:3px;}
-    .msg-sender{font-size:.75rem;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,.45);}
-    .msg-bubble{font-family:'JetBrains Mono',monospace;font-size:.8rem;line-height:1.65;padding:.65rem .9rem;border-radius:0 10px 10px 10px;background:rgba(255,255,255,.07);color:rgba(255,255,255,.82);max-width:290px;}
-    .msg.ai .msg-bubble{background:rgba(116,179,249,.14);border-radius:10px 10px 10px 0;color:rgba(255,255,255,.88);}
-
-    /* === STREAMING_CHUNK:Styling WCAG contrast matrix table... === */
-    #matrix { background: var(--white); }
-    
-    .matrix-container { 
-      overflow-x: auto; 
-      margin-top: 2rem; 
-      border-radius: var(--radius-sm); 
-      border: 1px solid var(--border); 
-      background: var(--card-bg); 
-      padding: 1.5rem; 
-      box-shadow: var(--shadow-sm); 
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
     }
-    
-    .matrix-container:focus-visible {
-      outline: 3px solid var(--blue);
-      outline-offset: 2px;
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .fade-up { opacity: 1 !important; transform: none !important; }
+      .work-card:hover, .cred-card:hover, .a11y-cell:hover { transform: none !important; }
     }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--sky);
+      outline-offset: 3px;
+      border-radius: 3px;
+    }
+    ul, ol { list-style: none; }
     
-    .a11y-table { width: 100%; border-collapse: collapse; text-align: left; min-width: 900px; font-size: .85rem; }
-    .a11y-table th, .a11y-table td { padding: 12px; border: 1px solid var(--border); }
-    .a11y-table th { background: var(--off); font-weight: 600; color: var(--navy); }
-    
-    .a11y-cell { 
-      position: relative; 
-      height: 75px; 
-      min-width: 95px; 
-      vertical-align: bottom; 
-      transition: transform var(--dur), box-shadow var(--dur); 
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    section[id], h3[id] {
+      scroll-margin-top: 85px;
+    }
+
+    /* */
+    .skip-link {
+      position: absolute;
+      top: -120px;
+      left: 1rem;
+      background: var(--blue);
+      color: #fff;
+      padding: 0.65rem 1.25rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      font-weight: 600;
+      z-index: 9999;
+      transition: top 0.2s ease;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(12, 46, 110, 0.98);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .nav-inner {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.25rem;
+    }
+    .nav-logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: #fff;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+    .nav-logo a { color: #fff; text-decoration: none; }
+
+    .nav-links {
+      display: flex;
+      gap: 1.25rem;
+      align-items: center;
+    }
+    .nav-links a {
+      color: rgba(255, 255, 255, 0.84);
+      font-size: 0.875rem;
+      font-weight: 500;
+      padding: 6px 2px;
+      transition: color var(--dur);
+    }
+    .nav-links a:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+    .nav-links a[aria-current="page"],
+    .nav-links a[aria-current="true"] {
+      color: #fff;
+      font-weight: 700;
+      border-bottom: 2px solid var(--hero-sky);
+    }
+
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .theme-btn {
+      background: none;
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
       cursor: pointer;
+      color: rgba(255, 255, 255, 0.9);
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--dur);
+      flex-shrink: 0;
     }
-    
-    .a11y-cell:hover,
-    .a11y-cell:focus-visible { 
-      transform: scale(1.05); 
-      z-index: 10; 
-      box-shadow: var(--shadow-md); 
-      border-radius: 4px; 
-      outline: 2px solid var(--ink);
-      outline-offset: -2px;
+    .theme-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.7);
+      color: #fff;
     }
-    
-    .cell-text { font-weight: 700; font-size: 1.1rem; display: block; margin-bottom: 4px; }
-    .badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: .65rem; font-family: 'Inter', sans-serif; font-weight: 700; text-transform: uppercase; }
-    .badge.aaa { background: #D1FAE5; color: #065F46; } /* Green */
-    .badge.aa { background: #DBEAFE; color: #1E40AF; } /* Blue */
-    .badge.aa18 { background: #FEF3C7; color: #92400E; } /* Yellow */
-    .badge.fail { background: #FEE2E2; color: #991B1B; } /* Red */
-    .null-cell { background: repeating-linear-gradient(45deg, var(--off), var(--off) 10px, var(--border) 10px, var(--border) 11px); }
-    
-    .matrix-legend { margin-top: 1rem; font-size: 0.8rem; color: var(--muted); padding-top: 1rem; border-top: 1px solid var(--border); }
-
-    /* === STREAMING_CHUNK:Styling Ally-Audit Agent case study layout... === */
-    #tool{background:var(--off);}
-    .tool-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:2.5rem;}
-    .tool-col{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow-sm);}
-    .tool-col-head{font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.75rem;}
-    .tool-col-body{font-size:.925rem;color:var(--mid);line-height:1.75;}
-    .tool-dl{display:grid;grid-template-columns:auto 1fr;gap:.3rem .75rem;font-size:.875rem;}
-    .tool-dl dt{font-weight:600;color:var(--ink);}
-    .tool-dl dd{color:var(--mid);}
-    .tool-video{margin-bottom:2.5rem;}
-    .tool-video-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:var(--radius);background:#000;box-shadow:var(--shadow-md);}
-    .tool-video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;}
-    .tool-build{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:2.5rem;align-items:start;}
-    .tool-stack-list{list-style:none;margin-top:.5rem;display:flex;flex-direction:column;gap:.5rem;}
-    .tool-stack-list li{font-size:.9rem;color:var(--mid);padding-left:1.25rem;position:relative;line-height:1.6;}
-    .tool-stack-list li::before{content:'';position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--sky);}
-    .tool-results{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;}
-    .tool-metrics{list-style:none;margin-top:.75rem;display:flex;flex-direction:column;gap:.5rem;}
-    .tool-metrics li{font-size:.9rem;color:var(--mid);padding-left:1.25rem;position:relative;line-height:1.6;}
-    .tool-metrics li::before{content:'';position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--blue);}
-    .tool-demonstrates{background:var(--navy);border-radius:var(--radius);padding:1.5rem;}
-    .tool-demonstrates .tool-col-head{color:#fff;}
-    .tool-demonstrates .tool-col-body{color:rgba(255,255,255,.78);}
-    .tool-demonstrates .tool-col-body+.tool-col-body{margin-top:.625rem;}
-    .tool-demonstrates a{color:var(--hero-sky);text-decoration:underline;}
-    .tool-demonstrates a:hover{color:#fff;text-decoration:underline;}
-    @media(max-width:900px){
-      .tool-cols{grid-template-columns:1fr;}
-      .tool-build{grid-template-columns:1fr;}
-      .tool-results{grid-template-columns:1fr;}
-    }
-
-    /* === STREAMING_CHUNK:Styling contact section and footer... === */
-    #contact{background:var(--white);}
-    .contact-row{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.5rem;}
-    .c-link{display:inline-flex;align-items:center;gap:8px;padding:.65rem 1.25rem;border-radius:50px;border:1.5px solid var(--border);background:var(--off);color:var(--ink);font-size:.9rem;font-weight:500;transition:all var(--dur);}
-    .c-link:hover{background:var(--blue);color:#fff;border-color:var(--blue);text-decoration:none;}
-    .c-link svg{flex-shrink:0;}
-
-    footer{background:var(--navy);color:rgba(255,255,255,.60);text-align:center;padding:2rem;font-size:.875rem;line-height:1.6;}
-    footer a{color:rgba(255,255,255,.80);text-decoration:underline;}
-    footer a:hover{color:#fff;}
-
-    .fade-up{opacity:0;transform:translateY(22px);transition:opacity .55s var(--ease),transform .55s var(--ease);}
-    .fade-up.in{opacity:1;transform:translateY(0);}
-    .fade-up.delay-1{transition-delay:.1s;}
-    .fade-up.delay-2{transition-delay:.2s;}
-    .fade-up.delay-3{transition-delay:.3s;}
-    .fade-up.delay-4{transition-delay:.4s;}
-    .fade-up.delay-5{transition-delay:.5s;}
+    .theme-btn svg { width: 20px; height: 20px; }
+    .icon-sun { display: none; }
+    [data-theme="dark"] .icon-moon { display: none; }
+    [data-theme="dark"] .icon-sun { display: block; }
 
     .hamburger-btn {
       display: none;
       background: none;
-      border: 1.5px solid rgba(255,255,255,.25);
-      color: rgba(255,255,255,.75);
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      color: rgba(255, 255, 255, 0.9);
       border-radius: var(--radius-sm);
-      padding: .375rem .875rem;
-      font-size: .875rem;
+      height: 44px;
+      padding: 0 0.875rem;
+      font-size: 0.875rem;
       font-weight: 600;
       cursor: pointer;
       font-family: 'Inter', sans-serif;
@@ -268,149 +225,880 @@
       gap: 6px;
     }
     .hamburger-btn:hover {
-      background: rgba(255,255,255,.1);
-      border-color: rgba(255,255,255,.5);
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.7);
       color: #fff;
     }
-    .hamburger-btn:focus-visible {
+
+    /* */
+    .hero {
+      background: var(--navy);
+      padding: 130px 1.5rem 85px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 75% 40%, rgba(74, 144, 226, 0.18) 0%, transparent 70%),
+                  radial-gradient(ellipse 40% 40% at 20% 80%, rgba(26, 79, 191, 0.22) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: 1140px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      color: var(--hero-sky);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 1.15rem;
+    }
+    .hero h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(2.3rem, 5.2vw, 4.1rem);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      max-width: 860px;
+      margin-bottom: 1.35rem;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--hero-sky);
+    }
+    .hero-sub {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 620px;
+      line-height: 1.75;
+      margin-bottom: 2.25rem;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.75rem 1.6rem;
+      border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all var(--dur) var(--ease);
+      text-decoration: none;
+    }
+    .btn-white {
+      background: #fff;
+      color: var(--navy);
+    }
+    .btn-white:hover {
+      background: var(--hero-sky);
+      color: var(--navy);
+      text-decoration: none;
+    }
+    .btn-ghost {
+      background: transparent;
+      color: #fff;
+      border: 1.5px solid rgba(255, 255, 255, 0.6);
+    }
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: #fff;
+      text-decoration: none;
+    }
+
+    /* */
+    section { padding: 88px 1.5rem; }
+    .section-inner { max-width: 1140px; margin: 0 auto; }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.925rem;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    [data-theme="dark"] .section-label { color: var(--hero-sky); }
+    .section-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(1.75rem, 3.2vw, 2.35rem);
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.025em;
+      line-height: 1.2;
+      margin-bottom: 0.875rem;
+    }
+    .section-desc {
+      font-size: 1.025rem;
+      color: var(--muted);
+      max-width: 640px;
+      line-height: 1.75;
+      margin-bottom: 2.75rem;
+    }
+
+    /* */
+    #about { background: var(--white); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 3.5rem;
+      align-items: start;
+    }
+    .about-body p {
+      font-size: 1.025rem;
+      color: var(--mid);
+      line-height: 1.8;
+      margin-bottom: 1.15rem;
+    }
+    .about-body p:last-child { margin-bottom: 0; }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .stat-tile {
+      background: var(--off);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.35rem 1rem;
+      text-align: center;
+      transition: box-shadow var(--dur);
+    }
+    .stat-tile:hover { box-shadow: var(--shadow-sm); }
+    .stat-n {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--blue);
+      display: block;
+      line-height: 1;
+      margin-bottom: 0.35rem;
+    }
+    [data-theme="dark"] .stat-n { color: var(--hero-sky); }
+    .stat-l {
+      font-size: 0.775rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .stat-tile.wide { grid-column: 1 / -1; }
+
+    /* */
+    #credentials { background: var(--off); }
+    .cred-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+    .cred-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow var(--dur), transform var(--dur);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .cred-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+    }
+    .cred-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+    }
+    .bar-linkedin { background: #0A66C2; }
+    .bar-trailhead { background: #00A1E0; }
+    .bar-deque { background: #7B2DBF; }
+
+    .cred-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1.15rem;
+    }
+    .cred-ico {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .cred-platform {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+      display: block;
+    }
+    .cred-role {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .cred-nums {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .cred-num-n {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--blue);
+      display: block;
+      line-height: 1.1;
+    }
+    [data-theme="dark"] .cred-num-n { color: var(--hero-sky); }
+    .cred-num-l {
+      font-size: 0.775rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+    }
+    .cred-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: auto;
+    }
+    .cred-pill {
+      font-size: 0.775rem;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: var(--off);
+      color: var(--mid);
+      border: 1px solid var(--border);
+      font-weight: 500;
+    }
+    .cred-cta-row {
+      margin-top: 2.5rem;
+      text-align: center;
+    }
+
+    /* */
+    #explore { background: var(--white); }
+    .explore-group { margin-bottom: 3.5rem; }
+    .explore-group:last-child { margin-bottom: 0; }
+    
+    .group-heading {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .group-heading::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 1.2em;
+      background: var(--blue);
+      border-radius: 2px;
+    }
+    [data-theme="dark"] .group-heading::before { background: var(--hero-sky); }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.35rem;
+    }
+
+    .work-card {
+      position: relative;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.6rem;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow var(--dur), transform var(--dur), border-color var(--dur);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .work-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+      border-color: var(--sky);
+    }
+    .work-card:focus-within {
       outline: 2px solid var(--sky);
       outline-offset: 3px;
     }
 
-  @media(max-width:900px){
-    .cred-grid{grid-template-columns:repeat(2,1fr);}
-    .about-grid{grid-template-columns:1fr;gap:2.5rem;}
-    .built-grid{grid-template-columns:1fr;}
-  }
-
-  @media(max-width:768px){
-    .hamburger-btn{display:flex;}
-    .nav-inner{position:relative;}
-    .nav-links{
-      display:none;
-      position:absolute;
-      top:62px;
-      left:0;
-      right:0;
-      background:rgba(12,46,110,.98);
-      flex-direction:column;
-      padding:1rem 1.5rem 1.5rem;
-      gap:.125rem;
-      border-bottom:1px solid rgba(255,255,255,.1);
-      box-shadow:0 8px 24px rgba(0,0,0,.3);
-      z-index:99;
+    .card-title-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.65rem;
     }
-    .nav-links.open{display:flex;}
-    .nav-links li{width:100%;}
-    .nav-links a{
-      display:block;
-      padding:.7rem 0;
-      font-size:1rem;
-      border-bottom:1px solid rgba(255,255,255,.07);
+    .work-card h4 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--ink);
     }
-    .nav-links li:last-child a{border-bottom:none;}
-  }
+    .card-anchor {
+      color: inherit;
+      text-decoration: none;
+    }
+    .card-anchor::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius);
+      z-index: 1;
+    }
+    .card-anchor:focus-visible {
+      outline: none;
+    }
+    .card-desc {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 1rem;
+    }
+    .card-footer-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.775rem;
+      color: var(--blue);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 600;
+    }
+    [data-theme="dark"] .card-footer-meta { color: var(--hero-sky); }
 
-  @media(max-width:640px){
-    section{padding:64px 1.25rem;}
-    .hero{padding:110px 1.25rem 64px;}
-    .cred-grid{grid-template-columns:1fr;}
-    .hero-ctas{flex-direction:column;align-items:flex-start;}
-  }
+    .badge-new {
+      background: var(--sky-light);
+      color: var(--blue);
+      border: 1px solid var(--sky);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 9px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+    [data-theme="dark"] .badge-new {
+      background: var(--sky-light);
+      color: var(--hero-sky);
+    }
+
+    /* */
+    #built {
+      background: #060C1C;
+      color: #fff;
+    }
+    #built .section-label { color: var(--hero-sky); }
+    #built .section-title { color: #fff; }
+    #built .section-desc { color: rgba(255, 255, 255, 0.75); }
+    
+    .built-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem;
+      align-items: start;
+    }
+    .built-copy p {
+      font-size: 0.975rem;
+      color: rgba(255, 255, 255, 0.82);
+      line-height: 1.85;
+      margin-bottom: 1.15rem;
+    }
+    .built-copy strong { color: #fff; font-weight: 600; }
+    
+    .workflow-steps {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+    .w-step {
+      display: flex;
+      gap: 0.9rem;
+      align-items: flex-start;
+    }
+    .w-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--hero-sky);
+      color: #060C1C;
+      font-size: 0.775rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .w-text {
+      font-size: 0.925rem;
+      color: rgba(255, 255, 255, 0.84);
+      line-height: 1.7;
+    }
+    .w-text strong { color: #fff; }
+
+    .chat-window {
+      background: #0A0F1E;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      overflow: hidden;
+      box-shadow: 0 10px 36px rgba(0,0,0,0.45);
+    }
+    .chat-titlebar {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 0.8rem 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-r { background: #FF5F57; }
+    .dot-y { background: #FEBC2E; }
+    .dot-g { background: #28C840; }
+    .chat-title-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.775rem;
+      color: rgba(255, 255, 255, 0.65);
+      margin-left: 6px;
+    }
+    .chat-body {
+      padding: 1.35rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
+    }
+    .msg { display: flex; gap: 0.75rem; align-items: flex-start; }
+    .msg-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .av-h { background: var(--blue); color: #fff; }
+    .av-a { background: #C07755; color: #fff; }
+    .msg-inner { display: flex; flex-direction: column; gap: 3px; }
+    .msg-sender {
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: rgba(255, 255, 255, 0.65);
+    }
+    .msg-bubble {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.65;
+      padding: 0.7rem 0.95rem;
+      border-radius: 0 10px 10px 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 320px;
+    }
+    .msg.ai .msg-bubble {
+      background: rgba(116, 179, 249, 0.18);
+      border-radius: 10px 10px 10px 0;
+      color: rgba(255, 255, 255, 0.96);
+    }
+
+    /* */
+    #matrix { background: var(--white); }
+    .matrix-container {
+      overflow-x: auto;
+      margin-top: 2rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .matrix-container:focus-visible {
+      outline: 3px solid var(--blue);
+      outline-offset: 2px;
+    }
+    .a11y-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      min-width: 900px;
+      font-size: 0.85rem;
+    }
+    .a11y-table th, .a11y-table td {
+      padding: 12px;
+      border: 1px solid var(--border);
+    }
+    .a11y-table th {
+      background: var(--off);
+      font-weight: 600;
+      color: var(--navy);
+    }
+    [data-theme="dark"] .a11y-table th { color: var(--hero-sky); }
+
+    .a11y-cell {
+      position: relative;
+      height: 75px;
+      min-width: 95px;
+      vertical-align: bottom;
+      transition: transform var(--dur), box-shadow var(--dur);
+      cursor: pointer;
+    }
+    .a11y-cell:hover,
+    .a11y-cell:focus-visible {
+      transform: scale(1.05);
+      z-index: 10;
+      box-shadow: var(--shadow-md);
+      border-radius: 4px;
+      outline: 2px solid var(--ink);
+      outline-offset: -2px;
+    }
+    .cell-text {
+      font-weight: 700;
+      font-size: 1.1rem;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.65rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .badge.aaa { background: #D1FAE5; color: #065F46; }
+    .badge.aa { background: #DBEAFE; color: #1E40AF; }
+    .badge.aa18 { background: #FEF3C7; color: #92400E; }
+    .badge.fail { background: #FEE2E2; color: #991B1B; }
+    .null-cell { background: repeating-linear-gradient(45deg, var(--off), var(--off) 10px, var(--border) 10px, var(--border) 11px); }
+    .matrix-legend {
+      margin-top: 1.25rem;
+      font-size: 0.825rem;
+      color: var(--muted);
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* */
+    #tool { background: var(--off); }
+    .tool-cols {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+    .tool-col {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .tool-col-head {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.85rem;
+    }
+    .tool-col-body {
+      font-size: 0.925rem;
+      color: var(--mid);
+      line-height: 1.75;
+    }
+    .tool-dl {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.35rem 0.85rem;
+      font-size: 0.875rem;
+    }
+    .tool-dl dt { font-weight: 600; color: var(--ink); }
+    .tool-dl dd { color: var(--mid); }
+
+    .tool-video { margin-bottom: 2.5rem; }
+    .tool-video-wrap {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: #000;
+      box-shadow: var(--shadow-md);
+    }
+    .tool-video-wrap iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .tool-results {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+    .tool-metrics {
+      margin-top: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .tool-metrics li {
+      font-size: 0.925rem;
+      color: var(--mid);
+      padding-left: 1.35rem;
+      position: relative;
+      line-height: 1.6;
+    }
+    .tool-metrics li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.6em;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+    }
+    .tool-demonstrates {
+      background: var(--navy);
+      border-radius: var(--radius);
+      padding: 1.6rem;
+    }
+    .tool-demonstrates .tool-col-head { color: #fff; }
+    .tool-demonstrates .tool-col-body { color: rgba(255, 255, 255, 0.88); }
+    .tool-demonstrates .tool-col-body + .tool-col-body { margin-top: 0.75rem; }
+    .tool-demonstrates a { color: var(--hero-sky); text-decoration: underline; }
+    .tool-demonstrates a:hover { color: #fff; }
+
+    /* */
+    #contact { background: var(--white); }
+    .contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      margin-top: 1.5rem;
+    }
+    .c-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.7rem 1.35rem;
+      border-radius: 50px;
+      border: 1.5px solid var(--border);
+      background: var(--off);
+      color: var(--ink);
+      font-size: 0.925rem;
+      font-weight: 600;
+      transition: all var(--dur);
+    }
+    .c-link:hover {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+      text-decoration: none;
+    }
+    .c-link svg { flex-shrink: 0; }
+
+    footer {
+      background: var(--navy);
+      color: rgba(255, 255, 255, 0.8);
+      text-align: center;
+      padding: 2.25rem 1.5rem;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+    footer a {
+      color: rgba(255, 255, 255, 0.95);
+      text-decoration: underline;
+    }
+    footer a:hover { color: #fff; }
+
+    /* */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+    }
+    .fade-up.in { opacity: 1; transform: translateY(0); }
+    .fade-up.delay-1 { transition-delay: 0.1s; }
+    .fade-up.delay-2 { transition-delay: 0.2s; }
+    .fade-up.delay-3 { transition-delay: 0.3s; }
+
+    @media (max-width: 960px) {
+      .cred-grid { grid-template-columns: repeat(2, 1fr); }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .built-grid { grid-template-columns: 1fr; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .tool-cols { grid-template-columns: 1fr; }
+      .tool-results { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 820px) {
+      .hamburger-btn { display: flex; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        right: 0;
+        background: rgba(12, 46, 110, 0.98);
+        flex-direction: column;
+        padding: 1rem 1.5rem 1.5rem;
+        gap: 0.25rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+        z-index: 99;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links li { width: 100%; }
+      .nav-links a {
+        display: block;
+        padding: 0.75rem 0;
+        font-size: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .nav-links li:last-child a { border-bottom: none; }
+    }
+
+    @media (max-width: 640px) {
+      section { padding: 64px 1.25rem; }
+      .hero { padding: 110px 1.25rem 64px; }
+      .cred-grid { grid-template-columns: 1fr; }
+      .hero-ctas { flex-direction: column; align-items: flex-start; }
+    }
   </style>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-V65QYS3RYX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-V65QYS3RYX');
-</script>
 </head>
 <body>
 
 <a href="#main" class="skip-link">Skip to main content</a>
 
-<nav class="nav" aria-label="Main navigation">
+<!-- -->
+<nav class="nav" aria-label="Primary" id="primaryNav">
   <div class="nav-inner">
-    <span class="nav-logo">Matt Hetzel</span>
+    <span class="nav-logo"><a href="index.html#main">Matt Hetzel</a></span>
+    
     <ul class="nav-links" id="navLinks" role="list">
-      <li><a href="#about">About</a></li>
-      <li><a href="#credentials">AI Learning</a></li>
-      <li><a href="#built">Built with AI</a></li>
-      <li><a href="#tool">A11y-Audit</a></li>
-      <li><a href="./future-vision.html">Future Vision</a></li>
-      <li><a href="./ai-service-design.html">AI Service Design</a></li>
-      <li><a href="./ai-change-management.html">Change Management</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#credentials">Learning</a></li>
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#thinking">Thinking</a></li>
+      <li><a href="index.html#built">Built with AI</a></li>
+      <li><a href="index.html#matrix">Accessibility</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
     </ul>
-    <button class="theme-btn" id="themeToggle" aria-pressed="false" aria-label="Toggle dark mode">
-      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-    </button>
-    <button class="hamburger-btn" id="menuBtn" 
+
+    <div class="nav-controls">
+      <button class="theme-btn" id="themeToggle" aria-pressed="false" aria-label="Switch to dark mode">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      
+      <button class="hamburger-btn" id="menuBtn" 
         aria-expanded="false" 
         aria-controls="navLinks"
         aria-label="Open navigation menu">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" 
-       stroke="currentColor" stroke-width="2.5" stroke-linecap="round" 
-       aria-hidden="true">
-    <line x1="3" y1="6" x2="21" y2="6"/>
-    <line x1="3" y1="12" x2="21" y2="12"/>
-    <line x1="3" y1="18" x2="21" y2="18"/>
-  </svg>
-  Menu
-</button>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" 
+             stroke="currentColor" stroke-width="2.5" stroke-linecap="round" 
+             aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+        Menu
+      </button>
+    </div>
   </div>
 </nav>
 
-<section class="hero" aria-labelledby="hero-h1">
+<!-- -->
+<header class="hero" aria-labelledby="hero-h1">
   <div class="hero-inner">
     <span class="hero-eyebrow">AI Practitioner &amp; Human-Centered Designer</span>
     <h1 id="hero-h1">Helping people navigate the <em>AI transition</em> with clarity.</h1>
-    <p class="hero-sub">14 years at the intersection of psychology, design, and technology. The question I keep asking is not just what can be automated, but how we bring people through it well.</p>
+    <p class="hero-sub">14 years at the intersection of psychology, design, and technology. Translating ambiguous challenges into accessible digital solutions across public systems, enterprise workflows, and agentic AI products.</p>
     <div class="hero-ctas">
-      <a href="#credentials" class="btn btn-white">See my AI learning</a>
-      <a href="#contact" class="btn btn-ghost">Get in touch</a>
+      <a href="index.html#work" class="btn btn-white">Explore My Work</a>
+      <a href="index.html#credentials" class="btn btn-ghost">Verified Credentials</a>
     </div>
   </div>
-</section>
+</header>
 
 <main id="main">
 
+  <!-- -->
   <section id="about" aria-labelledby="about-h2">
     <div class="section-inner">
       <span class="section-label">Background</span>
       <h2 class="section-title" id="about-h2">Psychology meets technology.</h2>
       <div class="about-grid">
         <div class="about-body fade-up">
-          <p>My career started in counseling and education, and that foundation shapes everything I do now. I understand how people resist change, how adults learn, and how cognitive load affects adoption. In AI implementation work, those are not soft skills. They are the difference between a tool people use and one they ignore.</p>
-          <p>Over 14 years I have worked as a career counselor, business analyst, webmaster, UX researcher, and multimedia design manager across government, education, and private sector. I led a pandemic-era UX study with 38 participants, managed a cross-agency website migration under significant political deadline pressure, and built Python automation with ChatGPT.</p>
-          <p>I am a naturally curious person and have quite a few interests, but now I am focused on AI adoption work, because the tools are here but the human side of the transition is still being figured out. That is where I want to help.</p>
-          <p>My goal is to bridge the gap between technology and its users, ensuring that AI tools are not only effective but also accessible and user-friendly.</p>
+          <p>My career started with a Master's in Counseling and a foundation in Psychology, and that baseline shapes how I approach systems today. I understand how people resist change, how adults assimilate new software, and how cognitive load dictates tech adoption. In AI and digital transformations, those are not soft skills—they are the exact dividing line between a platform people use and one they abandon.</p>
+          <p>Over 14 years I have served as Webmaster and UX Product Owner for the State of Indiana (DWD), Multimedia Design Manager at RJL Solutions leading 20+ client platforms, and an accessibility advocate on state-level user councils. Whether coordinating high-stakes website migrations, conducting 38-participant UX research studies, or coding Python automations, my mission remains constant: tease out clarity from complexity.</p>
+          <p>Currently, I focus on AI adoption and multimodal interfaces. The computational tools are here—the human side of the transition is what needs intentional design.</p>
         </div>
-        <div class="fade-up delay-2" aria-label="Key statistics">
+        <div class="fade-up delay-1" aria-label="Key metrics">
           <div class="stats-grid">
             <div class="stat-tile">
               <span class="stat-n" data-target="14">0</span>
-              <span class="stat-l">Years experience</span>
+              <span class="stat-l">Years Experience</span>
             </div>
             <div class="stat-tile">
               <span class="stat-n" data-target="310" data-suffix="+">0</span>
-              <span class="stat-l">Learning hours</span>
+              <span class="stat-l">Learning Hours</span>
             </div>
             <div class="stat-tile">
               <span class="stat-n" data-target="38">0</span>
-              <span class="stat-l">UX participants</span>
+              <span class="stat-l">UX Participants</span>
             </div>
             <div class="stat-tile">
-              <span class="stat-n" data-target="7">0</span>
-              <span class="stat-l">Deque exams</span>
+              <span class="stat-n" data-target="20" data-suffix="+">0</span>
+              <span class="stat-l">Platforms Launched</span>
             </div>
             <div class="stat-tile wide">
               <span class="stat-n" data-target="55">0</span>
-              <span class="stat-l">Salesforce Trailhead badges</span>
+              <span class="stat-l">Trailhead Badges &bull; Mountaineer</span>
             </div>
           </div>
         </div>
@@ -418,14 +1106,14 @@
     </div>
   </section>
 
+  <!-- -->
   <section id="credentials" aria-labelledby="cred-h2">
     <div class="section-inner">
-      <span class="section-label">Continuous learning</span>
-      <h2 class="section-title" id="cred-h2">AI credentials &amp; platforms.</h2>
-      <p class="section-desc">I study AI systematically, across platforms, with a focus on practical application and ethical implementation. Not theoretical. Operational.</p>
+      <span class="section-label">Continuous Learning</span>
+      <h2 class="section-title" id="cred-h2">AI credentials &amp; certifications.</h2>
+      <p class="section-desc">Studying AI and accessibility systematically across recognized industry programs. Practical, ethical, and built for production deployment.</p>
       
       <div class="cred-grid">
-
         <div class="cred-card fade-up" aria-labelledby="cred-linkedin">
           <div class="cred-bar bar-linkedin" aria-hidden="true"></div>
           <div class="cred-head">
@@ -490,77 +1178,160 @@
             <span class="cred-pill">PDF Creators</span>
           </div>
         </div>
-
       </div>
 
       <div class="cred-cta-row fade-up delay-3">
         <a href="./credentials.html" class="btn btn-white" style="background:var(--navy); color:#fff; border:1.5px solid var(--navy);">View Full Credential Gallery &amp; Certificates &rarr;</a>
       </div>
+    </div>
+  </section>
+
+  <!-- -->
+  <section id="explore" aria-labelledby="explore-h2">
+    <div class="section-inner">
+      <span class="section-label">Portfolio &amp; Insights</span>
+      <h2 class="section-title" id="explore-h2">Explore my work and thinking.</h2>
+      <p class="section-desc">Case studies and strategic analyses addressing the intersection of enterprise tooling, cognitive load, and emerging human-AI interaction models.</p>
+
+      <!-- Work Group -->
+      <div class="explore-group">
+        <h3 class="group-heading" id="work">Work</h3>
+        <div class="cards-grid">
+          
+          <article class="work-card fade-up">
+            <div>
+              <div class="card-title-wrap">
+                <h4>
+                  <a href="./ai-service-design.html" class="card-anchor">AI Service Design</a>
+                </h4>
+              </div>
+              <p class="card-desc">End-to-end framework and service blueprints integrating AI capabilities into human-centered workflows.</p>
+            </div>
+            <div class="card-footer-meta">
+              <span>Read Perspective &rarr;</span>
+            </div>
+          </article>
+
+          <article class="work-card fade-up delay-1">
+            <div>
+              <div class="card-title-wrap">
+                <h4>
+                  <a href="./ai-change-management.html" class="card-anchor">Change Management</a>
+                </h4>
+              </div>
+              <p class="card-desc">Actionable strategies for reducing cognitive load and driving organizational adoption during tech shifts.</p>
+            </div>
+            <div class="card-footer-meta">
+              <span>Read Perspective &rarr;</span>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+      <!-- Thinking Group -->
+      <div class="explore-group">
+        <h3 class="group-heading" id="thinking">Thinking</h3>
+        <div class="cards-grid">
+
+          <article class="work-card fade-up">
+            <div>
+              <div class="card-title-wrap">
+                <h4>
+                  <a href="./future-vision.html" class="card-anchor">Future Vision</a>
+                </h4>
+              </div>
+              <p class="card-desc">Explorations on human-in-the-loop systems, ethical deployment, and sustainable AI-augmented futures.</p>
+            </div>
+            <div class="card-footer-meta">
+              <span>Read Perspective &rarr;</span>
+            </div>
+          </article>
+
+          <article class="work-card fade-up delay-1">
+            <div>
+              <div class="card-title-wrap">
+                <h4>
+                  <a href="./the-future-of-ai-interfaces.html" class="card-anchor">AI Interfaces</a>
+                </h4>
+                <span class="badge-new">New</span>
+              </div>
+              <p class="card-desc">Will voice replace screens? Why the next interface is multimodal, with a form you can try three ways.</p>
+            </div>
+            <div class="card-footer-meta">
+              <span>Read Perspective &rarr;</span>
+            </div>
+          </article>
+
+        </div>
+      </div>
 
     </div>
   </section>
 
+  <!-- -->
   <section id="built" aria-labelledby="built-h2">
     <div class="section-inner">
-      <span class="section-label">Meta case study</span>
+      <span class="section-label">Meta Case Study</span>
       <h2 class="section-title" id="built-h2">I built this site with AI.</h2>
-      <p class="section-desc">Not as a gimmick. As a demonstration of what a real human-AI workflow actually looks like.</p>
+      <p class="section-desc">Not as a gimmick. As a live demonstration of how human discernment directs AI execution.</p>
+      
       <div class="built-grid">
         <div class="built-copy fade-up">
-          <p>This site was built using a collaborative workflow with <strong>Claude</strong> for content strategy, structure, and code generation, and <strong>Gemini</strong> for accessibility validation and color contrast analysis. Every section was iterated through conversation, not produced in a single prompt.</p>
-          <p>That distinction matters. AI fluency is not knowing how to prompt. It is knowing when the output is right and when it needs a human to push back.</p>
-          <ol class="workflow-steps" aria-label="How this site was built">
+          <p>This site was built using a collaborative workflow with <strong>Claude</strong> for structural drafting, content strategy, and component logic, and <strong>Gemini</strong> for WCAG contrast auditing and accessibility validation. Every section was refined through conversation, not produced in an unreviewed single prompt.</p>
+          <p>That distinction is crucial. Genuine AI fluency is not knowing how to write prompts; it is knowing when an output fails accessibility guidelines, introduces cognitive friction, or needs human pushback.</p>
+          <ol class="workflow-steps" aria-label="Build process steps">
             <li class="w-step">
               <span class="w-num" aria-hidden="true">1</span>
-              <span class="w-text"><strong>Planning with Claude:</strong> Defined site goals, audience, content structure, and what each section needed to accomplish. The information architecture came from genuine back-and-forth, not a template.</span>
+              <span class="w-text"><strong>Planning with Claude:</strong> Outlined portfolio objectives, persona journeys, and semantic structure without reaching for off-the-shelf templates.</span>
             </li>
             <li class="w-step">
               <span class="w-num" aria-hidden="true">2</span>
-              <span class="w-text"><strong>Accessibility validation with Gemini:</strong> Used Gemini to build the WCAG contrast matrix below, verifying every color combination before committing to the palette. See the results in the Design System section.</span>
+              <span class="w-text"><strong>Accessibility validation with Gemini:</strong> Generated and stress-tested the mathematical color contrast matrix below, verifying WCAG 2.2 AA compliance before locking colors.</span>
             </li>
             <li class="w-step">
               <span class="w-num" aria-hidden="true">3</span>
-              <span class="w-text"><strong>Code generation with Claude:</strong> Full HTML, CSS, and JavaScript generated iteratively, with accessibility, dark mode, and responsive design built in from the start, not added later.</span>
+              <span class="w-text"><strong>Iterative code refinement:</strong> Generated CSS and semantic HTML with dark mode, disclosure ARIA states, and keyboard traps resolved upfront.</span>
             </li>
             <li class="w-step">
               <span class="w-num" aria-hidden="true">4</span>
-              <span class="w-text"><strong>Human judgment throughout:</strong> What to cut, what to keep, what felt true to the story. The AI generates options. The human makes decisions. That is the workflow worth understanding.</span>
+              <span class="w-text"><strong>Human judgment at each gate:</strong> Curating narrative focus, maintaining brand restraint, and testing against real-world browser screen readers.</span>
             </li>
           </ol>
         </div>
-        <div class="fade-up delay-2">
-          <div class="chat-window" role="img" aria-label="Example planning conversation between Matt and Claude showing how the site structure was developed">
+        <div class="fade-up delay-1">
+          <div class="chat-window" role="img" aria-label="Planning conversation transcript between Matt and Claude demonstrating iterative design">
             <div class="chat-titlebar" aria-hidden="true">
               <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
-              <span class="chat-title-text">claude.ai &mdash; site planning session</span>
+              <span class="chat-title-text">claude.ai &mdash; site planning transcript</span>
             </div>
             <div class="chat-body" aria-hidden="true">
               <div class="msg">
                 <div class="msg-avatar av-h">MH</div>
                 <div class="msg-inner">
                   <span class="msg-sender">Matt</span>
-                  <div class="msg-bubble">I want to build a GitHub Pages site centered around AI. Show my credentials, call out that I built it with AI. Free account, want bells and whistles but keep it accessible.</div>
+                  <div class="msg-bubble">I want to build a GitHub Pages portfolio centered on human-centered AI. Highlight my verified credentials, UX leadership, and keep it strictly accessible.</div>
                 </div>
               </div>
               <div class="msg ai">
                 <div class="msg-avatar av-a">AI</div>
                 <div class="msg-inner">
                   <span class="msg-sender">Claude</span>
-                  <div class="msg-bubble">Good timing. A few questions first: Is this publicly discoverable? And what is the relationship between this site and your existing case studies?</div>
+                  <div class="msg-bubble">Let's build with clean vanilla tokens. We should design an interactive chat artifact and an a11y color matrix to demonstrate live capability.</div>
                 </div>
               </div>
               <div class="msg">
                 <div class="msg-avatar av-h">MH</div>
                 <div class="msg-inner">
                   <span class="msg-sender">Matt</span>
-                  <div class="msg-bubble">Both exist separately for different audiences. Feature all the platforms: LinkedIn, Trailhead, Google, IBM, Anthropic, Deque. All of it.</div>
+                  <div class="msg-bubble">Approved. Ensure all card titles are keyboard operable and full AA contrast is maintained.</div>
                 </div>
               </div>
               <div class="msg ai">
                 <div class="msg-avatar av-a">AI</div>
                 <div class="msg-inner">
                   <span class="msg-sender">Claude</span>
-                  <div class="msg-bubble">Perfect. The signature section will be a chat window showing exactly this conversation. Let me build it.</div>
+                  <div class="msg-bubble">Done. The layout implements proper landmark semantics and reduced-motion fallbacks.</div>
                 </div>
               </div>
             </div>
@@ -570,80 +1341,76 @@
     </div>
   </section>
 
+  <!-- -->
   <section id="matrix" aria-labelledby="matrix-h2">
     <div class="section-inner">
       <span class="section-label">Design System</span>
       <h2 class="section-title" id="matrix-h2">WCAG 2.2 Contrast Matrix.</h2>
-      <p class="section-desc">Accessibility isn't guesswork. I built this interactive matrix to ensure every color combination on this site meets the latest WCAG 2.2 AA standards. Hover or use your keyboard to focus on combinations to see them in action.</p>
+      <p class="section-desc">Accessibility is engineering, not guesswork. This interactive matrix computes contrast ratios across our 10 brand tokens against WCAG 2.2 standards. Tab or hover over any pair to test compliance.</p>
       
-      <!-- Screen Reader Global Summary -->
       <div class="sr-only">
         <h3>Contrast Matrix Overview</h3>
-        <p>This table compares our 10 brand colors. Row headers indicate Background Colors. Column headers indicate Text Colors. Safe combinations generally include Navy, Deep Dark, or Ink backgrounds paired with White or Off-White text.</p>
+        <p>This table compares our 10 brand colors. Row headers represent Background Colors. Column headers represent Text Colors.</p>
       </div>
 
-      <!-- WebAIM Fix: Scrollable region for Keyboard Users -->
       <div class="matrix-container fade-up" tabindex="0" role="region" aria-labelledby="matrix-h2" aria-describedby="scroll-instruction">
-        <span id="scroll-instruction" class="sr-only">This is a horizontally scrollable area. Use your arrow keys while focused to scroll through the full color matrix.</span>
+        <span id="scroll-instruction" class="sr-only">Horizontally scrollable table. Use arrow keys to navigate rows and columns.</span>
         
         <table class="a11y-table" id="contrastTable">
           <thead>
             <tr id="matrix-headers">
               <th scope="col" style="vertical-align:bottom; padding-bottom:12px;">Background \ Text</th>
-              <!-- JS will populate text colors here -->
             </tr>
           </thead>
           <tbody id="matrix-body">
-             <!-- JS will populate rows here -->
+             <!-- Populated dynamically via JavaScript -->
           </tbody>
         </table>
         
-        <!-- Visual Legend -->
         <div class="matrix-legend" aria-hidden="true">
-          <strong>Key:</strong> 
-          <span style="margin-left: 8px;">AAA = 7.0+ (enhanced)</span> &bull; 
-          <span>AA = 4.5+ (normal text)</span> &bull; 
-          <span>Large = 3.0+ (large text 18pt+, or bold 14pt+)</span> &bull; 
-          <span>Fail = below 3.0</span>
+          <strong>WCAG Status:</strong> 
+          <span style="margin-left: 8px;"><span class="badge aaa">AAA</span> = 7.0+ (enhanced)</span> &bull; 
+          <span><span class="badge aa">AA</span> = 4.5+ (normal text)</span> &bull; 
+          <span><span class="badge aa18">Large</span> = 3.0+ (18pt+ or 14pt+ bold)</span> &bull; 
+          <span><span class="badge fail">Fail</span> = below 3.0</span>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- -->
   <section id="tool" aria-labelledby="tool-h2">
     <div class="section-inner">
-      <span class="section-label">Case Study</span>
+      <span class="section-label">Featured Application</span>
       <h2 class="section-title" id="tool-h2">Ally-Audit Agent.</h2>
-      <p class="section-desc">An AI-powered accessibility auditor built through human-AI collaboration — proof that the workflow I describe actually works in practice.</p>
+      <p class="section-desc">An agentic AI accessibility assistant built to streamline WCAG 2.2 audits for developers—moving from code paste to audit fix in seconds.</p>
 
-      <!-- Three-column overview -->
       <div class="tool-cols">
         <div class="tool-col fade-up">
           <h3 class="tool-col-head">Project Overview</h3>
           <dl class="tool-dl">
             <dt>Started</dt><dd>2026</dd>
             <dt>Role</dt><dd>Concept Creator &amp; AI Collaborator</dd>
-            <dt>Team</dt><dd>Myself, Gemini and Claude</dd>
-            <dt>Tools</dt><dd>Gemini Canvas, NotebookLM, Claude AI, React, Tailwind CSS</dd>
+            <dt>Team</dt><dd>Matt Hetzel, Gemini, Claude</dd>
+            <dt>Stack</dt><dd>Gemini Canvas, React, Tailwind CSS</dd>
             <dt>Type</dt><dd>Agentic AI Web Application</dd>
           </dl>
         </div>
         <div class="tool-col fade-up delay-1">
           <h3 class="tool-col-head">AI Collaboration Stack</h3>
-          <ul class="tool-col-body">
-            <li><span style="font-weight: bold;">Gemini Canvas</span> — primary development environment</li>
-            <li><span style="font-weight: bold;">Claude</span> — testing, logic validation, and iteration partner</li>
-            <li><span style="font-weight: bold;">React + Tailwind CSS</span> — front-end framework</li>
-            <li><span style="font-weight: bold;">WCAG 2.2 + ADA guidelines</span> — evaluation framework</li>
+          <ul class="tool-col-body" style="list-style:disc; padding-left:1.25rem;">
+            <li><strong>Gemini Canvas:</strong> Primary development and logic sandbox</li>
+            <li><strong>Claude:</strong> Testing, validation, and adversary code generator</li>
+            <li><strong>React + Tailwind:</strong> Front-end component architecture</li>
+            <li><strong>WCAG 2.2 + ADA:</strong> Verification ruleset engine</li>
           </ul>
         </div>
         <div class="tool-col fade-up delay-2">
           <h3 class="tool-col-head">What I Built</h3>
-          <p class="tool-col-body">A web application where developers drop in code and receive instant accessibility evaluations against WCAG 2.2 standards, with remediated code suggestions generated automatically. Just paste, audit, fix.</p>
+          <p class="tool-col-body">A streamlined tool where developers drop in interface snippets and receive instant accessibility evaluations against WCAG 2.2 standards, paired with production-ready remediated code. Just paste, audit, fix.</p>
         </div>
       </div>
 
-      <!-- YouTube video embed -->
       <div class="tool-video fade-up">
         <div class="tool-video-wrap">
           <iframe 
@@ -656,50 +1423,50 @@
         </div>
       </div>
 
-      <!-- Results + What this demonstrates -->
       <div class="tool-results fade-up">
         <div>
-          <h3 class="tool-col-head">Results &amp; Impact</h3>
-          <p class="tool-col-body">This project wasn't just a build exercise; it reached a real audience and sparked real conversation on LinkedIn.</p>
-          <ul class="tool-metrics" aria-label="LinkedIn post performance metrics">
-            <li><strong>1,095</strong> impressions / 724 members reached</li>
+          <h3 class="tool-col-head">Results &amp; Reach</h3>
+          <p class="tool-col-body">Proof of concept validated with high engagement in the professional UX and engineering community on LinkedIn.</p>
+          <ul class="tool-metrics" aria-label="LinkedIn post metrics">
+            <li><strong>1,095</strong> impressions / 724 unique members reached</li>
             <li><strong>406</strong> video views / 1h 29m total watch time</li>
             <li><strong>27</strong> reactions / 16 comments / 4 saves / 2 reposts</li>
           </ul>
         </div>
         <div class="tool-demonstrates">
-          <h3 class="tool-col-head">What This Demonstrates</h3>
-          <p class="tool-col-body"><strong>First,</strong> I can identify real problems worth solving — accessibility gaps in developer workflows represent genuine business risk for any company shipping digital products.</p>
-          <p class="tool-col-body"><strong>Second,</strong> I can move from idea to working prototype rapidly using AI as a force multiplier, not a shortcut, but as a collaboration tool that accelerates judgment-driven development.</p>
-          <p class="tool-col-body"><strong>Third,</strong> I understand the landscape I'm building in. Tools like <a href="https://webaim.org/AIMee/" target="_blank" rel="noopener noreferrer">WebAIM's AIMee<span class="sr-only"> (opens in new tab)</span></a> validate that this problem space is worth serious investment. I was building in the right direction independently, which is exactly the kind of instinct a business needs when exploring AI-driven solutions.</p>
+          <h3 class="tool-col-head">Strategic Value Demonstrated</h3>
+          <p class="tool-col-body"><strong>1. Real-World Risk Mitigation:</strong> Accessibility violations represent legal and UX risks for companies. Automating audits saves costly remediations late in the SDLC.</p>
+          <p class="tool-col-body"><strong>2. Accelerated AI Delivery:</strong> Proving how prompt iteration, logic stress-testing, and rapid prototyping transform ideas into working software within days.</p>
+          <p class="tool-col-body"><strong>3. Industry Alignment:</strong> Independent innovation aligning directly with solutions like <a href="https://webaim.org/AIMee/" target="_blank" rel="noopener noreferrer">WebAIM's AIMee<span class="sr-only"> (opens in new tab)</span></a>.</p>
         </div>
       </div>
-
     </div>
   </section>
 
+  <!-- -->
   <section id="contact" aria-labelledby="contact-h2">
     <div class="section-inner">
-      <span class="section-label">Get in touch</span>
-      <h2 class="section-title" id="contact-h2">Let's talk.</h2>
-      <p class="section-desc">Open to roles in AI enablement, implementation, UX, and accessibility. Based in Terre Haute, IN, remote preferred, open to the Indianapolis corridor.</p>
+      <span class="section-label">Connect</span>
+      <h2 class="section-title" id="contact-h2">Let's collaborate.</h2>
+      <p class="section-desc">Open to roles and advisory engagements in AI Enablement, Product Design, and Digital Accessibility. Based in Terre Haute, IN &bull; Open to remote and hybrid opportunities.</p>
+      
       <ul class="contact-row">
         <li>
           <a href="mailto:matthewhetz@gmail.com" class="c-link">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            Email
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Email Matt
           </a>
         </li>
         <li>
           <a href="https://www.linkedin.com/in/hetzelmatthew/" class="c-link" target="_blank" rel="noopener noreferrer">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-            LinkedIn <span class="sr-only">(opens in new tab)</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn Profile <span class="sr-only">(opens in new tab)</span>
           </a>
         </li>
         <li>
           <a href="https://trailblazer.me/id/mhetzel" class="c-link" target="_blank" rel="noopener noreferrer">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-            Trailhead <span class="sr-only">(opens in new tab)</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            Salesforce Trailhead <span class="sr-only">(opens in new tab)</span>
           </a>
         </li>
       </ul>
@@ -708,83 +1475,150 @@
 
 </main>
 
+<!-- -->
 <footer>
-  <p>Built by Matt Hetzel with Claude and Gemini &mdash; <a href="#built">here's exactly how</a>.</p>
-  <p style="margin-top:.375rem;">Terre Haute, IN &bull; Open to remote roles nationally</p>
+  <p>&copy; 2026 Matt Hetzel &bull; Built with Claude and Gemini &mdash; <a href="index.html#built">See how this site was engineered</a></p>
+  <p style="margin-top:0.4rem; opacity:0.85;">Terre Haute, IN &bull; 610-762-4823 &bull; matthewhetz@gmail.com</p>
 </footer>
 
+<!-- -->
 <script>
-  // === DARK MODE ===
-  const btn = document.getElementById('themeToggle');
-  const saved = localStorage.getItem('mh-theme');
-  if (saved === 'dark') {
-    document.documentElement.setAttribute('data-theme','dark');
-    btn.setAttribute('aria-pressed','true');
+  // 1. THEME SWITCHER (WCAG accessible toggle)
+  const themeToggle = document.getElementById('themeToggle');
+  const storedTheme = localStorage.getItem('mh-theme');
+  
+  if (storedTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    themeToggle.setAttribute('aria-pressed', 'true');
+    themeToggle.setAttribute('aria-label', 'Switch to light mode');
   }
-  btn.addEventListener('click', () => {
-    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
-    document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark');
-    localStorage.setItem('mh-theme', dark ? 'light' : 'dark');
-    btn.setAttribute('aria-pressed', dark ? 'false' : 'true');
-    btn.setAttribute('aria-label', dark ? 'Switch to dark mode' : 'Switch to light mode');
+
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const nextTheme = isDark ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', nextTheme);
+    localStorage.setItem('mh-theme', nextTheme);
+    themeToggle.setAttribute('aria-pressed', !isDark ? 'true' : 'false');
+    themeToggle.setAttribute('aria-label', !isDark ? 'Switch to light mode' : 'Switch to dark mode');
   });
 
-  // Hamburger menu
+  // 2. MOBILE MENU DISCLOSURE PATTERN
   const menuBtn = document.getElementById('menuBtn');
   const navLinks = document.getElementById('navLinks');
+  const primaryNav = document.getElementById('primaryNav');
+
+  function closeMenu() {
+    navLinks.classList.remove('open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.setAttribute('aria-label', 'Open navigation menu');
+  }
+
+  function openMenu() {
+    navLinks.classList.add('open');
+    menuBtn.setAttribute('aria-expanded', 'true');
+    menuBtn.setAttribute('aria-label', 'Close navigation menu');
+  }
+
   if (menuBtn && navLinks) {
     menuBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      const open = navLinks.classList.toggle('open');
-      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      menuBtn.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+      const isOpen = navLinks.classList.contains('open');
+      if (isOpen) { closeMenu(); } else { openMenu(); }
     });
+
+    // Close when clicking any nav item
     navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('open');
-        menuBtn.setAttribute('aria-expanded', 'false');
-        menuBtn.setAttribute('aria-label', 'Open navigation menu');
-      });
+      link.addEventListener('click', () => { closeMenu(); });
     });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && navLinks.classList.contains('open')) {
+        closeMenu();
+        menuBtn.focus();
+      }
+    });
+
+    // Close when focus leaves the navigation landmark
+    primaryNav.addEventListener('focusout', (e) => {
+      if (!primaryNav.contains(e.relatedTarget) && navLinks.classList.contains('open')) {
+        closeMenu();
+      }
+    });
+
+    // Close on outside click
     document.addEventListener('click', (e) => {
-      if (!e.target.closest('.nav')) {
-        navLinks.classList.remove('open');
-        menuBtn.setAttribute('aria-expanded', 'false');
+      if (!e.target.closest('#primaryNav') && navLinks.classList.contains('open')) {
+        closeMenu();
       }
     });
   }
 
-  // === FADE IN ON SCROLL ===
-  const fadeObs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); fadeObs.unobserve(e.target); }});
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.fade-up').forEach(el => fadeObs.observe(el));
+  // 3. SCROLL-INSPECTOR FOR ARIA-CURRENT
+  const sections = document.querySelectorAll('section[id], h3[id]');
+  const navAnchors = document.querySelectorAll('.nav-links a');
 
-  // === STAT COUNTERS (fires once, then disconnects) ===
-  function runCounter(el) {
+  window.addEventListener('scroll', () => {
+    let currentId = '';
+    const scrollPos = window.scrollY + 120;
+
+    sections.forEach(sec => {
+      if (sec.offsetTop <= scrollPos) {
+        currentId = sec.getAttribute('id');
+      }
+    });
+
+    navAnchors.forEach(a => {
+      const href = a.getAttribute('href');
+      if (currentId && (href.endsWith('#' + currentId) || (currentId === 'work' && href.endsWith('#work')) || (currentId === 'thinking' && href.endsWith('#thinking')))) {
+        a.setAttribute('aria-current', 'true');
+      } else {
+        a.removeAttribute('aria-current');
+      }
+    });
+  }, { passive: true });
+
+  // 4. SCROLL INTERSECTION OBSERVER
+  const fadeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        fadeObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => fadeObserver.observe(el));
+
+  // 5. ANIMATED STATISTIC COUNTERS
+  function animateCounter(el) {
     const target = parseInt(el.dataset.target, 10);
     const suffix = el.dataset.suffix || '';
-    el.textContent = '0' + suffix;
-    let step = 0;
+    let frame = 0;
+    const totalFrames = 36;
     const timer = setInterval(() => {
-      step++;
-      const val = Math.round((1 - Math.pow(1 - step / 40, 3)) * target);
-      el.textContent = val.toLocaleString() + suffix;
-      if (step >= 40) { el.textContent = target.toLocaleString() + suffix; clearInterval(timer); }
-    }, 900 / 40);
-  }
-  const statsGrid = document.querySelector('.stats-grid');
-  if (statsGrid) {
-    const statObs = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        statsGrid.querySelectorAll('[data-target]').forEach(runCounter);
-        statObs.disconnect();
+      frame++;
+      const current = Math.round((1 - Math.pow(1 - frame / totalFrames, 3)) * target);
+      el.textContent = current.toLocaleString() + suffix;
+      if (frame >= totalFrames) {
+        el.textContent = target.toLocaleString() + suffix;
+        clearInterval(timer);
       }
-    }, { threshold: 0.3 });
-    statObs.observe(statsGrid);
+    }, 25);
   }
 
-  // === CONTRAST MATRIX (A11Y OPTIMIZED & ACCURATE VISUAL PREVIEW) ===
+  const statsContainer = document.querySelector('.stats-grid');
+  if (statsContainer) {
+    const statsObserver = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        statsContainer.querySelectorAll('[data-target]').forEach(animateCounter);
+        statsObserver.disconnect();
+      }
+    }, { threshold: 0.3 });
+    statsObserver.observe(statsContainer);
+  }
+
+  // 6. WCAG CONTRAST MATRIX BUILDER
   const palette = [
     { name: 'Navy',       hex: '#0C2E6E' },
     { name: 'Blue',       hex: '#1A4FBF' },
@@ -804,14 +1638,13 @@
     return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
   }
 
-  function getContrast(h1, h2) {
+  function getContrastRatio(h1, h2) {
     const l1 = getLuminance(h1);
     const l2 = getLuminance(h2);
-    const ratio = (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
-    return ratio;
+    return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
   }
 
-  function getBadge(ratio) {
+  function getBadgeHtml(ratio) {
     if (ratio >= 7.0) return '<span class="badge aaa">AAA</span>';
     if (ratio >= 4.5) return '<span class="badge aa">AA</span>';
     if (ratio >= 3.0) return '<span class="badge aa18">Large</span>';
@@ -822,40 +1655,33 @@
   const tableBody = document.getElementById('matrix-body');
 
   if (tableHead && tableBody) {
-    // 1. Render Column Headers (Text Colors - X Axis)
     palette.forEach(fg => {
       tableHead.innerHTML += `<th scope="col" aria-label="Text Color: ${fg.name}">${fg.name}<br><span aria-hidden="true" style="font-weight:400; font-size:.7rem">${fg.hex}</span></th>`;
     });
 
-    // 2. Render Rows (Background Colors - Y Axis + Intersecting Data Cells)
     palette.forEach(bg => {
       let row = `<tr><th scope="row" aria-label="Background Color: ${bg.name}">${bg.name}<br><span aria-hidden="true" style="font-weight:400; font-size:.7rem">${bg.hex}</span></th>`;
-      
-      const bgLuminance = getLuminance(bg.hex);
-      // Legible data text color based on background luminance
-      const safeUITextColor = bgLuminance > 0.179 ? '#111827' : '#FFFFFF'; 
+      const bgLum = getLuminance(bg.hex);
+      const safeText = bgLum > 0.179 ? '#111827' : '#FFFFFF';
 
       palette.forEach(fg => {
         if (bg.hex === fg.hex) {
-          row += `<td class="null-cell" aria-label="Identical background and text colors. Invalid."></td>`;
+          row += `<td class="null-cell" aria-label="Identical background and text colors."></td>`;
         } else {
-          const ratio = getContrast(fg.hex, bg.hex);
-          const badge = getBadge(ratio);
+          const ratio = getContrastRatio(fg.hex, bg.hex);
+          const badge = getBadgeHtml(ratio);
           
-          let statusSpoken = "Fails WCAG AA minimum contrast standards.";
-          if (ratio >= 7.0) statusSpoken = "Passes WCAG AAA enhanced contrast.";
-          else if (ratio >= 4.5) statusSpoken = "Passes WCAG AA minimum contrast.";
-          else if (ratio >= 3.0) statusSpoken = "Passes for Large or Bold text styles only.";
+          let statusLabel = "Fails WCAG minimum contrast standards.";
+          if (ratio >= 7.0) statusLabel = "Passes WCAG AAA enhanced contrast.";
+          else if (ratio >= 4.5) statusLabel = "Passes WCAG AA standard text contrast.";
+          else if (ratio >= 3.0) statusLabel = "Passes for large or bold text styles only.";
 
-          const cellAriaLabel = `Background color ${bg.name} with foreground text color ${fg.name}. Calculated contrast ratio is ${ratio.toFixed(1)} to 1. ${statusSpoken}`;
+          const cellLabel = `Background ${bg.name} with text ${fg.name}. Ratio ${ratio.toFixed(1)} to 1. ${statusLabel}`;
           
-          // Visual preview text (shows foreground color)
-          const previewText = `<span class="cell-text" style="color: ${fg.hex};" aria-hidden="true">Text</span>`;
-          
-          row += `<td class="a11y-cell" style="background-color: ${bg.hex};" aria-label="${cellAriaLabel}" tabindex="0">
-                    ${previewText}
-                    <div style="display:flex; justify-content:space-between; align-items:center; color: ${safeUITextColor};" aria-hidden="true">
-                      ${badge} <span style="font-size:.75rem; font-weight:600;">${ratio.toFixed(1)}</span>
+          row += `<td class="a11y-cell" style="background-color: ${bg.hex};" aria-label="${cellLabel}" tabindex="0">
+                    <span class="cell-text" style="color: ${fg.hex};" aria-hidden="true">Text</span>
+                    <div style="display:flex; justify-content:space-between; align-items:center; color: ${safeText};" aria-hidden="true">
+                      ${badge} <span style="font-size:.75rem; font-weight:700;">${ratio.toFixed(1)}</span>
                     </div>
                   </td>`;
         }
