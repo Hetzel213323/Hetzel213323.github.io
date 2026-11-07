@@ -1,0 +1,1891 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessible the First Time, Tested with People | Matt Hetzel Accessibility Workflow</title>
+  <meta name="description" content="How Matt Hetzel pairs AI speed with human judgment, WCAG 2.2 AA standards, rule-based checkers, and manual screen reader testing to build accessible digital products.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>document.documentElement.classList.add('js');</script>
+  
+  <style>
+    /* ==========================================================================
+       EXISTING DESIGN TOKENS & BASE STYLES (FROM INDEX.HTML)
+       ========================================================================== */
+    :root {
+      --navy: #0C2E6E;
+      --blue: #1A4FBF;
+      --sky: #4A90E2;
+      --hero-sky: #74B3F9;
+      --sky-light: #EBF3FC;
+      --white: #FFFFFF;
+      --off: #F7F9FC;
+      --ink: #111827;
+      --mid: #374151;
+      --muted: #595F6B;
+      --border: #E5E7EB;
+      --card-bg: #FFFFFF;
+      --bg: #F7F9FC;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.08), 0 2px 8px rgba(0,0,0,.05);
+      --shadow-md: 0 4px 14px rgba(0,0,0,.10), 0 8px 24px rgba(0,0,0,.06);
+      --shadow-lg: 0 12px 30px rgba(12,46,110,.15);
+      --radius: 14px;
+      --radius-sm: 8px;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+      --dur: 0.25s;
+    }
+
+    [data-theme="dark"] {
+      --white: #1A1F2E;
+      --off: #111827;
+      --ink: #F3F4F6;
+      --mid: #D1D5DB;
+      --muted: #9CA3AF;
+      --border: #2D3748;
+      --card-bg: #1E2533;
+      --bg: #111827;
+      --sky-light: #1A2E4A;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.4), 0 2px 8px rgba(0,0,0,.3);
+      --shadow-md: 0 4px 14px rgba(0,0,0,.5), 0 8px 24px rgba(0,0,0,.4);
+      --shadow-lg: 0 12px 30px rgba(0,0,0,.6);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .fade-up { opacity: 1 !important; transform: none !important; }
+      .work-card:hover, .cred-card:hover, .a11y-cell:hover { transform: none !important; }
+    }
+
+    /* Accessible Scroll & Load Animations (only when JS is active and motion is allowed) */
+    @media (prefers-reduced-motion: no-preference) {
+      html.js .anim-hero {
+        opacity: 0;
+        transform: translateY(16px);
+        transition: opacity 500ms ease-out, transform 500ms ease-out;
+        transition-delay: calc(var(--i, 0) * 110ms);
+      }
+      html.js .anim-hero.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      html.js .anim-fade-up {
+        opacity: 0;
+        transform: translateY(16px);
+        transition: opacity 500ms ease-out, transform 500ms ease-out;
+        transition-delay: calc(var(--i, 0) * 80ms);
+      }
+      html.js .anim-fade-up.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      html.js .anim-slide-left {
+        opacity: 0;
+        transform: translateX(-24px);
+        transition: opacity 500ms ease-out, transform 500ms ease-out;
+      }
+      html.js .anim-slide-right {
+        opacity: 0;
+        transform: translateX(24px);
+        transition: opacity 500ms ease-out, transform 500ms ease-out;
+      }
+      html.js .anim-slide-left.is-visible,
+      html.js .anim-slide-right.is-visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      html.js .step-card::after {
+        transform: scaleY(0);
+        transition: transform 500ms ease-out 180ms;
+      }
+      html.js .step-card.is-visible::after {
+        transform: scaleY(1);
+      }
+
+      .a11y-dialog[open] {
+        animation: dialogFadeIn 200ms ease-out;
+      }
+      @keyframes dialogFadeIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: var(--blue); text-decoration: underline; text-underline-offset: 3px; }
+    [data-theme="dark"] a { color: var(--hero-sky); }
+    a:hover { text-decoration: none; }
+    a:focus-visible, button:focus-visible, [tabindex="0"]:focus-visible, dialog:focus-visible {
+      outline: 3px solid var(--sky);
+      outline-offset: 3px;
+      border-radius: 3px;
+    }
+    ul, ol { list-style: none; }
+    
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    section[id], h2[id], h3[id] {
+      scroll-margin-top: 85px;
+    }
+
+    /* Skip Link */
+    .skip-link {
+      position: absolute;
+      top: -120px;
+      left: 1rem;
+      background: var(--blue);
+      color: #fff;
+      padding: 0.65rem 1.25rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      font-weight: 600;
+      z-index: 9999;
+      text-decoration: none;
+      transition: top 0.2s ease;
+    }
+    .skip-link:focus { top: 1rem; color: #fff; }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(12, 46, 110, 0.98);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .nav-inner {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.25rem;
+    }
+    .nav-logo {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: #fff;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+    .nav-logo a { color: #fff; text-decoration: none; }
+
+    .nav-links {
+      display: flex;
+      gap: 1.25rem;
+      align-items: center;
+    }
+    .nav-links a {
+      color: rgba(255, 255, 255, 0.84);
+      font-size: 0.875rem;
+      font-weight: 500;
+      padding: 6px 4px;
+      min-height: 24px;
+      display: inline-flex;
+      align-items: center;
+      text-decoration: none;
+      transition: color var(--dur);
+    }
+    .nav-links a:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+    .nav-links a[aria-current="page"],
+    .nav-links a[aria-current="true"] {
+      color: #fff;
+      font-weight: 700;
+      border-bottom: 2px solid var(--hero-sky);
+    }
+
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .theme-btn {
+      background: none;
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.9);
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--dur);
+      flex-shrink: 0;
+    }
+    .theme-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.7);
+      color: #fff;
+    }
+    .theme-btn svg { width: 20px; height: 20px; }
+    .icon-sun { display: none; }
+    [data-theme="dark"] .icon-moon { display: none; }
+    [data-theme="dark"] .icon-sun { display: block; }
+
+    .hamburger-btn {
+      display: none;
+      background: none;
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      color: rgba(255, 255, 255, 0.9);
+      border-radius: var(--radius-sm);
+      height: 44px;
+      padding: 0 0.875rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all var(--dur);
+      align-items: center;
+      gap: 6px;
+    }
+    .hamburger-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.7);
+      color: #fff;
+    }
+
+    /* Hero */
+    .hero {
+      background: var(--navy);
+      padding: 130px 1.5rem 85px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 75% 40%, rgba(74, 144, 226, 0.18) 0%, transparent 70%),
+                  radial-gradient(ellipse 40% 40% at 20% 80%, rgba(26, 79, 191, 0.22) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: 1140px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      color: var(--hero-sky);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 1.15rem;
+    }
+    .hero h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.85rem);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      max-width: 860px;
+      margin-bottom: 1.35rem;
+    }
+    .hero-sub {
+      font-size: 1.125rem;
+      color: rgba(255, 255, 255, 0.92);
+      max-width: min(75%, 80ch);
+      line-height: 1.75;
+      margin-bottom: 1.5rem;
+    }
+    .hero-a11y-note {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1.15rem;
+      font-size: 0.925rem;
+      color: rgba(255, 255, 255, 0.95);
+      line-height: 1.6;
+      max-width: min(75%, 80ch);
+    }
+    .hero-a11y-note strong {
+      color: var(--hero-sky);
+      font-weight: 700;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      padding: 0.75rem 1.6rem;
+      min-height: 44px;
+      border-radius: 50px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.925rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      transition: all var(--dur) var(--ease);
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
+    .btn-primary:hover {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: #fff;
+      text-decoration: none;
+    }
+    [data-theme="dark"] .btn-primary {
+      background: var(--hero-sky);
+      color: var(--navy);
+      border-color: var(--hero-sky);
+    }
+    [data-theme="dark"] .btn-primary:hover {
+      background: #fff;
+      color: var(--navy);
+      border-color: #fff;
+    }
+    .btn-secondary {
+      background: var(--off);
+      color: var(--ink);
+      border-color: var(--border);
+    }
+    .btn-secondary:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+      text-decoration: none;
+    }
+    [data-theme="dark"] .btn-secondary:hover {
+      border-color: var(--hero-sky);
+      color: var(--hero-sky);
+    }
+
+    /* Section Defaults */
+    section { padding: 84px 1.5rem; }
+    .section-inner { max-width: 1140px; margin: 0 auto; }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.925rem;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    [data-theme="dark"] .section-label { color: var(--hero-sky); }
+    .section-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(1.75rem, 3.2vw, 2.35rem);
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.025em;
+      line-height: 1.2;
+      margin-bottom: 0.875rem;
+    }
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--mid);
+      max-width: min(75%, 80ch);
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+    }
+
+    @media (max-width: 48rem) {
+      .hero-sub,
+      .hero-a11y-note,
+      .section-desc {
+        max-width: 100%;
+      }
+    }
+
+    /* ==========================================================================
+       NEW PAGE-SPECIFIC STYLES (ACCESSIBILITY.HTML)
+       ========================================================================== */
+
+    /* The Five Steps */
+    #steps { background: var(--off); }
+    .steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .step-card {
+      position: relative;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .step-card:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 2.85rem;
+      top: 100%;
+      width: 2px;
+      height: 1.5rem;
+      background: var(--sky);
+      transform-origin: top;
+    }
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin-bottom: 1.25rem;
+    }
+    .step-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      background: var(--navy);
+      color: #fff;
+      padding: 0.3rem 0.75rem;
+      border-radius: 50px;
+      flex-shrink: 0;
+    }
+    [data-theme="dark"] .step-badge {
+      background: var(--hero-sky);
+      color: #060C1C;
+    }
+    .step-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .step-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    .step-box {
+      background: var(--off);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1.15rem 1.25rem;
+    }
+    .step-box.human-role {
+      border-left: 4px solid var(--blue);
+    }
+    [data-theme="dark"] .step-box.human-role {
+      border-left-color: var(--hero-sky);
+    }
+    .step-role-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.775rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--blue);
+      display: block;
+      margin-bottom: 0.45rem;
+    }
+    [data-theme="dark"] .step-role-label {
+      color: var(--hero-sky);
+    }
+    .step-box p {
+      font-size: 0.95rem;
+      color: var(--mid);
+      line-height: 1.7;
+    }
+
+    /* Tool Roles & Component Library Callout */
+    #tools-roles { background: var(--white); }
+    .roles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+    .role-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .role-card h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .role-card p {
+      font-size: 0.95rem;
+      color: var(--mid);
+      line-height: 1.7;
+    }
+    .roles-note {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .callout-banner {
+      background: var(--navy);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+      border-left: 6px solid var(--hero-sky);
+    }
+    .callout-banner h3 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--hero-sky);
+      margin-bottom: 0.6rem;
+    }
+    .callout-banner p {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      line-height: 1.6;
+      color: #fff;
+    }
+
+    /* Demo: One Modal, Two Versions */
+    #demo { background: var(--white); }
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      align-items: start;
+    }
+    .demo-subblock {
+      background: var(--off);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      min-width: 0;
+    }
+    .demo-col-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+    }
+    .demo-subblock h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0;
+    }
+    .demo-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.725rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: var(--card-bg);
+      color: var(--ink);
+      border: 1px solid var(--border);
+    }
+    .demo-pill.pill-live {
+      background: var(--sky-light);
+      color: var(--blue);
+      border-color: var(--sky);
+    }
+    [data-theme="dark"] .demo-pill.pill-live {
+      color: var(--hero-sky);
+    }
+    .demo-note {
+      font-size: 0.95rem;
+      color: var(--mid);
+      margin-bottom: 1.25rem;
+      line-height: 1.7;
+    }
+
+    .flaws-list-wrap {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1.35rem;
+      margin-bottom: 1.5rem;
+    }
+    .flaws-list-wrap h4 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+    }
+    .flaws-list {
+      list-style: disc;
+      padding-left: 1.35rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .flaws-list li {
+      font-size: 0.925rem;
+      color: var(--mid);
+      line-height: 1.6;
+    }
+    .flaws-list strong { color: var(--ink); }
+
+    /* Keyboard-scrollable Code Region */
+    .code-region {
+      background: #0A0F1E;
+      color: #F3F4F6;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      max-height: 28rem;
+      overflow: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.825rem;
+      line-height: 1.65;
+      tab-size: 2;
+    }
+    .code-region:focus-visible {
+      outline: 3px solid var(--sky);
+      outline-offset: 2px;
+    }
+    .code-region pre {
+      margin: 0;
+      font-family: inherit;
+    }
+
+    /* Placeholder Section (What the tools found) */
+    .placeholder-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+      margin-top: 1.25rem;
+    }
+    .placeholder-card {
+      background: var(--card-bg);
+      border: 2px dashed var(--muted);
+      border-radius: var(--radius-sm);
+      padding: 1.35rem;
+    }
+    .placeholder-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.65rem;
+    }
+    .placeholder-head h4 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .pill-progress {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.725rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: var(--sky-light);
+      color: var(--blue);
+      border: 1px solid var(--sky);
+    }
+    [data-theme="dark"] .pill-progress {
+      color: var(--hero-sky);
+    }
+    .placeholder-card p {
+      font-size: 0.925rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .placeholder-card p + p {
+      margin-top: 0.5rem;
+    }
+    .placeholder-card strong {
+      color: var(--ink);
+    }
+
+    /* Fixed Modal Live Demo */
+    .live-demo-stage {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .a11y-dialog {
+      margin: auto;
+      background: var(--card-bg);
+      color: var(--ink);
+      border: 2px solid var(--blue);
+      border-radius: var(--radius);
+      padding: 2rem;
+      max-width: 500px;
+      width: calc(100% - 2rem);
+      box-shadow: var(--shadow-lg);
+    }
+    [data-theme="dark"] .a11y-dialog {
+      border-color: var(--hero-sky);
+    }
+    .a11y-dialog::backdrop {
+      background: rgba(6, 12, 28, 0.72);
+      backdrop-filter: blur(3px);
+    }
+    .dialog-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .dialog-header h4 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .dialog-body p {
+      font-size: 0.95rem;
+      color: var(--mid);
+      line-height: 1.7;
+      margin-bottom: 1.25rem;
+    }
+    .dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+    }
+
+    /* Contrast Matrix & A11y-Audit Agent */
+    #contrast-matrix { background: var(--off); }
+    #tool { background: var(--white); }
+    .tool-cols {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+    .tool-col {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .tool-col-head {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.85rem;
+    }
+    .tool-col-body {
+      font-size: 0.925rem;
+      color: var(--mid);
+      line-height: 1.75;
+    }
+    .tool-dl {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.35rem 0.85rem;
+      font-size: 0.875rem;
+    }
+    .tool-dl dt { font-weight: 600; color: var(--ink); }
+    .tool-dl dd { color: var(--mid); }
+
+    .tool-video { margin-bottom: 2.5rem; }
+    .tool-video-wrap {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: #000;
+      box-shadow: var(--shadow-md);
+    }
+    .tool-video-wrap iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    .video-fallback-link {
+      margin-top: 0.75rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .tool-results {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+    .tool-metrics {
+      margin-top: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .tool-metrics li {
+      font-size: 0.925rem;
+      color: var(--mid);
+      padding-left: 1.35rem;
+      position: relative;
+      line-height: 1.6;
+    }
+    .tool-metrics li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.6em;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+    }
+    .tool-demonstrates {
+      background: var(--navy);
+      border-radius: var(--radius);
+      padding: 1.6rem;
+    }
+    .tool-demonstrates .tool-col-head { color: #fff; }
+    .tool-demonstrates .tool-col-body { color: rgba(255, 255, 255, 0.88); }
+    .tool-demonstrates .tool-col-body + .tool-col-body { margin-top: 0.75rem; }
+    .tool-demonstrates a { color: var(--hero-sky); text-decoration: underline; }
+    .tool-demonstrates a:hover { color: #fff; }
+
+    /* Contrast Matrix Table */
+    .matrix-container {
+      overflow-x: auto;
+      margin-top: 2rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .matrix-container:focus-visible {
+      outline: 3px solid var(--blue);
+      outline-offset: 2px;
+    }
+    .a11y-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      min-width: 900px;
+      font-size: 0.85rem;
+    }
+    .a11y-table caption {
+      text-align: left;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+    .a11y-table th, .a11y-table td {
+      padding: 12px;
+      border: 1px solid var(--border);
+    }
+    .a11y-table th {
+      background: var(--off);
+      font-weight: 600;
+      color: var(--navy);
+    }
+    [data-theme="dark"] .a11y-table th { color: var(--hero-sky); }
+
+    .a11y-cell {
+      position: relative;
+      height: 75px;
+      min-width: 95px;
+      vertical-align: bottom;
+      transition: transform var(--dur), box-shadow var(--dur);
+      cursor: pointer;
+    }
+    .a11y-cell:hover,
+    .a11y-cell:focus-visible {
+      transform: scale(1.05);
+      z-index: 10;
+      box-shadow: var(--shadow-md);
+      border-radius: 4px;
+      outline: 2px solid var(--ink);
+      outline-offset: -2px;
+    }
+    .cell-text {
+      font-weight: 700;
+      font-size: 1.1rem;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.65rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .badge.aaa { background: #D1FAE5; color: #065F46; }
+    .badge.aa { background: #DBEAFE; color: #1E40AF; }
+    .badge.aa18 { background: #FEF3C7; color: #92400E; }
+    .badge.fail { background: #FEE2E2; color: #991B1B; }
+    .null-cell { background: repeating-linear-gradient(45deg, var(--off), var(--off) 10px, var(--border) 10px, var(--border) 11px); }
+    .matrix-legend {
+      margin-top: 1.25rem;
+      font-size: 0.825rem;
+      color: var(--muted);
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Accessibility Credentials Section */
+    #a11y-credentials { background: var(--off); }
+    .cred-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .cred-exam-list {
+      list-style: disc;
+      padding-left: 1.35rem;
+      margin: 1rem 0 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+      gap: 0.5rem 2rem;
+    }
+    .cred-exam-list li {
+      font-size: 0.95rem;
+      color: var(--mid);
+      line-height: 1.65;
+    }
+
+    /* Closing & Resources */
+    #closing { background: var(--white); }
+    .closing-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .closing-copy p {
+      font-size: 1.05rem;
+      color: var(--mid);
+      line-height: 1.8;
+      margin-bottom: 1.25rem;
+    }
+    .closing-copy p:last-child {
+      margin-bottom: 0;
+    }
+
+    .resource-card {
+      background: var(--off);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+    }
+    .resource-card h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+    .resource-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .resource-list li a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    footer {
+      background: var(--navy);
+      color: rgba(255, 255, 255, 0.85);
+      text-align: center;
+      padding: 2.25rem 1.5rem;
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+    footer a {
+      color: rgba(255, 255, 255, 0.95);
+      text-decoration: underline;
+    }
+    footer a:hover { color: #fff; }
+
+    /* Responsive Reflow (down to 320px) */
+    @media (max-width: 960px) {
+      .step-split { grid-template-columns: 1fr; }
+      .roles-grid { grid-template-columns: 1fr; }
+      .placeholder-grid { grid-template-columns: 1fr; }
+      .tool-cols { grid-template-columns: 1fr; }
+      .tool-results { grid-template-columns: 1fr; }
+      .closing-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    @media (max-width: 820px) {
+      .hamburger-btn { display: flex; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        right: 0;
+        background: rgba(12, 46, 110, 0.98);
+        flex-direction: column;
+        padding: 1rem 1.5rem 1.5rem;
+        gap: 0.25rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+        z-index: 99;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links li { width: 100%; }
+      .nav-links a {
+        display: flex;
+        padding: 0.75rem 0;
+        font-size: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .nav-links li:last-child a { border-bottom: none; }
+    }
+
+    @media (max-width: 640px) {
+      section { padding: 60px 1rem; }
+      .hero { padding: 105px 1rem 60px; }
+      .demo-subblock { padding: 1.25rem; }
+      .step-card { padding: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<!-- Primary Navigation -->
+<nav class="nav" aria-label="Primary" id="primaryNav">
+  <div class="nav-inner">
+    <span class="nav-logo"><a href="index.html#main">Matt Hetzel</a></span>
+    
+    <ul class="nav-links" id="navLinks" role="list">
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#credentials">Learning</a></li>
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#thinking">Thinking</a></li>
+      <li><a href="index.html#built">Built with AI</a></li>
+      <li><a href="accessibility.html" aria-current="page">Accessibility</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+
+    <div class="nav-controls">
+      <button class="theme-btn" id="themeToggle" type="button" aria-pressed="false" aria-label="Switch to dark mode">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+      
+      <button class="hamburger-btn" id="menuBtn" type="button"
+        aria-expanded="false" 
+        aria-controls="navLinks"
+        aria-label="Open navigation menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" 
+             stroke="currentColor" stroke-width="2.5" stroke-linecap="round" 
+             aria-hidden="true">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+        Menu
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- 1. HERO -->
+<header class="hero" aria-labelledby="hero-h1">
+  <div class="hero-inner">
+    <span class="hero-eyebrow anim-hero" style="--i: 0;">AI + ACCESSIBILITY WORKFLOW</span>
+    <h1 id="hero-h1" class="anim-hero" style="--i: 1;">Accessible the first time, tested with people.</h1>
+    <p class="hero-sub anim-hero" style="--i: 2;">AI helps me build and check accessible work faster. It does not replace the people who use it. This page shows the five steps I follow, where a human makes the call at each one, and why testing with real users is still the last word.</p>
+    <p class="hero-a11y-note anim-hero" style="--i: 3;">
+      <strong>A11y-Audit Agent:</strong> A11y is shorthand for accessibility: the letter A, the number 11 (for the 11 letters in between), then the letter Y.
+    </p>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 2. DEMO: ONE MODAL, TWO VERSIONS (NOW LEADING) -->
+  <section id="demo" aria-labelledby="demo-h2">
+    <div class="section-inner">
+      <div class="anim-fade-up">
+        <span class="section-label">Component Comparison</span>
+        <h2 class="section-title" id="demo-h2">One modal, two versions.</h2>
+        <p class="section-desc">The same modal, built twice. The first version has deliberate accessibility problems and is shown as code only. The second version is fixed and live.</p>
+      </div>
+
+      <div class="demo-grid">
+        <!-- Left Column: Flawed Version -->
+        <div class="demo-subblock anim-slide-left">
+          <div class="demo-col-head">
+            <h3>Flawed version</h3>
+            <span class="demo-pill">Code only</span>
+          </div>
+          <p class="demo-note">This version is intentionally flawed and is not rendered as an interactive component on this page. It represents common output when code is written without explicit accessibility requirements.</p>
+
+          <div class="flaws-list-wrap">
+            <h4>What I built in on purpose</h4>
+            <ul class="flaws-list">
+              <li><strong>Non-semantic trigger (<code>&lt;div&gt;</code> instead of <code>&lt;button&gt;</code>):</strong> Cannot be reached by Tab or activated with Enter or Space (WCAG 2.1.1 Keyboard, 4.1.2 Name, Role, Value).</li>
+              <li><strong>Missing dialog semantics and accessible name:</strong> Screen readers do not announce a dialog boundary or title (WCAG 4.1.2 Name, Role, Value).</li>
+              <li><strong>Focus does not move into the modal or stay inside:</strong> Keyboard focus remains on the background page while the modal is visually open (WCAG 2.4.3 Focus Order).</li>
+              <li><strong>No Escape key handling:</strong> Keyboard users have no standard way to dismiss the overlay (WCAG 2.1.1 Keyboard).</li>
+              <li><strong>Close icon lacks an accessible name:</strong> A clickable <code>&lt;span&gt;&times;&lt;/span&gt;</code> provides no label or role for assistive technology (WCAG 4.1.2 Name, Role, Value) and fails minimum target size (WCAG 2.5.8 Target Size Minimum).</li>
+              <li><strong>Focus is not returned to the trigger on close:</strong> Closing the modal drops keyboard focus back to the top of the document body (WCAG 2.4.3 Focus Order).</li>
+            </ul>
+          </div>
+
+          <div class="code-region" tabindex="0" role="region" aria-label="Flawed modal code">
+<pre><code>&lt;!-- INTENTIONALLY FLAWED MODAL: DO NOT COPY INTO PRODUCTION --&gt;
+&lt;div class="open-btn" onclick="openBadModal()"&gt;Session Timeout Details&lt;/div&gt;
+
+&lt;div id="badModal" class="modal-overlay" style="display:none;"&gt;
+  &lt;div class="modal-box"&gt;
+    &lt;span class="close-x" onclick="closeBadModal()"&gt;&amp;times;&lt;/span&gt;
+    &lt;div class="modal-heading"&gt;Your session will expire soon&lt;/div&gt;
+    &lt;p&gt;For your security, inactive sessions end after 15 minutes.&lt;/p&gt;
+    &lt;div class="action-btn" onclick="closeBadModal()"&gt;Stay Signed In&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;style&gt;
+  .open-btn, .action-btn { cursor: pointer; background: #1A4FBF; color: #fff; padding: 8px 12px; display: inline-block; }
+  .open-btn:focus, .action-btn:focus { outline: none; }
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); }
+  .modal-box { background: #fff; width: 400px; margin: 120px auto; padding: 20px; position: relative; }
+  .close-x { position: absolute; top: 8px; right: 10px; width: 14px; height: 14px; cursor: pointer; }
+  .modal-heading { font-size: 20px; font-weight: bold; margin-bottom: 8px; }
+&lt;/style&gt;
+
+&lt;script&gt;
+  function openBadModal() {
+    document.getElementById('badModal').style.display = 'block';
+    // Missing: focus move into dialog, background inert state, Escape key listener
+  }
+  function closeBadModal() {
+    document.getElementById('badModal').style.display = 'none';
+    // Missing: focus restoration to trigger element
+  }
+&lt;/script&gt;</code></pre>
+          </div>
+        </div>
+
+        <!-- Right Column: Fixed Version -->
+        <div class="demo-subblock anim-slide-right">
+          <div class="demo-col-head">
+            <h3>Fixed version</h3>
+            <span class="demo-pill pill-live">Live</span>
+          </div>
+          <p class="demo-note">Built with the native HTML <code>&lt;dialog&gt;</code> element and <code>showModal()</code>. Try opening it with a keyboard: focus moves inside, the background becomes inert, Escape closes it, and focus returns to the trigger button.</p>
+
+          <div class="live-demo-stage">
+            <div>
+              <strong>Interactive accessible modal</strong>
+              <p style="font-size: 0.9rem; color: var(--muted);">Test with Tab, Shift+Tab, Enter, Space, and Escape.</p>
+            </div>
+            <button type="button" class="btn btn-primary" id="openFixedModalBtn">
+              Open Accessible Modal
+            </button>
+          </div>
+
+          <dialog id="fixedModal" class="a11y-dialog" aria-labelledby="fixedModalTitle" aria-describedby="fixedModalDesc">
+            <div class="dialog-header">
+              <h4 id="fixedModalTitle" tabindex="-1">Your session will expire soon</h4>
+              <button type="button" class="btn btn-secondary" id="closeFixedModalTopBtn" style="padding: 0.45rem 0.95rem; min-height: 36px;">
+                Close
+              </button>
+            </div>
+            <div class="dialog-body">
+              <p id="fixedModalDesc">For your security, inactive sessions end after 15 minutes. Selecting "Stay Signed In" or pressing Escape will close this dialog and return keyboard focus to the trigger button.</p>
+            </div>
+            <div class="dialog-actions">
+              <button type="button" class="btn btn-primary" id="staySignedInBtn">
+                Stay Signed In
+              </button>
+            </div>
+          </dialog>
+
+          <div class="code-region" tabindex="0" role="region" aria-label="Fixed modal code">
+<pre><code>&lt;button type="button" class="btn btn-primary" id="openFixedModalBtn"&gt;
+  Open Accessible Modal
+&lt;/button&gt;
+
+&lt;dialog id="fixedModal" class="a11y-dialog" aria-labelledby="fixedModalTitle" aria-describedby="fixedModalDesc"&gt;
+  &lt;div class="dialog-header"&gt;
+    &lt;h4 id="fixedModalTitle" tabindex="-1"&gt;Your session will expire soon&lt;/h4&gt;
+    &lt;button type="button" class="btn btn-secondary" id="closeFixedModalTopBtn"&gt;Close&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="dialog-body"&gt;
+    &lt;p id="fixedModalDesc"&gt;For your security, inactive sessions end after 15 minutes.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="dialog-actions"&gt;
+    &lt;button type="button" class="btn btn-primary" id="staySignedInBtn"&gt;Stay Signed In&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/dialog&gt;
+
+&lt;script&gt;
+  const openBtn = document.getElementById('openFixedModalBtn');
+  const dialog = document.getElementById('fixedModal');
+  const closeTopBtn = document.getElementById('closeFixedModalTopBtn');
+  const stayBtn = document.getElementById('staySignedInBtn');
+
+  openBtn.addEventListener('click', () =&gt; {
+    dialog.showModal(); // Makes background inert and handles Escape natively
+    closeTopBtn.focus(); // Explicitly place focus inside the dialog
+  });
+
+  function closeModal() {
+    dialog.close();
+  }
+
+  closeTopBtn.addEventListener('click', closeModal);
+  stayBtn.addEventListener('click', closeModal);
+
+  dialog.addEventListener('close', () =&gt; {
+    openBtn.focus(); // Explicitly restore focus to the trigger button
+  });
+&lt;/script&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Full-width Review Results Placeholder -->
+      <div class="demo-subblock anim-fade-up" aria-labelledby="results-placeholder-h3">
+        <h3 id="results-placeholder-h3" style="margin-bottom: 0.6rem;">What the tools found</h3>
+        <p class="demo-note">Each automated checker and AI reviewer will be tested against both modal versions to compare what automated rules catch versus what requires manual testing.</p>
+
+        <div class="placeholder-grid">
+          <div class="placeholder-card anim-fade-up" style="--i: 0;">
+            <div class="placeholder-head">
+              <h4>WebAIM AIMee</h4>
+              <span class="pill-progress">In progress</span>
+            </div>
+            <!-- TODO: Insert real WebAIM AIMee review results here after running the flawed and fixed modal code through AIMee -->
+            <p><strong>Flawed version:</strong> results will be added after I run this code through AIMee.</p>
+            <p><strong>Fixed version:</strong> results will be added after I run this code through AIMee.</p>
+          </div>
+
+          <div class="placeholder-card anim-fade-up" style="--i: 1;">
+            <div class="placeholder-head">
+              <h4>Deque axe DevTools</h4>
+              <span class="pill-progress">In progress</span>
+            </div>
+            <!-- TODO: Insert real axe scan results here after running the flawed and fixed modal code through axe -->
+            <p><strong>Flawed version:</strong> results will be added after I run this code through axe.</p>
+            <p><strong>Fixed version:</strong> results will be added after I run this code through axe.</p>
+          </div>
+
+          <div class="placeholder-card anim-fade-up" style="--i: 2;">
+            <div class="placeholder-head">
+              <h4>WAVE Evaluation Tool</h4>
+              <span class="pill-progress">In progress</span>
+            </div>
+            <!-- TODO: Insert real WAVE evaluation results here after running the flawed and fixed modal code through WAVE -->
+            <p><strong>Flawed version:</strong> results will be added after I run this code through WAVE.</p>
+            <p><strong>Fixed version:</strong> results will be added after I run this code through WAVE.</p>
+          </div>
+
+          <div class="placeholder-card anim-fade-up" style="--i: 3;">
+            <div class="placeholder-head">
+              <h4>Google Lighthouse</h4>
+              <span class="pill-progress">In progress</span>
+            </div>
+            <!-- TODO: Insert real Lighthouse accessibility audit results here after running the flawed and fixed modal code through Lighthouse -->
+            <p><strong>Flawed version:</strong> results will be added after I run this code through Lighthouse.</p>
+            <p><strong>Fixed version:</strong> results will be added after I run this code through Lighthouse.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. THE FIVE STEPS -->
+  <section id="steps" aria-labelledby="steps-h2">
+    <div class="section-inner">
+      <div class="anim-fade-up">
+        <span class="section-label">Human-in-the-Loop Process</span>
+        <h2 class="section-title" id="steps-h2">The five steps I follow.</h2>
+        <p class="section-desc">Each step pairs automated speed with human judgment. AI handles pattern drafting and initial checks, while I make the architectural and usability calls.</p>
+      </div>
+
+      <ol class="steps-list">
+        <li class="step-card anim-fade-up" style="--i: 0;">
+          <div class="step-header">
+            <span class="step-badge">Step 1</span>
+            <h3 class="step-title">Know the platform.</h3>
+          </div>
+          <div class="step-split">
+            <div class="step-box">
+              <span class="step-role-label">What AI does</span>
+              <p>Summarizes platform documentation and points out likely limits.</p>
+            </div>
+            <div class="step-box human-role">
+              <span class="step-role-label">What I decide</span>
+              <p>What the platform can and cannot do for accessibility. Every platform has built-in limits. A CMS may lock components so you cannot change their markup or behavior. Unless the documentation says so, you have to build and test to find the limits. Built-in accessibility checkers are a good place to start.</p>
+            </div>
+          </div>
+        </li>
+
+        <li class="step-card anim-fade-up" style="--i: 1;">
+          <div class="step-header">
+            <span class="step-badge">Step 2</span>
+            <h3 class="step-title">Write to a standard.</h3>
+          </div>
+          <div class="step-split">
+            <div class="step-box">
+              <span class="step-role-label">What AI does</span>
+              <p>Drafts accessible code to a stated standard (WCAG 2.2 AA) and builds a color contrast matrix for the brand colors.</p>
+            </div>
+            <div class="step-box human-role">
+              <span class="step-role-label">What I decide</span>
+              <p>Which standard applies, which patterns are appropriate, and whether the code and the contrast results make sense for real content. <a href="#contrast-matrix">See the contrast matrix</a>.</p>
+            </div>
+          </div>
+        </li>
+
+        <li class="step-card anim-fade-up" style="--i: 2;">
+          <div class="step-header">
+            <span class="step-badge">Step 3</span>
+            <h3 class="step-title">Ask a second AI to challenge the first.</h3>
+          </div>
+          <div class="step-split">
+            <div class="step-box">
+              <span class="step-role-label">What AI does</span>
+              <p>A different AI, or an accessibility-focused reviewer such as WebAIM's AIMee, reviews the code and questions the first AI's assumptions.</p>
+            </div>
+            <div class="step-box human-role">
+              <span class="step-role-label">What I decide</span>
+              <p>Which flagged issues are real, which are noise, and what to change. <a href="#demo">Back to the modal demo</a>.</p>
+            </div>
+          </div>
+        </li>
+
+        <li class="step-card anim-fade-up" style="--i: 3;">
+          <div class="step-header">
+            <span class="step-badge">Step 4</span>
+            <h3 class="step-title">Check what shipped.</h3>
+          </div>
+          <div class="step-split">
+            <div class="step-box">
+              <span class="step-role-label">What AI does</span>
+              <p>Reviews screenshots of the live page and suggests areas to improve. I also run automated scans.</p>
+            </div>
+            <div class="step-box human-role">
+              <span class="step-role-label">What I decide</span>
+              <p>What to act on. Screenshots cannot show keyboard order, focus behavior, or what a screen reader announces, so this step has a clear limit.</p>
+            </div>
+          </div>
+        </li>
+
+        <li class="step-card anim-fade-up" style="--i: 4;">
+          <div class="step-header">
+            <span class="step-badge">Step 5</span>
+            <h3 class="step-title">Test it by hand, and with people.</h3>
+          </div>
+          <div class="step-split">
+            <div class="step-box">
+              <span class="step-role-label">What AI does</span>
+              <p>Nothing here. This step is manual.</p>
+            </div>
+            <div class="step-box human-role">
+              <span class="step-role-label">What I decide</span>
+              <p>Everything. I use keyboard-only navigation and the NVDA screen reader, plus axe, WAVE, and Lighthouse. Testing with people with disabilities is the step that cannot be skipped.</p>
+            </div>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 4. TOOL ROLES & COMPONENT LIBRARY CALLOUT -->
+  <section id="tools-roles" aria-labelledby="roles-h2">
+    <div class="section-inner">
+      <div class="anim-fade-up">
+        <span class="section-label">Verification Stack</span>
+        <h2 class="section-title" id="roles-h2">How different tools fit into the workflow.</h2>
+        <p class="section-desc">Automated tools catch different classes of issues depending on whether they inspect rendered DOM rules, raw source code, or design tokens.</p>
+        <p class="roles-note">Readers and teams may use other tools depending on their stack and testing environment.</p>
+      </div>
+
+      <div class="roles-grid">
+        <article class="role-card anim-fade-up" style="--i: 0;">
+          <h3>Rule-based checkers (axe, WAVE, Lighthouse)</h3>
+          <p>These tools apply fixed rules to a rendered page. Note that Lighthouse's accessibility audit runs on the axe engine, so running both overlaps. They are useful for catching missing attributes or contrast failures, not as independent opinions.</p>
+        </article>
+
+        <article class="role-card anim-fade-up" style="--i: 1;">
+          <h3>AI review (WebAIM AIMee)</h3>
+          <p><a href="https://webaim.org/AIMee/" target="_blank" rel="noopener noreferrer">WebAIM's AIMee<span class="sr-only"> (opens in new tab)</span></a> provides an AI review of code, which is useful as a second opinion. It handles a limited amount of code at a time, so it fits individual components better than whole pages.</p>
+        </article>
+
+        <article class="role-card anim-fade-up" style="--i: 2;">
+          <h3>Code linting while writing (Stark)</h3>
+          <p><a href="https://www.getstark.co/" target="_blank" rel="noopener noreferrer">Stark<span class="sr-only"> (opens in new tab)</span></a> is described by its maker as accessibility linting that runs in your editor as you or an AI assistant write code. I am aware of it and have not used it yet.</p>
+        </article>
+      </div>
+
+      <!-- Component Library Callout -->
+      <aside class="callout-banner anim-fade-up" aria-labelledby="callout-heading">
+        <h3 id="callout-heading">Reusable Component Strategy</h3>
+        <p>Do the full AI-and-review cycle once per component. Save the tested version in a component library. After that, the cycle is only needed for new components or features.</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 5. WCAG 2.2 CONTRAST MATRIX (NO ANIMATION) -->
+  <section id="contrast-matrix" aria-labelledby="matrix-h2">
+    <div class="section-inner">
+      <span class="section-label">Design System</span>
+      <h2 class="section-title" id="matrix-h2">WCAG 2.2 Contrast Matrix.</h2>
+      <p class="section-desc">Accessibility is engineering, not guesswork. This interactive matrix computes contrast ratios across our 10 brand tokens against WCAG 2.2 standards. Tab or hover over any pair to test compliance.</p>
+
+      <div class="matrix-container" tabindex="0" role="region" aria-labelledby="matrix-h2" aria-describedby="scroll-instruction">
+        <span id="scroll-instruction" class="sr-only">Horizontally scrollable table. Row headers represent Background Colors and column headers represent Text Colors.</span>
+        
+        <table class="a11y-table" id="contrastTable">
+          <caption>Brand color contrast ratios and WCAG 2.2 pass/fail status (Background rows vs. Text columns)</caption>
+          <thead>
+            <tr id="matrix-headers">
+              <th scope="col" style="vertical-align:bottom; padding-bottom:12px;">Background \ Text</th>
+            </tr>
+          </thead>
+          <tbody id="matrix-body">
+             <!-- Populated dynamically via JavaScript -->
+          </tbody>
+        </table>
+        
+        <div class="matrix-legend">
+          <strong>WCAG Status:</strong> 
+          <span style="margin-left: 8px;"><span class="badge aaa">AAA</span> = 7.0+ (Pass enhanced)</span> &bull; 
+          <span><span class="badge aa">AA</span> = 4.5+ (Pass normal text)</span> &bull; 
+          <span><span class="badge aa18">Large</span> = 3.0+ (Pass 18pt+ or 14pt+ bold only)</span> &bull; 
+          <span><span class="badge fail">Fail</span> = below 3.0 (Fail)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. A11Y-AUDIT AGENT -->
+  <section id="tool" aria-labelledby="tool-h2">
+    <div class="section-inner">
+      <div class="anim-fade-up">
+        <span class="section-label">Featured Application</span>
+        <h2 class="section-title" id="tool-h2">A11y-Audit Agent.</h2>
+        <p class="section-desc">An agentic AI accessibility assistant built to streamline WCAG 2.2 audits for developers, moving from code paste to audit fix in seconds.</p>
+      </div>
+
+      <div class="tool-cols">
+        <div class="tool-col anim-fade-up" style="--i: 0;">
+          <h3 class="tool-col-head">Project Overview</h3>
+          <dl class="tool-dl">
+            <dt>Started</dt><dd>2026</dd>
+            <dt>Role</dt><dd>Concept Creator &amp; AI Collaborator</dd>
+            <dt>Team</dt><dd>Matt Hetzel, Gemini, Claude</dd>
+            <dt>Stack</dt><dd>Gemini Canvas, React, Tailwind CSS</dd>
+            <dt>Type</dt><dd>Agentic AI Web Application</dd>
+          </dl>
+        </div>
+        <div class="tool-col anim-fade-up" style="--i: 1;">
+          <h3 class="tool-col-head">AI Collaboration Stack</h3>
+          <ul class="tool-col-body" style="list-style:disc; padding-left:1.25rem;">
+            <li><strong>Gemini Canvas:</strong> Primary development and logic sandbox</li>
+            <li><strong>Claude:</strong> Testing, validation, and adversary code generator</li>
+            <li><strong>React + Tailwind:</strong> Front-end component architecture</li>
+            <li><strong>WCAG 2.2 + ADA:</strong> Verification ruleset engine</li>
+          </ul>
+        </div>
+        <div class="tool-col anim-fade-up" style="--i: 2;">
+          <h3 class="tool-col-head">What I Built</h3>
+          <p class="tool-col-body">A streamlined tool where developers drop in interface snippets and receive instant accessibility evaluations against WCAG 2.2 standards, paired with production-ready remediated code. Just paste, audit, fix.</p>
+        </div>
+      </div>
+
+      <!-- Video block is intentionally not animated -->
+      <div class="tool-video">
+        <div class="tool-video-wrap">
+          <iframe 
+            src="https://www.youtube.com/embed/b2UzRAaJYXE" 
+            title="A11y-Audit Agent demo: AI-powered accessibility auditor in action"  
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen>
+          </iframe>
+        </div>
+        <p class="video-fallback-link">
+          <a href="https://www.youtube.com/watch?v=b2UzRAaJYXE" target="_blank" rel="noopener noreferrer">Watch on YouTube (opens in a new tab)</a>
+        </p>
+      </div>
+
+      <div class="tool-results">
+        <div class="anim-fade-up" style="--i: 0;">
+          <h3 class="tool-col-head">Results &amp; Reach</h3>
+          <p class="tool-col-body">Proof of concept validated with high engagement in the professional UX and engineering community on LinkedIn.</p>
+          <ul class="tool-metrics" aria-label="LinkedIn post metrics">
+            <li><strong>1,095</strong> impressions / 724 unique members reached</li>
+            <li><strong>406</strong> video views / 1h 29m total watch time</li>
+            <li><strong>27</strong> reactions / 16 comments / 4 saves / 2 reposts</li>
+          </ul>
+        </div>
+        <div class="tool-demonstrates anim-fade-up" style="--i: 1;">
+          <h3 class="tool-col-head">Strategic Value Demonstrated</h3>
+          <p class="tool-col-body"><strong>1. Real-World Risk Mitigation:</strong> Accessibility violations represent legal and UX risks for companies. Automating audits saves costly remediations late in the SDLC.</p>
+          <p class="tool-col-body"><strong>2. Accelerated AI Delivery:</strong> Proving how prompt iteration, logic stress-testing, and rapid prototyping transform ideas into working software within days.</p>
+          <p class="tool-col-body"><strong>3. Industry Alignment:</strong> Independent innovation aligning directly with solutions like <a href="https://webaim.org/AIMee/" target="_blank" rel="noopener noreferrer">WebAIM's AIMee<span class="sr-only"> (opens in new tab)</span></a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. ACCESSIBILITY CREDENTIALS -->
+  <section id="a11y-credentials" aria-labelledby="credentials-h2">
+    <div class="section-inner">
+      <div class="cred-box anim-fade-up">
+        <span class="section-label">Verified Coursework</span>
+        <h2 class="section-title" id="credentials-h2">Accessibility credentials.</h2>
+        <p class="section-desc" style="margin-bottom: 1rem;">6 Deque University accessibility exams passed. IAAP CPACC candidate.</p>
+        <ul class="cred-exam-list">
+          <li>Fast Track to Accessibility for Non-Technical Roles</li>
+          <li>Fast Track to Accessibility for Designers</li>
+          <li>Fast Track to Accessibility for PDF Creators</li>
+          <li>Fast Track to Accessibility for Web Developers, Core Techniques</li>
+          <li>Fast Track to Accessibility for Web Developers, Advanced Techniques</li>
+          <li>Fast Track to Accessibility for Microsoft Office</li>
+        </ul>
+        <a href="/credentials.html" class="btn btn-primary">View all credentials</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. CLOSING AND RESOURCES -->
+  <section id="closing" aria-labelledby="closing-h2">
+    <div class="section-inner">
+      <div class="closing-grid">
+        <div class="closing-copy anim-fade-up" style="--i: 0;">
+          <span class="section-label">The Last Word</span>
+          <h2 class="section-title" id="closing-h2">Why real users are required.</h2>
+          <p>Automated checkers and AI reviewers help catch broken markup, missing labels, and contrast math before code ever ships. Still, passing a ruleset is not the same thing as making a product easy for a person to use with assistive technology. On my side, I test with keyboard-only navigation and the NVDA screen reader on desktop. I have not yet done mobile screen reader testing or usability testing with people with disabilities. If you work in accessibility, I would like to hear how your team uses AI in its workflow.</p>
+          <p>You can reach me through the contact details in the page footer.</p>
+        </div>
+
+        <aside class="resource-card anim-fade-up" style="--i: 1;" aria-labelledby="resources-h3">
+          <h3 id="resources-h3">Accessibility tools mentioned on this page</h3>
+          <ul class="resource-list">
+            <li>
+              <a href="https://webaim.org/AIMee/" target="_blank" rel="noopener noreferrer">
+                WebAIM AIMee AI Accessibility Reviewer <span class="sr-only">(opens in new tab)</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.getstark.co/" target="_blank" rel="noopener noreferrer">
+                Stark Accessibility Linting and Design Suite <span class="sr-only">(opens in new tab)</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.deque.com/axe/" target="_blank" rel="noopener noreferrer">
+                Deque axe Accessibility Testing Tools <span class="sr-only">(opens in new tab)</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://wave.webaim.org/" target="_blank" rel="noopener noreferrer">
+                WAVE Web Accessibility Evaluation Tool <span class="sr-only">(opens in new tab)</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://developer.chrome.com/docs/lighthouse/accessibility/scoring" target="_blank" rel="noopener noreferrer">
+                Google Lighthouse Accessibility Audit Documentation <span class="sr-only">(opens in new tab)</span>
+              </a>
+            </li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- -->
+<footer>
+  <p>&copy; 2026 Matt Hetzel &bull; Built with Claude and Gemini &mdash; <a href="index.html#built">See how this site was engineered</a></p>
+  <p style="margin-top:0.4rem; opacity:0.85;">Terre Haute, IN &bull; 610-762-4823 &bull; matthewhetz@gmail.com</p>
+</footer>
+
+<script>
+  // 1. THEME SWITCHER (WCAG accessible toggle)
+  const themeToggle = document.getElementById('themeToggle');
+  const storedTheme = localStorage.getItem('mh-theme');
+  
+  if (storedTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    themeToggle.setAttribute('aria-pressed', 'true');
+    themeToggle.setAttribute('aria-label', 'Switch to light mode');
+  }
+
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const nextTheme = isDark ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', nextTheme);
+    localStorage.setItem('mh-theme', nextTheme);
+    themeToggle.setAttribute('aria-pressed', !isDark ? 'true' : 'false');
+    themeToggle.setAttribute('aria-label', !isDark ? 'Switch to light mode' : 'Switch to dark mode');
+  });
+
+  // 2. MOBILE MENU DISCLOSURE PATTERN
+  const menuBtn = document.getElementById('menuBtn');
+  const navLinks = document.getElementById('navLinks');
+  const primaryNav = document.getElementById('primaryNav');
+
+  function closeMenu() {
+    navLinks.classList.remove('open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.setAttribute('aria-label', 'Open navigation menu');
+  }
+
+  function openMenu() {
+    navLinks.classList.add('open');
+    menuBtn.setAttribute('aria-expanded', 'true');
+    menuBtn.setAttribute('aria-label', 'Close navigation menu');
+  }
+
+  if (menuBtn && navLinks) {
+    menuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = navLinks.classList.contains('open');
+      if (isOpen) { closeMenu(); } else { openMenu(); }
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => { closeMenu(); });
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && navLinks.classList.contains('open')) {
+        closeMenu();
+        menuBtn.focus();
+      }
+    });
+
+    primaryNav.addEventListener('focusout', (e) => {
+      if (!primaryNav.contains(e.relatedTarget) && navLinks.classList.contains('open')) {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#primaryNav') && navLinks.classList.contains('open')) {
+        closeMenu();
+      }
+    });
+  }
+
+  // 3. FIXED ACCESSIBLE MODAL LOGIC (Section 5c)
+  const openFixedModalBtn = document.getElementById('openFixedModalBtn');
+  const fixedModal = document.getElementById('fixedModal');
+  const closeFixedModalTopBtn = document.getElementById('closeFixedModalTopBtn');
+  const staySignedInBtn = document.getElementById('staySignedInBtn');
+
+  if (openFixedModalBtn && fixedModal) {
+    openFixedModalBtn.addEventListener('click', () => {
+      fixedModal.showModal();
+      closeFixedModalTopBtn.focus();
+    });
+
+    function closeAccessibleModal() {
+      fixedModal.close();
+    }
+
+    closeFixedModalTopBtn.addEventListener('click', closeAccessibleModal);
+    staySignedInBtn.addEventListener('click', closeAccessibleModal);
+
+    fixedModal.addEventListener('close', () => {
+      openFixedModalBtn.focus();
+    });
+  }
+
+  // 4. WCAG CONTRAST MATRIX BUILDER (Section 7)
+  const palette = [
+    { name: 'Navy',       hex: '#0C2E6E' },
+    { name: 'Blue',       hex: '#1A4FBF' },
+    { name: 'Ink',        hex: '#111827' },
+    { name: 'Mid',        hex: '#374151' },
+    { name: 'Muted',      hex: '#595F6B' },
+    { name: 'Sky',        hex: '#4A90E2' },
+    { name: 'Hero Sky',   hex: '#74B3F9' },
+    { name: 'Off-White',  hex: '#F7F9FC' },
+    { name: 'White',      hex: '#FFFFFF' },
+    { name: 'Deep Dark',  hex: '#060C1C' }
+  ];
+
+  function getLuminance(hex) {
+    const rgb = hex.replace('#','').match(/.{2}/g).map(x => parseInt(x, 16) / 255);
+    const a = rgb.map(v => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
+    return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+  }
+
+  function getContrastRatio(h1, h2) {
+    const l1 = getLuminance(h1);
+    const l2 = getLuminance(h2);
+    return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+  }
+
+  function getBadgeHtml(ratio) {
+    if (ratio >= 7.0) return '<span class="badge aaa">Pass AAA</span>';
+    if (ratio >= 4.5) return '<span class="badge aa">Pass AA</span>';
+    if (ratio >= 3.0) return '<span class="badge aa18">Pass Large</span>';
+    return '<span class="badge fail">Fail</span>';
+  }
+
+  const tableHead = document.getElementById('matrix-headers');
+  const tableBody = document.getElementById('matrix-body');
+
+  if (tableHead && tableBody) {
+    palette.forEach(fg => {
+      tableHead.innerHTML += `<th scope="col" aria-label="Text Color: ${fg.name}">${fg.name}<br><span aria-hidden="true" style="font-weight:400; font-size:.7rem">${fg.hex}</span></th>`;
+    });
+
+    palette.forEach(bg => {
+      let row = `<tr><th scope="row" aria-label="Background Color: ${bg.name}">${bg.name}<br><span aria-hidden="true" style="font-weight:400; font-size:.7rem">${bg.hex}</span></th>`;
+      const bgLum = getLuminance(bg.hex);
+      const safeText = bgLum > 0.179 ? '#111827' : '#FFFFFF';
+
+      palette.forEach(fg => {
+        if (bg.hex === fg.hex) {
+          row += `<td class="null-cell" aria-label="Identical background and text colors: not applicable."></td>`;
+        } else {
+          const ratio = getContrastRatio(fg.hex, bg.hex);
+          const badge = getBadgeHtml(ratio);
+          
+          let statusLabel = "Fail: Fails WCAG minimum contrast standards.";
+          if (ratio >= 7.0) statusLabel = "Pass AAA: Passes WCAG AAA enhanced contrast.";
+          else if (ratio >= 4.5) statusLabel = "Pass AA: Passes WCAG AA standard text contrast.";
+          else if (ratio >= 3.0) statusLabel = "Pass Large Only: Passes for large or bold text styles only.";
+
+          const cellLabel = `Background ${bg.name} with text ${fg.name}. Ratio ${ratio.toFixed(1)} to 1. ${statusLabel}`;
+          
+          row += `<td class="a11y-cell" style="background-color: ${bg.hex};" aria-label="${cellLabel}" tabindex="0">
+                    <span class="cell-text" style="color: ${fg.hex};" aria-hidden="true">Text</span>
+                    <div style="display:flex; justify-content:space-between; align-items:center; color: ${safeText};" aria-hidden="true">
+                      ${badge} <span style="font-size:.75rem; font-weight:700;">${ratio.toFixed(1)}</span>
+                    </div>
+                  </td>`;
+        }
+      });
+      row += `</tr>`;
+      tableBody.innerHTML += row;
+    });
+  }
+
+  // 5. ACCESSIBLE SCROLL & LOAD ANIMATIONS (Edit 11)
+  const heroItems = document.querySelectorAll('.anim-hero');
+  const scrollItems = document.querySelectorAll('.anim-fade-up, .anim-slide-left, .anim-slide-right');
+
+  // Reveal hero elements once on load in under 1 second
+  requestAnimationFrame(() => {
+    heroItems.forEach(el => el.classList.add('is-visible'));
+  });
+
+  // Ensure keyboard focus never lands on a hidden element (WCAG 2.4.7, 2.4.11)
+  document.addEventListener('focusin', (e) => {
+    const parentAnim = e.target.closest('.anim-fade-up, .anim-slide-left, .anim-slide-right, .anim-hero');
+    if (parentAnim) {
+      parentAnim.classList.add('is-visible');
+    }
+  });
+
+  if ('IntersectionObserver' in window) {
+    const animObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    scrollItems.forEach(el => animObserver.observe(el));
+  } else {
+    scrollItems.forEach(el => el.classList.add('is-visible'));
+  }
+</script>
+
+</body>
+</html>
