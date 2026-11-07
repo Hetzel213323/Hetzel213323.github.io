@@ -9,8 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <script>document.documentElement.classList.add('js');</script>
-   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V65QYS3RYX"></script>
+   <script async src="https://www.googletagmanager.com/gtag/js?id=G-V65QYS3RYX"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -340,18 +339,18 @@
       color: #fff;
       line-height: 1.12;
       letter-spacing: -0.03em;
-      max-width: 860px;
+      max-width: 100%;
       margin-bottom: 1.35rem;
     }
     .hero-sub {
       font-size: 1.125rem;
       color: rgba(255, 255, 255, 0.92);
-      max-width: min(75%, 80ch);
+      max-width: 100%;
       line-height: 1.75;
       margin-bottom: 1.5rem;
     }
     .hero-a11y-note {
-      display: inline-block;
+      display: block;
       background: rgba(255, 255, 255, 0.1);
       border: 1px solid rgba(255, 255, 255, 0.24);
       border-radius: var(--radius-sm);
@@ -359,7 +358,7 @@
       font-size: 0.925rem;
       color: rgba(255, 255, 255, 0.95);
       line-height: 1.6;
-      max-width: min(75%, 80ch);
+      max-width: 100%;
     }
     .hero-a11y-note strong {
       color: var(--hero-sky);
@@ -450,8 +449,6 @@
     }
 
     @media (max-width: 48rem) {
-      .hero-sub,
-      .hero-a11y-note,
       .section-desc {
         max-width: 100%;
       }
@@ -827,7 +824,7 @@
 
     /* Contrast Matrix & A11y-Audit Agent */
     #contrast-matrix { background: var(--off); }
-    #tool { background: var(--white); }
+    #a11y-audit-agent { background: var(--off); }
     .tool-cols {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -884,6 +881,41 @@
       margin-top: 0.75rem;
       font-size: 0.95rem;
       font-weight: 600;
+    }
+
+    .agent-subblock {
+      margin-bottom: 2.5rem;
+    }
+    .agent-subblock-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 1.15rem;
+    }
+    .learned-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+    .learned-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .learned-card h4 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.65rem;
+    }
+    .learned-card p {
+      font-size: 0.95rem;
+      color: var(--mid);
+      line-height: 1.7;
     }
 
     .tool-results {
@@ -1096,6 +1128,7 @@
     @media (max-width: 960px) {
       .step-split { grid-template-columns: 1fr; }
       .roles-grid { grid-template-columns: 1fr; }
+      .learned-grid { grid-template-columns: 1fr; }
       .placeholder-grid { grid-template-columns: 1fr; }
       .tool-cols { grid-template-columns: 1fr; }
       .tool-results { grid-template-columns: 1fr; }
@@ -1193,7 +1226,104 @@
 
 <main id="main">
 
-  <!-- 2. DEMO: ONE MODAL, TWO VERSIONS (NOW LEADING) -->
+  <!-- 2. A11Y-AUDIT AGENT -->
+  <section id="a11y-audit-agent" aria-labelledby="tool-h2">
+    <div class="section-inner">
+      <div class="anim-fade-up">
+        <span class="section-label">Featured Application</span>
+        <h2 class="section-title" id="tool-h2">A11y-Audit Agent.</h2>
+        <p class="section-desc">An agentic AI accessibility assistant designed to streamline WCAG 2.2 audits for developers. You paste code and get an audit and a remediated version back. A11y is shorthand for accessibility.</p>
+      </div>
+
+      <div class="tool-cols">
+        <div class="tool-col anim-fade-up" style="--i: 0;">
+          <h3 class="tool-col-head">Project Overview</h3>
+          <dl class="tool-dl">
+            <dt>Started</dt><dd>2026</dd>
+            <dt>Role</dt><dd>Concept Creator &amp; AI Collaborator</dd>
+            <dt>Team</dt><dd>Matt Hetzel, Gemini, Claude</dd>
+            <dt>Stack</dt><dd>Gemini Canvas, React, Tailwind CSS</dd>
+            <dt>Type</dt><dd>Agentic AI Web Application</dd>
+            <dt>Status</dt><dd>Prototype, not yet available to try.</dd>
+          </dl>
+        </div>
+        <div class="tool-col anim-fade-up" style="--i: 1;">
+          <h3 class="tool-col-head">AI Collaboration Stack</h3>
+          <ul class="tool-col-body" style="list-style:disc; padding-left:1.25rem;">
+            <li><strong>Gemini Canvas:</strong> Primary development and logic sandbox</li>
+            <li><strong>Claude:</strong> Testing, validation, and adversary code generator</li>
+            <li><strong>React + Tailwind:</strong> Front-end component architecture</li>
+            <li><strong>WCAG 2.2 + ADA:</strong> Verification ruleset engine</li>
+          </ul>
+        </div>
+        <div class="tool-col anim-fade-up" style="--i: 2;">
+          <h3 class="tool-col-head">What I built so far</h3>
+          <p class="tool-col-body">A working prototype and demo video of a web app where you paste code and get a WCAG 2.2 audit with a remediated version. I built it in Gemini Canvas and used Claude to test it and to write adversarial code meant to break it. The next step is connecting it securely to an LLM so the audit runs live. That connection is not built yet, so you cannot try the tool on this page.</p>
+        </div>
+      </div>
+
+      <!-- Video block is intentionally not animated -->
+      <div class="tool-video">
+        <div class="tool-video-wrap">
+          <iframe 
+            src="https://www.youtube.com/embed/b2UzRAaJYXE" 
+            title="A11y-Audit Agent demo: AI-powered accessibility auditor in action"  
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen>
+          </iframe>
+        </div>
+        <p class="video-fallback-link">
+          <a href="https://www.youtube.com/watch?v=b2UzRAaJYXE" target="_blank" rel="noopener noreferrer">Watch on YouTube (opens in a new tab)</a>
+        </p>
+      </div>
+
+      <div class="agent-subblock">
+        <h3 class="agent-subblock-title anim-fade-up">What I learned</h3>
+        <div class="learned-grid">
+          <div class="learned-card anim-fade-up" style="--i: 0;">
+            <h4>AI can be too confident.</h4>
+            <p>LLMs often sound sure about their coding ability and about topics like accessibility, even when they are wrong. I treat confident output as a draft to check.</p>
+          </div>
+          <div class="learned-card anim-fade-up" style="--i: 1;">
+            <h4>Two models beat one.</h4>
+            <p>Using two LLMs gives me a second expert point of view. One writes, the other questions it, and the disagreements show me where to look.</p>
+          </div>
+          <div class="learned-card anim-fade-up" style="--i: 2;">
+            <h4>Give the AI a home for the rules.</h4>
+            <p>A project or notebook that holds the reference material suits a body of rules as large and detailed as WCAG.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="agent-subblock">
+        <h3 class="agent-subblock-title anim-fade-up" id="differ-heading">How it is meant to differ</h3>
+        <aside class="callout-banner anim-fade-up" aria-labelledby="differ-heading">
+          <p>Without a tool like this, checking code often means searching Stack Overflow and the wider web, where answers conflict. This tool is designed to put the standard, the audit, and a suggested fix in one place, so a developer can paste code and validate it quickly. It is a fast first pass, not a final verdict. It reviews code I paste in, so it cannot judge keyboard behavior across a full page or what a screen reader announces. That still takes step 5.</p>
+        </aside>
+      </div>
+
+      <div class="tool-results">
+        <div class="anim-fade-up" style="--i: 0;">
+          <h3 class="tool-col-head">Results &amp; Reach</h3>
+          <p class="tool-col-body">The concept drew strong engagement in the professional UX and engineering community on LinkedIn.</p>
+          <ul class="tool-metrics" aria-label="LinkedIn post metrics">
+            <li><strong>1,095</strong> impressions / 724 unique members reached</li>
+            <li><strong>406</strong> video views / 1h 29m total watch time</li>
+            <li><strong>27</strong> reactions / 16 comments / 4 saves / 2 reposts</li>
+          </ul>
+        </div>
+        <div class="tool-demonstrates anim-fade-up" style="--i: 1;">
+          <h3 class="tool-col-head">Strategic Value Demonstrated</h3>
+          <p class="tool-col-body"><strong>1. Real-World Risk Mitigation:</strong> Accessibility violations represent legal and UX risks for companies. Automating audits saves costly remediations late in the SDLC.</p>
+          <p class="tool-col-body"><strong>2. Accelerated AI Delivery:</strong> Proving how prompt iteration, logic stress-testing, and rapid prototyping transform ideas into working software within days.</p>
+          <p class="tool-col-body"><strong>3. Industry Alignment:</strong> Independent innovation aligning directly with solutions like <a href="https://webaim.org/AIMee/" target="_blank" rel="noopener noreferrer">WebAIM's AIMee<span class="sr-only"> (opens in new tab)</span></a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. DEMO: ONE MODAL, TWO VERSIONS -->
   <section id="demo" aria-labelledby="demo-h2">
     <div class="section-inner">
       <div class="anim-fade-up">
@@ -1337,54 +1467,12 @@
         </div>
       </div>
 
-      <!-- Full-width Review Results Placeholder -->
-      <div class="demo-subblock anim-fade-up" aria-labelledby="results-placeholder-h3">
-        <h3 id="results-placeholder-h3" style="margin-bottom: 0.6rem;">What the tools found</h3>
-        <p class="demo-note">Each automated checker and AI reviewer will be tested against both modal versions to compare what automated rules catch versus what requires manual testing.</p>
-
-        <div class="placeholder-grid">
-          <div class="placeholder-card anim-fade-up" style="--i: 0;">
-            <div class="placeholder-head">
-              <h4>WebAIM AIMee</h4>
-              <span class="pill-progress">In progress</span>
-            </div>
-          </div>
-
-          <div class="placeholder-card anim-fade-up" style="--i: 1;">
-            <div class="placeholder-head">
-              <h4>Deque axe DevTools</h4>
-              <span class="pill-progress">In progress</span>
-            </div>
-            <!-- TODO: Insert real axe scan results here after running the flawed and fixed modal code through axe -->
-            <p><strong>Flawed version:</strong> results will be added after I run this code through axe.</p>
-            <p><strong>Fixed version:</strong> results will be added after I run this code through axe.</p>
-          </div>
-
-          <div class="placeholder-card anim-fade-up" style="--i: 2;">
-            <div class="placeholder-head">
-              <h4>WAVE Evaluation Tool</h4>
-              <span class="pill-progress">In progress</span>
-            </div>
-            <!-- TODO: Insert real WAVE evaluation results here after running the flawed and fixed modal code through WAVE -->
-            <p><strong>Flawed version:</strong> results will be added after I run this code through WAVE.</p>
-            <p><strong>Fixed version:</strong> results will be added after I run this code through WAVE.</p>
-          </div>
-
-          <div class="placeholder-card anim-fade-up" style="--i: 3;">
-            <div class="placeholder-head">
-              <h4>Google Lighthouse</h4>
-              <span class="pill-progress">In progress</span>
-            </div>
-            <!-- TODO: Insert real Lighthouse accessibility audit results here after running the flawed and fixed modal code through Lighthouse -->
-            <p><strong>Flawed version:</strong> results will be added after I run this code through Lighthouse.</p>
-            <p><strong>Fixed version:</strong> results will be added after I run this code through Lighthouse.</p>
-          </div>
-        </div>
-      </div>
+      <!-- RESULTS GO HERE -->
+      <p class="demo-note anim-fade-up" style="margin-bottom: 0;">I am running both versions through AIMee, axe, WAVE, and Lighthouse. I will add what each tool found here.</p>
     </div>
   </section>
 
-  <!-- 3. THE FIVE STEPS -->
+  <!-- 4. THE FIVE STEPS -->
   <section id="steps" aria-labelledby="steps-h2">
     <div class="section-inner">
       <div class="anim-fade-up">
@@ -1436,11 +1524,11 @@
           <div class="step-split">
             <div class="step-box">
               <span class="step-role-label">What AI does</span>
-              <p>A different AI, or an accessibility-focused reviewer such as WebAIM's AIMee, reviews the code and questions the first AI's assumptions.</p>
+              <p>A different AI, or an accessibility-focused reviewer such as WebAIM's AIMee, reviews the code and questions the first AI's assumptions. The A11y-Audit Agent is designed for this role.</p>
             </div>
             <div class="step-box human-role">
               <span class="step-role-label">What I decide</span>
-              <p>Which flagged issues are real, which are noise, and what to change. <a href="#demo">Back to the modal demo</a>.</p>
+              <p>Which flagged issues are real, which are noise, and what to change. <a href="#demo">Back to the modal demo</a>. <a href="#a11y-audit-agent">See the A11y-Audit Agent</a>.</p>
             </div>
           </div>
         </li>
@@ -1545,77 +1633,6 @@
           <span><span class="badge aa">AA</span> = 4.5+ (Pass normal text)</span> &bull; 
           <span><span class="badge aa18">Large</span> = 3.0+ (Pass 18pt+ or 14pt+ bold only)</span> &bull; 
           <span><span class="badge fail">Fail</span> = below 3.0 (Fail)</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 6. A11Y-AUDIT AGENT -->
-  <section id="tool" aria-labelledby="tool-h2">
-    <div class="section-inner">
-      <div class="anim-fade-up">
-        <span class="section-label">Featured Application</span>
-        <h2 class="section-title" id="tool-h2">A11y-Audit Agent.</h2>
-        <p class="section-desc">An agentic AI accessibility assistant built to streamline WCAG 2.2 audits for developers, moving from code paste to audit fix in seconds.</p>
-      </div>
-
-      <div class="tool-cols">
-        <div class="tool-col anim-fade-up" style="--i: 0;">
-          <h3 class="tool-col-head">Project Overview</h3>
-          <dl class="tool-dl">
-            <dt>Started</dt><dd>2026</dd>
-            <dt>Role</dt><dd>Concept Creator &amp; AI Collaborator</dd>
-            <dt>Team</dt><dd>Matt Hetzel, Gemini, Claude</dd>
-            <dt>Stack</dt><dd>Gemini Canvas, React, Tailwind CSS</dd>
-            <dt>Type</dt><dd>Agentic AI Web Application</dd>
-          </dl>
-        </div>
-        <div class="tool-col anim-fade-up" style="--i: 1;">
-          <h3 class="tool-col-head">AI Collaboration Stack</h3>
-          <ul class="tool-col-body" style="list-style:disc; padding-left:1.25rem;">
-            <li><strong>Gemini Canvas:</strong> Primary development and logic sandbox</li>
-            <li><strong>Claude:</strong> Testing, validation, and adversary code generator</li>
-            <li><strong>React + Tailwind:</strong> Front-end component architecture</li>
-            <li><strong>WCAG 2.2 + ADA:</strong> Verification ruleset engine</li>
-          </ul>
-        </div>
-        <div class="tool-col anim-fade-up" style="--i: 2;">
-          <h3 class="tool-col-head">What I Built</h3>
-          <p class="tool-col-body">A streamlined tool where developers drop in interface snippets and receive instant accessibility evaluations against WCAG 2.2 standards, paired with production-ready remediated code. Just paste, audit, fix.</p>
-        </div>
-      </div>
-
-      <!-- Video block is intentionally not animated -->
-      <div class="tool-video">
-        <div class="tool-video-wrap">
-          <iframe 
-            src="https://www.youtube.com/embed/b2UzRAaJYXE" 
-            title="A11y-Audit Agent demo: AI-powered accessibility auditor in action"  
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            referrerpolicy="strict-origin-when-cross-origin" 
-            allowfullscreen>
-          </iframe>
-        </div>
-        <p class="video-fallback-link">
-          <a href="https://www.youtube.com/watch?v=b2UzRAaJYXE" target="_blank" rel="noopener noreferrer">Watch on YouTube (opens in a new tab)</a>
-        </p>
-      </div>
-
-      <div class="tool-results">
-        <div class="anim-fade-up" style="--i: 0;">
-          <h3 class="tool-col-head">Results &amp; Reach</h3>
-          <p class="tool-col-body">Proof of concept validated with high engagement in the professional UX and engineering community on LinkedIn.</p>
-          <ul class="tool-metrics" aria-label="LinkedIn post metrics">
-            <li><strong>1,095</strong> impressions / 724 unique members reached</li>
-            <li><strong>406</strong> video views / 1h 29m total watch time</li>
-            <li><strong>27</strong> reactions / 16 comments / 4 saves / 2 reposts</li>
-          </ul>
-        </div>
-        <div class="tool-demonstrates anim-fade-up" style="--i: 1;">
-          <h3 class="tool-col-head">Strategic Value Demonstrated</h3>
-          <p class="tool-col-body"><strong>1. Real-World Risk Mitigation:</strong> Accessibility violations represent legal and UX risks for companies. Automating audits saves costly remediations late in the SDLC.</p>
-          <p class="tool-col-body"><strong>2. Accelerated AI Delivery:</strong> Proving how prompt iteration, logic stress-testing, and rapid prototyping transform ideas into working software within days.</p>
-          <p class="tool-col-body"><strong>3. Industry Alignment:</strong> Independent innovation aligning directly with solutions like <a href="https://webaim.org/AIMee/" target="_blank" rel="noopener noreferrer">WebAIM's AIMee<span class="sr-only"> (opens in new tab)</span></a>.</p>
         </div>
       </div>
     </div>
