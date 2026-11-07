@@ -8,7 +8,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-V65QYS3RYX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-V65QYS3RYX');
+  </script>
   <style>
     /* */
     :root {
@@ -69,7 +77,7 @@
         scroll-behavior: auto !important;
       }
       .fade-up { opacity: 1 !important; transform: none !important; }
-      .work-card:hover, .cred-card:hover, .a11y-cell:hover { transform: none !important; }
+      .work-card:hover, .cred-card:hover { transform: none !important; }
     }
 
     body {
@@ -740,179 +748,6 @@
     }
 
     /* */
-    #matrix { background: var(--white); }
-    .matrix-container {
-      overflow-x: auto;
-      margin-top: 2rem;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      background: var(--card-bg);
-      padding: 1.5rem;
-      box-shadow: var(--shadow-sm);
-    }
-    .matrix-container:focus-visible {
-      outline: 3px solid var(--blue);
-      outline-offset: 2px;
-    }
-    .a11y-table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-      min-width: 900px;
-      font-size: 0.85rem;
-    }
-    .a11y-table th, .a11y-table td {
-      padding: 12px;
-      border: 1px solid var(--border);
-    }
-    .a11y-table th {
-      background: var(--off);
-      font-weight: 600;
-      color: var(--navy);
-    }
-    [data-theme="dark"] .a11y-table th { color: var(--hero-sky); }
-
-    .a11y-cell {
-      position: relative;
-      height: 75px;
-      min-width: 95px;
-      vertical-align: bottom;
-      transition: transform var(--dur), box-shadow var(--dur);
-      cursor: pointer;
-    }
-    .a11y-cell:hover,
-    .a11y-cell:focus-visible {
-      transform: scale(1.05);
-      z-index: 10;
-      box-shadow: var(--shadow-md);
-      border-radius: 4px;
-      outline: 2px solid var(--ink);
-      outline-offset: -2px;
-    }
-    .cell-text {
-      font-weight: 700;
-      font-size: 1.1rem;
-      display: block;
-      margin-bottom: 4px;
-    }
-    .badge {
-      display: inline-block;
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 0.65rem;
-      font-family: 'Inter', sans-serif;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-    .badge.aaa { background: #D1FAE5; color: #065F46; }
-    .badge.aa { background: #DBEAFE; color: #1E40AF; }
-    .badge.aa18 { background: #FEF3C7; color: #92400E; }
-    .badge.fail { background: #FEE2E2; color: #991B1B; }
-    .null-cell { background: repeating-linear-gradient(45deg, var(--off), var(--off) 10px, var(--border) 10px, var(--border) 11px); }
-    .matrix-legend {
-      margin-top: 1.25rem;
-      font-size: 0.825rem;
-      color: var(--muted);
-      padding-top: 1rem;
-      border-top: 1px solid var(--border);
-    }
-
-    /* */
-    #tool { background: var(--off); }
-    .tool-cols {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem;
-      margin-bottom: 2.5rem;
-    }
-    .tool-col {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      box-shadow: var(--shadow-sm);
-    }
-    .tool-col-head {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--ink);
-      margin-bottom: 0.85rem;
-    }
-    .tool-col-body {
-      font-size: 0.925rem;
-      color: var(--mid);
-      line-height: 1.75;
-    }
-    .tool-dl {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 0.35rem 0.85rem;
-      font-size: 0.875rem;
-    }
-    .tool-dl dt { font-weight: 600; color: var(--ink); }
-    .tool-dl dd { color: var(--mid); }
-
-    .tool-video { margin-bottom: 2.5rem; }
-    .tool-video-wrap {
-      position: relative;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
-      border-radius: var(--radius);
-      background: #000;
-      box-shadow: var(--shadow-md);
-    }
-    .tool-video-wrap iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-
-    .tool-results {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      align-items: start;
-    }
-    .tool-metrics {
-      margin-top: 0.85rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-    .tool-metrics li {
-      font-size: 0.925rem;
-      color: var(--mid);
-      padding-left: 1.35rem;
-      position: relative;
-      line-height: 1.6;
-    }
-    .tool-metrics li::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0.6em;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--blue);
-    }
-    .tool-demonstrates {
-      background: var(--navy);
-      border-radius: var(--radius);
-      padding: 1.6rem;
-    }
-    .tool-demonstrates .tool-col-head { color: #fff; }
-    .tool-demonstrates .tool-col-body { color: rgba(255, 255, 255, 0.88); }
-    .tool-demonstrates .tool-col-body + .tool-col-body { margin-top: 0.75rem; }
-    .tool-demonstrates a { color: var(--hero-sky); text-decoration: underline; }
-    .tool-demonstrates a:hover { color: #fff; }
-
-    /* */
     #contact { background: var(--white); }
     .contact-row {
       display: flex;
@@ -971,8 +806,6 @@
       .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .built-grid { grid-template-columns: 1fr; }
       .cards-grid { grid-template-columns: 1fr; }
-      .tool-cols { grid-template-columns: 1fr; }
-      .tool-results { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 820px) {
@@ -1025,7 +858,7 @@
       <li><a href="index.html#work">Work</a></li>
       <li><a href="index.html#thinking">Thinking</a></li>
       <li><a href="index.html#built">Built with AI</a></li>
-      <li><a href="index.html#matrix">Accessibility</a></li>
+      <li><a href="accessibility.html">Accessibility</a></li>
       <li><a href="index.html#contact">Contact</a></li>
     </ul>
 
@@ -1342,108 +1175,6 @@
   </section>
 
   <!-- -->
-  <section id="matrix" aria-labelledby="matrix-h2">
-    <div class="section-inner">
-      <span class="section-label">Design System</span>
-      <h2 class="section-title" id="matrix-h2">WCAG 2.2 Contrast Matrix.</h2>
-      <p class="section-desc">Accessibility is engineering, not guesswork. This interactive matrix computes contrast ratios across our 10 brand tokens against WCAG 2.2 standards. Tab or hover over any pair to test compliance.</p>
-      
-      <div class="sr-only">
-        <h3>Contrast Matrix Overview</h3>
-        <p>This table compares our 10 brand colors. Row headers represent Background Colors. Column headers represent Text Colors.</p>
-      </div>
-
-      <div class="matrix-container fade-up" tabindex="0" role="region" aria-labelledby="matrix-h2" aria-describedby="scroll-instruction">
-        <span id="scroll-instruction" class="sr-only">Horizontally scrollable table. Use arrow keys to navigate rows and columns.</span>
-        
-        <table class="a11y-table" id="contrastTable">
-          <thead>
-            <tr id="matrix-headers">
-              <th scope="col" style="vertical-align:bottom; padding-bottom:12px;">Background \ Text</th>
-            </tr>
-          </thead>
-          <tbody id="matrix-body">
-             <!-- Populated dynamically via JavaScript -->
-          </tbody>
-        </table>
-        
-        <div class="matrix-legend" aria-hidden="true">
-          <strong>WCAG Status:</strong> 
-          <span style="margin-left: 8px;"><span class="badge aaa">AAA</span> = 7.0+ (enhanced)</span> &bull; 
-          <span><span class="badge aa">AA</span> = 4.5+ (normal text)</span> &bull; 
-          <span><span class="badge aa18">Large</span> = 3.0+ (18pt+ or 14pt+ bold)</span> &bull; 
-          <span><span class="badge fail">Fail</span> = below 3.0</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- -->
-  <section id="tool" aria-labelledby="tool-h2">
-    <div class="section-inner">
-      <span class="section-label">Featured Application</span>
-      <h2 class="section-title" id="tool-h2">Ally-Audit Agent.</h2>
-      <p class="section-desc">An agentic AI accessibility assistant built to streamline WCAG 2.2 audits for developers—moving from code paste to audit fix in seconds.</p>
-
-      <div class="tool-cols">
-        <div class="tool-col fade-up">
-          <h3 class="tool-col-head">Project Overview</h3>
-          <dl class="tool-dl">
-            <dt>Started</dt><dd>2026</dd>
-            <dt>Role</dt><dd>Concept Creator &amp; AI Collaborator</dd>
-            <dt>Team</dt><dd>Matt Hetzel, Gemini, Claude</dd>
-            <dt>Stack</dt><dd>Gemini Canvas, React, Tailwind CSS</dd>
-            <dt>Type</dt><dd>Agentic AI Web Application</dd>
-          </dl>
-        </div>
-        <div class="tool-col fade-up delay-1">
-          <h3 class="tool-col-head">AI Collaboration Stack</h3>
-          <ul class="tool-col-body" style="list-style:disc; padding-left:1.25rem;">
-            <li><strong>Gemini Canvas:</strong> Primary development and logic sandbox</li>
-            <li><strong>Claude:</strong> Testing, validation, and adversary code generator</li>
-            <li><strong>React + Tailwind:</strong> Front-end component architecture</li>
-            <li><strong>WCAG 2.2 + ADA:</strong> Verification ruleset engine</li>
-          </ul>
-        </div>
-        <div class="tool-col fade-up delay-2">
-          <h3 class="tool-col-head">What I Built</h3>
-          <p class="tool-col-body">A streamlined tool where developers drop in interface snippets and receive instant accessibility evaluations against WCAG 2.2 standards, paired with production-ready remediated code. Just paste, audit, fix.</p>
-        </div>
-      </div>
-
-      <div class="tool-video fade-up">
-        <div class="tool-video-wrap">
-          <iframe 
-            src="https://www.youtube.com/embed/b2UzRAaJYXE" 
-            title="Ally-Audit Agent demo — AI-powered accessibility auditor in action"  
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            referrerpolicy="strict-origin-when-cross-origin" 
-            allowfullscreen>
-          </iframe>
-        </div>
-      </div>
-
-      <div class="tool-results fade-up">
-        <div>
-          <h3 class="tool-col-head">Results &amp; Reach</h3>
-          <p class="tool-col-body">Proof of concept validated with high engagement in the professional UX and engineering community on LinkedIn.</p>
-          <ul class="tool-metrics" aria-label="LinkedIn post metrics">
-            <li><strong>1,095</strong> impressions / 724 unique members reached</li>
-            <li><strong>406</strong> video views / 1h 29m total watch time</li>
-            <li><strong>27</strong> reactions / 16 comments / 4 saves / 2 reposts</li>
-          </ul>
-        </div>
-        <div class="tool-demonstrates">
-          <h3 class="tool-col-head">Strategic Value Demonstrated</h3>
-          <p class="tool-col-body"><strong>1. Real-World Risk Mitigation:</strong> Accessibility violations represent legal and UX risks for companies. Automating audits saves costly remediations late in the SDLC.</p>
-          <p class="tool-col-body"><strong>2. Accelerated AI Delivery:</strong> Proving how prompt iteration, logic stress-testing, and rapid prototyping transform ideas into working software within days.</p>
-          <p class="tool-col-body"><strong>3. Industry Alignment:</strong> Independent innovation aligning directly with solutions like <a href="https://webaim.org/AIMee/" target="_blank" rel="noopener noreferrer">WebAIM's AIMee<span class="sr-only"> (opens in new tab)</span></a>.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- -->
   <section id="contact" aria-labelledby="contact-h2">
     <div class="section-inner">
       <span class="section-label">Connect</span>
@@ -1616,79 +1347,6 @@
       }
     }, { threshold: 0.3 });
     statsObserver.observe(statsContainer);
-  }
-
-  // 6. WCAG CONTRAST MATRIX BUILDER
-  const palette = [
-    { name: 'Navy',       hex: '#0C2E6E' },
-    { name: 'Blue',       hex: '#1A4FBF' },
-    { name: 'Ink',        hex: '#111827' },
-    { name: 'Mid',        hex: '#374151' },
-    { name: 'Muted',      hex: '#595F6B' },
-    { name: 'Sky',        hex: '#4A90E2' },
-    { name: 'Hero Sky',   hex: '#74B3F9' },
-    { name: 'Off-White',  hex: '#F7F9FC' },
-    { name: 'White',      hex: '#FFFFFF' },
-    { name: 'Deep Dark',  hex: '#060C1C' }
-  ];
-
-  function getLuminance(hex) {
-    const rgb = hex.replace('#','').match(/.{2}/g).map(x => parseInt(x, 16) / 255);
-    const a = rgb.map(v => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
-    return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
-  }
-
-  function getContrastRatio(h1, h2) {
-    const l1 = getLuminance(h1);
-    const l2 = getLuminance(h2);
-    return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
-  }
-
-  function getBadgeHtml(ratio) {
-    if (ratio >= 7.0) return '<span class="badge aaa">AAA</span>';
-    if (ratio >= 4.5) return '<span class="badge aa">AA</span>';
-    if (ratio >= 3.0) return '<span class="badge aa18">Large</span>';
-    return '<span class="badge fail">Fail</span>';
-  }
-
-  const tableHead = document.getElementById('matrix-headers');
-  const tableBody = document.getElementById('matrix-body');
-
-  if (tableHead && tableBody) {
-    palette.forEach(fg => {
-      tableHead.innerHTML += `<th scope="col" aria-label="Text Color: ${fg.name}">${fg.name}<br><span aria-hidden="true" style="font-weight:400; font-size:.7rem">${fg.hex}</span></th>`;
-    });
-
-    palette.forEach(bg => {
-      let row = `<tr><th scope="row" aria-label="Background Color: ${bg.name}">${bg.name}<br><span aria-hidden="true" style="font-weight:400; font-size:.7rem">${bg.hex}</span></th>`;
-      const bgLum = getLuminance(bg.hex);
-      const safeText = bgLum > 0.179 ? '#111827' : '#FFFFFF';
-
-      palette.forEach(fg => {
-        if (bg.hex === fg.hex) {
-          row += `<td class="null-cell" aria-label="Identical background and text colors."></td>`;
-        } else {
-          const ratio = getContrastRatio(fg.hex, bg.hex);
-          const badge = getBadgeHtml(ratio);
-          
-          let statusLabel = "Fails WCAG minimum contrast standards.";
-          if (ratio >= 7.0) statusLabel = "Passes WCAG AAA enhanced contrast.";
-          else if (ratio >= 4.5) statusLabel = "Passes WCAG AA standard text contrast.";
-          else if (ratio >= 3.0) statusLabel = "Passes for large or bold text styles only.";
-
-          const cellLabel = `Background ${bg.name} with text ${fg.name}. Ratio ${ratio.toFixed(1)} to 1. ${statusLabel}`;
-          
-          row += `<td class="a11y-cell" style="background-color: ${bg.hex};" aria-label="${cellLabel}" tabindex="0">
-                    <span class="cell-text" style="color: ${fg.hex};" aria-hidden="true">Text</span>
-                    <div style="display:flex; justify-content:space-between; align-items:center; color: ${safeText};" aria-hidden="true">
-                      ${badge} <span style="font-size:.75rem; font-weight:700;">${ratio.toFixed(1)}</span>
-                    </div>
-                  </td>`;
-        }
-      });
-      row += `</tr>`;
-      tableBody.innerHTML += row;
-    });
   }
 </script>
 
