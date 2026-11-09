@@ -1217,7 +1217,7 @@
   <div class="hero-inner">
     <span class="hero-eyebrow anim-hero" style="--i: 0;">AI + ACCESSIBILITY WORKFLOW</span>
     <h1 id="hero-h1" class="anim-hero" style="--i: 1;">Accessible the first time, tested with people.</h1>
-    <p class="hero-sub anim-hero" style="--i: 2;">AI helps me build and check accessible work faster. It does not replace the people who use it. This page shows the five steps I follow, where a human makes the call at each one, and why testing with real users is still the last word.</p>
+    <p class="hero-sub anim-hero" style="--i: 2;">AI helps me build and check accessible work faster. It does not replace the people who use it. This page starts with a prototype I built, compares a flawed and a fixed modal, and then walks through the five steps I follow and where a human makes the call at each one.</p>
     <p class="hero-a11y-note anim-hero" style="--i: 3;">
       <strong>A11y-Audit Agent:</strong> A11y is shorthand for accessibility: the letter A, the number 11 (for the 11 letters in between), then the letter Y.
     </p>
@@ -1232,7 +1232,7 @@
       <div class="anim-fade-up">
         <span class="section-label">Featured Application</span>
         <h2 class="section-title" id="tool-h2">A11y-Audit Agent.</h2>
-        <p class="section-desc">An agentic AI accessibility assistant designed to streamline WCAG 2.2 audits for developers. You paste code and get an audit and a remediated version back. A11y is shorthand for accessibility.</p>
+        <p class="section-desc">An AI accessibility assistant prototype designed to streamline WCAG 2.2 audits for developers. You paste code and get an audit and a remediated version back. A11y is shorthand for accessibility.</p>
       </div>
 
       <div class="tool-cols">
@@ -1253,7 +1253,7 @@
             <li><strong>Gemini Canvas:</strong> Primary development and logic sandbox</li>
             <li><strong>Claude:</strong> Testing, validation, and adversary code generator</li>
             <li><strong>React + Tailwind:</strong> Front-end component architecture</li>
-            <li><strong>WCAG 2.2 + ADA:</strong> Verification ruleset engine</li>
+            <li><strong>WCAG 2.2:</strong> Reference standard</li>
           </ul>
         </div>
         <div class="tool-col anim-fade-up" style="--i: 2;">
@@ -1315,9 +1315,9 @@
         </div>
         <div class="tool-demonstrates anim-fade-up" style="--i: 1;">
           <h3 class="tool-col-head">Strategic Value Demonstrated</h3>
-          <p class="tool-col-body"><strong>1. Real-World Risk Mitigation:</strong> Accessibility violations represent legal and UX risks for companies. Automating audits saves costly remediations late in the SDLC.</p>
+          <p class="tool-col-body"><strong>1. Real-World Risk Mitigation:</strong> Accessibility violations represent legal and UX risks for companies. Catching accessibility problems earlier can cost less than fixing them after launch.</p>
           <p class="tool-col-body"><strong>2. Accelerated AI Delivery:</strong> Proving how prompt iteration, logic stress-testing, and rapid prototyping transform ideas into working software within days.</p>
-          <p class="tool-col-body"><strong>3. Industry Alignment:</strong> Independent innovation aligning directly with solutions like <a href="https://webaim.org/AIMee/" target="_blank" rel="noopener noreferrer">WebAIM's AIMee<span class="sr-only"> (opens in new tab)</span></a>.</p>
+          <p class="tool-col-body"><strong>3. Industry Alignment:</strong> The idea sits in the same space as tools like WebAIM’s AIMee: <a href="https://webaim.org/AIMee/" target="_blank" rel="noopener noreferrer">WebAIM's AIMee<span class="sr-only"> (opens in new tab)</span></a>.</p>
         </div>
       </div>
     </div>
@@ -1342,16 +1342,21 @@
           <p class="demo-note">This version is intentionally flawed and is not rendered as an interactive component on this page. It represents common output when code is written without explicit accessibility requirements.</p>
 
           <div class="flaws-list-wrap">
-            <h4>What I built in on purpose</h4>
-            <ul class="flaws-list">
-              <li><strong>Non-semantic trigger (<code>&lt;div&gt;</code> instead of <code>&lt;button&gt;</code>):</strong> Cannot be reached by Tab or activated with Enter or Space (WCAG 2.1.1 Keyboard, 4.1.2 Name, Role, Value).</li>
-              <li><strong>Missing dialog semantics and accessible name:</strong> Screen readers do not announce a dialog boundary or title (WCAG 4.1.2 Name, Role, Value).</li>
-              <li><strong>Focus does not move into the modal or stay inside:</strong> Keyboard focus remains on the background page while the modal is visually open (WCAG 2.4.3 Focus Order).</li>
-              <li><strong>No Escape key handling:</strong> Keyboard users have no standard way to dismiss the overlay (WCAG 2.1.1 Keyboard).</li>
-              <li><strong>Close icon lacks an accessible name:</strong> A clickable <code>&lt;span&gt;&times;&lt;/span&gt;</code> provides no label or role for assistive technology (WCAG 4.1.2 Name, Role, Value) and fails minimum target size (WCAG 2.5.8 Target Size Minimum).</li>
-              <li><strong>Focus is not returned to the trigger on close:</strong> Closing the modal drops keyboard focus back to the top of the document body (WCAG 2.4.3 Focus Order).</li>
-            </ul>
-          </div>
+  <h4>What I built in on purpose</h4>
+  <p class="flaws-intro">
+    These flaws are common in AI-generated and hand-written code alike. They also stack: because the trigger cannot be reached by keyboard, a keyboard user never gets far enough to hit the others. Each item below describes what would go wrong if the trigger were fixed first.
+  </p>
+  <ul class="flaws-list">
+    <li><strong>Non-semantic trigger and action button (<code>&lt;div&gt;</code> instead of <code>&lt;button&gt;</code>):</strong> Cannot be reached with Tab or activated with Enter or Space, and screen readers do not announce it as a button (WCAG 2.1.1 Keyboard, 4.1.2 Name, Role, Value).</li>
+    <li><strong>Focus indicator removed:</strong> The CSS sets <code>outline: none</code> on focus and adds no replacement, so a keyboard user cannot see where they are (WCAG 2.4.7 Focus Visible).</li>
+    <li><strong>Missing dialog semantics and accessible name:</strong> Screen readers do not announce a dialog boundary or a title (WCAG 4.1.2 Name, Role, Value).</li>
+    <li><strong>Heading is a styled <code>&lt;div&gt;</code>:</strong> The modal title looks like a heading but is not one, so it does not appear in heading navigation (WCAG 1.3.1 Info and Relationships).</li>
+    <li><strong>Focus does not move into the modal or stay inside:</strong> Keyboard focus remains on the background page, and Tab keeps moving through content hidden behind the overlay (WCAG 2.4.3 Focus Order).</li>
+    <li><strong>No Escape key handling:</strong> Keyboard users have no standard way to dismiss the overlay (WCAG 2.1.1 Keyboard).</li>
+    <li><strong>Close icon lacks an accessible name and a usable target size:</strong> A clickable <code>&lt;span&gt;&times;&lt;/span&gt;</code> has no label, role, or keyboard access (WCAG 4.1.2 Name, Role, Value), and at 14 by 14 px it is smaller than the 24 by 24 px minimum (WCAG 2.5.8 Target Size Minimum).</li>
+    <li><strong>Focus is not returned to the trigger on close:</strong> Even if the trigger were made focusable, closing the modal would drop focus back to the top of the document instead of where the user was (WCAG 2.4.3 Focus Order).</li>
+  </ul>
+</div>
 
           <div class="code-region" tabindex="0" role="region" aria-label="Flawed modal code">
 <pre><code>&lt;!-- INTENTIONALLY FLAWED MODAL: DO NOT COPY INTO PRODUCTION --&gt;
@@ -1573,14 +1578,14 @@
       <div class="anim-fade-up">
         <span class="section-label">Verification Stack</span>
         <h2 class="section-title" id="roles-h2">How different tools fit into the workflow.</h2>
-        <p class="section-desc">Automated tools catch different classes of issues depending on whether they inspect rendered DOM rules, raw source code, or design tokens.</p>
+        <p class="section-desc">Automated tools catch different classes of issues depending on whether they inspect rendered DOM rules or raw source code.</p>
         <p class="roles-note">Readers and teams may use other tools depending on their stack and testing environment.</p>
       </div>
 
       <div class="roles-grid">
         <article class="role-card anim-fade-up" style="--i: 0;">
           <h3>Rule-based checkers (axe, WAVE, Lighthouse)</h3>
-          <p>These tools apply fixed rules to a rendered page. Note that Lighthouse's accessibility audit runs on the axe engine, so running both overlaps. They are useful for catching missing attributes or contrast failures, not as independent opinions.</p>
+          <p>These tools apply fixed rules to a rendered page. Note that Lighthouse's accessibility audit runs on the axe engine, so running both overlaps. They are useful for catching missing attributes or contrast failures. Axe and Lighthouse share an engine, so treat them as one opinion. WAVE uses its own, so it adds a second view..</p>
         </article>
 
         <article class="role-card anim-fade-up" style="--i: 1;">
@@ -1607,7 +1612,7 @@
     <div class="section-inner">
       <span class="section-label">Design System</span>
       <h2 class="section-title" id="matrix-h2">WCAG 2.2 Contrast Matrix.</h2>
-      <p class="section-desc">Accessibility is engineering, not guesswork. This interactive matrix computes contrast ratios across our 10 brand tokens against WCAG 2.2 standards. Tab or hover over any pair to test compliance.</p>
+      <p class="section-desc">Accessibility is engineering, not guesswork. This interactive matrix computes contrast ratios across my 10 brand tokens against WCAG 2.2 standards. Tab or hover over any pair to test compliance.</p>
 
       <div class="matrix-container" tabindex="0" role="region" aria-labelledby="matrix-h2" aria-describedby="scroll-instruction">
         <span id="scroll-instruction" class="sr-only">Horizontally scrollable table. Row headers represent Background Colors and column headers represent Text Colors.</span>
